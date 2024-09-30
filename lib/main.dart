@@ -3,11 +3,11 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> main() async {
   await dotenv.load(fileName: 'core/notion_token.env');
-  runApp(const MainApp());
+  runApp(const TrackerApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class TrackerApp extends StatelessWidget {
+  const TrackerApp({super.key});
 
   @override
   Widget build(BuildContext context) {

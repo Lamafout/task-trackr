@@ -9,7 +9,7 @@ class GetEmpoyeesRepositoryImpl implements GetEmployeesRepository {
   final RemoteSource _remoteSource;
   GetEmpoyeesRepositoryImpl(this._remoteSource);
   @override
-  Future<Either<Failure, List<Employee>>> getWorkers() async {
+  Future<Either<Failure, List<Employee>>> getEmployees() async {
     try {
       final result = await _remoteSource.getEmployees();
       return Right(result);
