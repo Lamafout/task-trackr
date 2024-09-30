@@ -44,3 +44,6 @@ app.*.map.json
 
 # PATH vars
 /lib/core/*.env
+
+# config
+/lib/config/paths_to_pages.dart
