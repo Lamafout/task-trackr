@@ -9,6 +9,9 @@ import 'package:task_trackr/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:task_trackr/features/get_employees/data/get_employees_repository_impl.dart';
 import 'package:task_trackr/features/get_employees/domain/get_employees_use_case.dart';
 import 'package:task_trackr/features/get_employees/presentation/bloc/get_employees_bloc.dart';
+import 'package:task_trackr/features/select_employee/data/select_employee_repository_impl.dart';
+import 'package:task_trackr/features/select_employee/domain/select_employee_use_case.dart';
+import 'package:task_trackr/features/select_employee/presentation/bloc/set_employee_bloc.dart';
 
 final di = GetIt.instance;
 
@@ -19,7 +22,7 @@ Future<void> setupDi() async {
 
   // interceptors
   di.registerLazySingleton<HeaderInterceptor>(() => HeaderInterceptor());
-  
+
   // sources
   di.registerSingleton<LocalSource>(LocalSource());
   di.registerSingleton<RemoteSource>(RemoteSource());
@@ -34,4 +37,9 @@ Future<void> setupDi() async {
   di.registerLazySingleton<GetEmpoyeesRepositoryImpl>(() => GetEmpoyeesRepositoryImpl(di<RemoteSource>()));
   di.registerLazySingleton<GetEmployeesUseCase>(() => GetEmployeesUseCase(di<GetEmpoyeesRepositoryImpl>()));
   di.registerSingleton<GetEmployeesBloc>(GetEmployeesBloc());
+
+  // set employee feature
+  di.registerLazySingleton<SelectEmployeeRepositoryImpl>(() => SelectEmployeeRepositoryImpl(di<LocalSource>()));
+  di.registerLazySingleton<SelectEmployeeUseCase>(() => SelectEmployeeUseCase(di<SelectEmployeeRepositoryImpl>()));
+  di.registerSingleton(SetEmployeeBloc());
 }
