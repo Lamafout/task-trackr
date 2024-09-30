@@ -13,9 +13,9 @@ class LocalSource {
     : di.get<SharedPreferences>().getString('user_id') as String;
   }
   Future<void> setEmployee(Employee employee) async {
-    await di.get<SharedPreferences>().setString('name', employee.name);
-    await di.get<SharedPreferences>().setString('email', employee.email);
-    await di.get<SharedPreferences>().setString('phone', employee.photo);
-    await di.get<SharedPreferences>().setString('user_id', employee.id);
+    await di.get<SharedPreferences>().setString('name', employee.name ?? '');
+    await di.get<SharedPreferences>().setString('email', employee.email ?? '');
+    await di.get<SharedPreferences>().setString('phone', employee.photo ?? '');
+    await di.get<SharedPreferences>().setString('user_id', employee.id ?? '');
   }
 }

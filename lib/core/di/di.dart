@@ -17,12 +17,13 @@ Future<void> setupDi() async {
   final sharedPreferences = await SharedPreferences.getInstance();
   di.registerSingleton<SharedPreferences>(sharedPreferences);
 
+  // interceptors
+  di.registerLazySingleton<HeaderInterceptor>(() => HeaderInterceptor());
+  
   // sources
   di.registerSingleton<LocalSource>(LocalSource());
   di.registerSingleton<RemoteSource>(RemoteSource());
 
-  // interceptors
-  di.registerSingleton<HeaderInterceptor>(HeaderInterceptor());
 
   // auth feature
   di.registerLazySingleton<AuthRepositoryImpl>(() => AuthRepositoryImpl(di<LocalSource>()));

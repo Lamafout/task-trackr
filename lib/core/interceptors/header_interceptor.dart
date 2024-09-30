@@ -7,5 +7,6 @@ class HeaderInterceptor extends Interceptor {
     options.headers['Authorization'] = 'Bearer ${dotenv.env['NOTION_TOKEN']}';
     options.headers['Content-Type'] = 'application/json';
     options.headers['Notion-Version'] = '2022-06-28';
+    handler.next(options);
   }
 }
