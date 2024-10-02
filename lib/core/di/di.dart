@@ -21,7 +21,7 @@ Future<void> setupDi() async {
   di.registerSingleton<SharedPreferences>(sharedPreferences);
 
   // interceptors
-  di.registerLazySingleton<HeaderInterceptor>(() => HeaderInterceptor());
+  di.registerSingleton<HeaderInterceptor>(HeaderInterceptor());
 
   // sources
   di.registerSingleton<LocalSource>(LocalSource());

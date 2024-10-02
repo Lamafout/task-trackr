@@ -21,7 +21,7 @@ class RemoteSource {
           id: employee['properties']['Ссылка']['id'] as String?,
           name: employee['properties']['Имя']['title'][0]['text']['content'] as String?,
           email: employee['properties']['Email']['email'] as String?,
-          photo: employee['properties']['Ссылка']['people'][0]['avatar_url'] as String?,
+          photo: employee['icon'] != null ? employee['icon']['file']['url'] as String? : null,
         );
       }).toList();
       return listOfEmployees;

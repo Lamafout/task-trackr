@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task_trackr/core/di/di.dart';
-import 'package:task_trackr/features/get_employees/presentation/bloc/get_employees_bloc.dart';
+import 'package:task_trackr/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:task_trackr/features/auth/presentation/components/auth_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,30 +18,22 @@ class TrackerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    di<GetEmployeesBloc>().add(GetListOfEmployees());
+    di<AuthBloc>().add(EnterIntoApplication());
     return  MaterialApp(
       //TODO удалить после тестирования
       home: Scaffold(
         body: BlocBuilder(
-          bloc: di<GetEmployeesBloc>(),
+          bloc: di<AuthBloc>(),
           builder: (context, state) {
             switch (state) {
-              case LoadingListOfEmployeesState():
-                print('loading');
-                return const Center(
-                  child: CircularProgressIndicator(),
+              case AuthenticationIsSuccessState():
+                return  Center(
+                  child: Text(di<SharedPreferences>().getString('name') as String),
                 );
-              case LoadedListOfEmployeesState():
-                print('loaded');
-                return Column(
-                  children: state.employees.map((employee) => Text(employee.name ?? '')).toList(),
-                );
-              case FailureWhileLoadedListOfEmployeesState():
-                print('failure');
-                return Center(child: Text(state.errorMessage),);
+              case AuthenticationIsFailureState():
+                return const AuthScreen();
               default: 
-                print('initial');
-                return Container();
+                return const Center(child: CircularProgressIndicator());
             }
           },
         ),
