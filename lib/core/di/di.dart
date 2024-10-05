@@ -9,6 +9,9 @@ import 'package:task_trackr/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:task_trackr/features/get_employees/data/get_employees_repository_impl.dart';
 import 'package:task_trackr/features/get_employees/domain/get_employees_use_case.dart';
 import 'package:task_trackr/features/get_employees/presentation/bloc/get_employees_bloc.dart';
+import 'package:task_trackr/features/get_projects/data/get_projects_repository_impl.dart';
+import 'package:task_trackr/features/get_projects/domain/get_projects_use_case.dart';
+import 'package:task_trackr/features/get_projects/presentation/bloc/get_projects_bloc.dart';
 import 'package:task_trackr/features/select_employee/data/select_employee_repository_impl.dart';
 import 'package:task_trackr/features/select_employee/domain/select_employee_use_case.dart';
 import 'package:task_trackr/features/select_employee/presentation/bloc/set_employee_bloc.dart';
@@ -42,4 +45,9 @@ Future<void> setupDi() async {
   di.registerLazySingleton<SelectEmployeeRepositoryImpl>(() => SelectEmployeeRepositoryImpl(di<LocalSource>()));
   di.registerLazySingleton<SelectEmployeeUseCase>(() => SelectEmployeeUseCase(di<SelectEmployeeRepositoryImpl>()));
   di.registerSingleton(SetEmployeeBloc());
+
+  // get list of projects feature
+  di.registerLazySingleton<GetProjectsRepositoryImpl>(() => GetProjectsRepositoryImpl(remoteSource:  di<RemoteSource>(), localSource: di<LocalSource>()));
+  di.registerLazySingleton<GetProjectsUseCase>(() => GetProjectsUseCase(di<GetProjectsRepositoryImpl>()));
+  di.registerSingleton<GetProjectsBloc>(GetProjectsBloc());
 }

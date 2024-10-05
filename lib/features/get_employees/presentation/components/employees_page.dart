@@ -23,18 +23,14 @@ class EmployeesPageState extends State<EmployeesPage> {
           builder: (context, state) {
             switch (state) {
               case LoadingListOfEmployeesState():
-                print('loading');
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
               case LoadedListOfEmployeesState():
-                print('loaded');
                 return EmployeeList(employees: state.employees);
               case FailureWhileLoadedListOfEmployeesState():
-                print('failure');
                 return Center(child: Text(state.errorMessage),);
               default: 
-                print('initial');
                 return Container();
             }
           },

@@ -3,6 +3,7 @@ import 'package:task_trackr/config/api_paths.dart';
 import 'package:task_trackr/config/paths_to_pages.dart';
 import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/core/entities/employee_class.dart';
+import 'package:task_trackr/core/entities/project_class.dart';
 import 'package:task_trackr/core/exceptions/exceptions.dart';
 import 'package:task_trackr/core/interceptors/header_interceptor.dart';
 
@@ -18,8 +19,8 @@ class RemoteSource {
       final List<dynamic> data = response.data['results'];
       final List<Employee> listOfEmployees = data.map((employee) {
         return Employee(
-          id: employee['properties']['Ссылка']['id'] as String?,
-          name: employee['properties']['Имя']['title'][0]['text']['content'] as String?,
+          id: employee['properties']['Ссылка']['people'][0]['id'] as String?,
+          name: employee['properties']['Имя']['title'][0]['text']['content'] as String,
           email: employee['properties']['Email']['email'] as String?,
           photo: employee['icon'] != null ? employee['icon']['file']['url'] as String? : null,
         );
@@ -29,6 +30,82 @@ class RemoteSource {
       throw InternetException();
     }
   }
+
+  Future<List<Project>> getProjects(employeeID) async {
+    // на данном этапе из-за особенностей api список проектов пользователя получается в 2 этапа:
+    // 1. получаем список id проектов из тасков с фильтром на исполнителя и на статус проекта
+    // 2. получаем список проектов с фильтром на id проекта на содержание id из списка
+
+    final List<String> ids = await getProjectsIDsOfEmployee(employeeID); // список id проектов
+    // формируем запрос с условием на статус и на исполнителя (проверка на исполнителя через список проектов исполнителя, полученных через список тасков исполнителя)
+    final response = await dio.post(
+      databaseUrl(projectsDatabasePath),
+      data: {
+        'filter': {
+          'property': 'Статус',
+          'status': {
+            'equals': 'Активный'
+          }
+        }
+      },
+    );
+   
+    if (response.statusCode == 200) {
+      final List<dynamic> data = response.data['results'];
+      final validatedData = data.where((project) => ids.contains(project['id']));
+      print('прошли валидацию: $validatedData');
+      final List<Project> listOfProjects = validatedData.map((project) {
+        print('мы на создании списка проектов\nспойлер:${project['id'].runtimeType}, ${project['icon'] != null ? project['icon']['file']['url'].runtimeType : null}, ${(project['properties']['Картинка']['files'] as List).isNotEmpty ? project['properties']['Картинка']['files'][0]['file']['url'].runtimeType : null}, ${(project['properties']['Name']['title'] as List).isNotEmpty ? project['properties']['Name']['title'][0]['text']['content'].runtimeType : null}');
+        
+        return Project(
+          id: project['id'],
+          icon: project['icon'] != null && project['icon']['type'] == 'external' 
+                ? project['icon']['external']['url'] 
+                : null,
+          picture: (project['properties']['Картинка']['files'] as List).isNotEmpty 
+                    ? project['properties']['Картинка']['files'][0]['file'] != null 
+                      ? project['properties']['Картинка']['files'][0]['file']['url'] 
+                      : null 
+                    : null,
+          name: (project['properties']['Name']['title'] as List).isNotEmpty 
+                ? project['properties']['Name']['title'][0]['text']['content'] 
+                : null,
+        );
+      }).toList();
+
+
+      print('создали список: $listOfProjects');
+      return listOfProjects;
+    } else {
+      throw Exception();
+    }
+  }
+
+  Future<List<String>> getProjectsIDsOfEmployee(String employeeID) async {
+    final response = await dio.post(
+      databaseUrl(tasksDatabasePath),
+      data: {
+        'filter': {
+          'property': 'Исполнитель',
+          'people': {
+            'contains': employeeID
+          }
+        }
+      }
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = response.data['results'];
+      final Set<String> setOfIDs = data.map((task) {
+        return task['properties']['Продукт']['relation'][0]['id'] as String;
+      }).toSet();
+      return setOfIDs.toList();
+    }
+    else {
+      throw Exception();
+    }
+  }
+
   //TODO add get tasks method
   //TODO add write off time method
 }

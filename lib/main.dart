@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:task_trackr/features/auth/presentation/components/auth_screen.dart';
+import 'package:task_trackr/features/get_projects/presentation/bloc/get_projects_bloc.dart';
+import 'package:task_trackr/features/get_projects/presentation/components/project_widget.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,24 +19,50 @@ class TrackerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    di<AuthBloc>().add(EnterIntoApplication());
-    return  MaterialApp(
-      //TODO удалить после тестирования
+    di<AuthBloc>().add(EnterIntoApplication()); // Запуск события аутентификации
+
+    return MaterialApp(
       home: Scaffold(
-        body: BlocBuilder(
+        body: BlocListener(
           bloc: di<AuthBloc>(),
-          builder: (context, state) {
-            switch (state) {
-              case AuthenticationIsSuccessState():
-                return  Center(
-                  child: Text(di<SharedPreferences>().getString('name') as String),
-                );
-              case AuthenticationIsFailureState():
-                return const AuthScreen();
-              default: 
-                return const Center(child: CircularProgressIndicator());
+          listener: (context, state) {
+            if (state is AuthenticationIsSuccessState) {
+              print('событие отправлено');
+              // Когда аутентификация успешна, запускаем событие для загрузки проектов
+              di<GetProjectsBloc>().add(ShowListOfActiveProjectsEvent());
             }
           },
+          child: BlocBuilder<AuthBloc, AuthState>(
+            bloc: di<AuthBloc>(),
+            builder: (context, state) {
+              if (state is AuthenticationIsSuccessState) {
+                return BlocBuilder<GetProjectsBloc, GetProjectsState>(
+                  bloc: di<GetProjectsBloc>(),
+                  builder: (context, state) {
+                    if (state is FailureWhileGettingProjectsState) {
+                      print('error while getting projects');
+                      // TODO: Добавить кнопку для повторного запроса
+                      return const Icon(Icons.error);
+                    } else if (state is GotListOfProjectsState) {
+                      print('success while getting projects');
+                      return Column(
+                        children: state.projects.map((project) {
+                          return ProjectWidget(project: project);
+                        }).toList(),
+                      );
+                    } else {
+                      print('initial in getting projects');
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                  },
+                );
+              } else if (state is AuthenticationIsFailureState) {
+                return const AuthScreen();
+              } else {
+                return const Center(child: CircularProgressIndicator());
+              }
+            },
+          ),
         ),
       ),
     );
