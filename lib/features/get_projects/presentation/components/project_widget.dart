@@ -36,24 +36,18 @@ class ProjectWidget extends StatelessWidget {
                 size: 30,
               ),
         
-              LayoutBuilder(
-                builder: (context, constraints) {
-                  final maxWidth = constraints.maxWidth;
-                  return SizedBox(
-                    width: maxWidth * 0.5,
-                    child: Text(
-                      project.name as String,
-                      //TODO replace with Theme
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  );
-                }
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.4,
+                child: Text(
+                  project.name as String,
+                  //TODO replace with Theme
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
               ),
-        
             ]
           ),
         ),

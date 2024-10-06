@@ -54,19 +54,19 @@ class RemoteSource {
       final List<dynamic> data = response.data['results'];
       final validatedData = data.where((project) => ids.contains(project['id']));
       print('прошли валидацию: $validatedData');
-      final List<Project> listOfProjects = validatedData.map((project) {
-        print('мы на создании списка проектов\nспойлер:${project['id'].runtimeType}, ${project['icon'] != null ? project['icon']['file']['url'].runtimeType : null}, ${(project['properties']['Картинка']['files'] as List).isNotEmpty ? project['properties']['Картинка']['files'][0]['file']['url'].runtimeType : null}, ${(project['properties']['Name']['title'] as List).isNotEmpty ? project['properties']['Name']['title'][0]['text']['content'].runtimeType : null}');
-        
+      final List<Project> listOfProjects = validatedData.map((project) {        
         return Project(
           id: project['id'],
-          icon: project['icon'] != null && project['icon']['type'] == 'external' 
-                ? project['icon']['external']['url'] 
+          icon: project['icon'] != null
+                ? project['icon']['file'] != null
+                  ? project['icon']['file']['url']
+                  : project['icon']['external'] != null
+                    ? project['icon']['external']['url']
+                    : project['icon']['emoji']
                 : null,
           picture: (project['properties']['Картинка']['files'] as List).isNotEmpty 
-                    ? project['properties']['Картинка']['files'][0]['file'] != null 
-                      ? project['properties']['Картинка']['files'][0]['file']['url'] 
-                      : null 
-                    : null,
+                  ? project['properties']['Картинка']['files'][0]['file']['url']
+                  : null,
           name: (project['properties']['Name']['title'] as List).isNotEmpty 
                 ? project['properties']['Name']['title'][0]['text']['content'] 
                 : null,
