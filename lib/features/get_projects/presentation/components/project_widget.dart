@@ -29,6 +29,7 @@ class ProjectWidget extends StatelessWidget {
                 width: 30,
                 child: CachedNetworkImage(
                   imageUrl: project.icon as String,  
+                  errorWidget: (context, url, error) => const Icon(Icons.smartphone_rounded, size: 30,),
                 ),
               )
               : const Icon(
@@ -37,7 +38,7 @@ class ProjectWidget extends StatelessWidget {
               ),
         
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.4,
+                width: MediaQuery.of(context).size.width * 0.7,
                 child: Text(
                   project.name as String,
                   //TODO replace with Theme
