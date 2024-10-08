@@ -5,7 +5,7 @@ import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:task_trackr/features/auth/presentation/components/auth_screen.dart';
 import 'package:task_trackr/features/get_projects/presentation/bloc/get_projects_bloc.dart';
-import 'package:task_trackr/features/get_projects/presentation/components/project_widget.dart';
+import 'package:task_trackr/features/get_projects/presentation/components/list_of_projects.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +27,6 @@ class TrackerApp extends StatelessWidget {
           bloc: di<AuthBloc>(),
           listener: (context, state) {
             if (state is AuthenticationIsSuccessState) {
-              print('событие отправлено');
               // Когда аутентификация успешна, запускаем событие для загрузки проектов
               di<GetProjectsBloc>().add(ShowListOfActiveProjectsEvent());
             }
@@ -45,11 +44,7 @@ class TrackerApp extends StatelessWidget {
                       return const Icon(Icons.error);
                     } else if (state is GotListOfProjectsState) {
                       print('success while getting projects');
-                      return Column(
-                        children: state.projects.map((project) {
-                          return ProjectWidget(project: project);
-                        }).toList(),
-                      );
+                      return ListOfProjects(listOfProjects: state.projects);
                     } else {
                       print('initial in getting projects');
                       return const Center(child: CircularProgressIndicator());
