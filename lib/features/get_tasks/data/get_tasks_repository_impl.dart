@@ -1,6 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:hive/hive.dart';
-import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/core/entities/task_class.dart';
 import 'package:task_trackr/core/exceptions/failures.dart';
 import 'package:task_trackr/core/sources/local_source.dart';
@@ -14,17 +12,26 @@ class GetTasksRepositoryImpl implements GetTasksRepository {
   GetTasksRepositoryImpl({required this.remoteSource, required this.localSource});
 
   @override
-  Future<Either<Failure, List<TaskClass>>> getTasks(String projectID) async {
+  Future<Either<Failure, List<TaskClass>>> fetchTasks(String projectID) async {
     final employeeID = localSource.getID();
     try {
       final result = await remoteSource.getTasks(employeeID:  employeeID, projectID:  projectID);
-
-      // save into Hive
-      final box = di<Box<TaskClass>>();
       for (var task in result) {
-        await box.put(task.id, task);
+        task.projectID = projectID;
       }
 
+      await localSource.saveTasks(result);
+
+      return Right(result);
+    } on Exception catch(e) {
+      return Left(Failure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<TaskClass>>> getFromCache(String projectID) async {
+    try {
+      final result = await localSource.getTasks(projectID);
       return Right(result);
     } on Exception catch(e) {
       return Left(Failure(e.toString()));

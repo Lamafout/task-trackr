@@ -12,13 +12,22 @@ class GetTasksBloc extends Bloc<GetTasksEvent, GetTasksState> {
     on<GetTasksOfProjectsEvent>((event, emit) async {
       emit(GetTasksLoading());
       final useCase = di<GetTasksUseCase>();
-      final result = await useCase.tapOnProjectToGetTasks(event.projectID);
+      final result = await useCase.getTasksFromCache(event.projectID);
       result.fold(
         (failure) {
           emit(FailureWhileGettingTasksState(failure.message));
         }, 
         (list) {
           emit(GotTasksState(list));
+        }
+      );
+     final fetchedResult = await useCase.getTasksFromAPI(event.projectID);
+      fetchedResult.fold(
+        (failure) {
+          emit(FailureWhileGettingTasksState(failure.message));
+        },
+        (tasks) {
+          emit(GotTasksState(tasks));
         }
       );
     });

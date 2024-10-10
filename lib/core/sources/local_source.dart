@@ -28,9 +28,23 @@ class LocalSource {
     return projects;
   }
 
-  Future<List<TaskClass>> getTasks() async {
+  Future<void> saveProjects(List<Project> projects) async {
+    final box = di<Box<Project>>();
+    for (var project in projects) {
+      box.put(project.id, project);
+    }
+  }
+
+  Future<List<TaskClass>> getTasks(String projectID) async {
     final box = di.get<Box<TaskClass>>();
-    final List<TaskClass> tasks = box.values.toList();
+    final List<TaskClass> tasks = box.values.where((task) => task.projectID == projectID).toList();
     return tasks;
+  }
+
+  Future<void> saveTasks(List<TaskClass> tasks) async {
+    final box = di<Box<TaskClass>>();
+    for (var task in tasks) {
+      box.put(task.id, task);
+    }
   }
 }

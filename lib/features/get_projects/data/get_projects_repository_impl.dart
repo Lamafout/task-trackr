@@ -1,6 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:hive/hive.dart';
-import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/core/entities/project_class.dart';
 import 'package:task_trackr/core/exceptions/failures.dart';
 import 'package:task_trackr/core/sources/local_source.dart';
@@ -19,10 +17,7 @@ class GetProjectsRepositoryImpl implements GetProjectsRepository{
       final employeeID = localSource.getID();
       final result = await remoteSource.getProjects(employeeID);
 
-      final box = di<Box<Project>>();
-      for (var project in result) {
-        await box.put(project.id, project);
-      }
+      await localSource.saveProjects(result);
 
       return Right(result);
     } on Exception catch(e) {
