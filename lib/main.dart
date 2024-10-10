@@ -1,14 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:task_trackr/config/statuses.dart';
 import 'package:task_trackr/core/di/di.dart';
+import 'package:task_trackr/core/entities/project_class.dart';
+import 'package:task_trackr/core/entities/task_class.dart';
 import 'package:task_trackr/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:task_trackr/features/auth/presentation/components/auth_screen.dart';
 import 'package:task_trackr/features/get_projects/presentation/bloc/get_projects_bloc.dart';
-import 'package:task_trackr/features/get_projects/presentation/components/list_of_projects.dart';
+import 'package:task_trackr/features/get_projects/presentation/components/projects_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // Hive init
+  await Hive.initFlutter();
+  Hive.registerAdapter(TaskClassAdapter());
+  Hive.registerAdapter(ProjectAdapter());
+  Hive.registerAdapter(StatusesAdapter());
+
   await dotenv.load(fileName: 'lib/core/notion_token.env');
   await setupDi();
   runApp(const TrackerApp());
@@ -35,22 +45,7 @@ class TrackerApp extends StatelessWidget {
             bloc: di<AuthBloc>(),
             builder: (context, state) {
               if (state is AuthenticationIsSuccessState) {
-                return BlocBuilder<GetProjectsBloc, GetProjectsState>(
-                  bloc: di<GetProjectsBloc>(),
-                  builder: (context, state) {
-                    if (state is FailureWhileGettingProjectsState) {
-                      print('error while getting projects');
-                      // TODO: Добавить кнопку для повторного запроса
-                      return const Icon(Icons.error);
-                    } else if (state is GotListOfProjectsState) {
-                      print('success while getting projects');
-                      return ListOfProjects(listOfProjects: state.projects);
-                    } else {
-                      print('initial in getting projects');
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                  },
-                );
+                return const ProjectsScreen();
               } else if (state is AuthenticationIsFailureState) {
                 return const AuthScreen();
               } else {

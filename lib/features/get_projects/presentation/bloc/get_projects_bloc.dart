@@ -9,18 +9,16 @@ part 'get_projects_state.dart';
 class GetProjectsBloc extends Bloc<GetProjectsEvent, GetProjectsState> {
   GetProjectsBloc() : super(GetProjectsInitial()) {
     on<ShowListOfActiveProjectsEvent>((event, emit) async {
-      print('событие дошло');
       final useCase = di<GetProjectsUseCase>();
-      final result = await useCase.loadListOfProjects();
-      result.fold(
-        (failure) {
-          emit(FailureWhileGettingProjectsState(errorMessage: failure.message));
-          print('не успех');
-        },
-        (list) { 
-          emit(GotListOfProjectsState(projects: list));
-          print('успех');
-        }
+      final listFromCache = await useCase.getProjectsFromCash();
+      listFromCache.fold(
+        (failure) => emit(FailureWhileGettingProjectsState(errorMessage: failure.message)),
+        (projects) => emit(GotListOfProjectsState(projects: projects))
+      );
+      final listFromAPI = await useCase.fetchProjects();
+      listFromAPI.fold(
+        (failure) => emit(FailureWhileGettingProjectsState(errorMessage: failure.message)),
+        (projects) => emit(GotListOfProjectsState(projects: projects))
       );
     });
   }

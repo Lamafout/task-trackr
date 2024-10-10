@@ -1,11 +1,11 @@
 part of 'get_tasks_bloc.dart';
 
 @immutable
-sealed class GetTasksState {}
+class GetTasksState {}
 
-final class GetTasksInitial extends GetTasksState {}
+class GetTasksInitial extends GetTasksState {}
 
-final class GetTasksLoading extends GetTasksState {}
+class GetTasksLoading extends GetTasksState {}
 
 class GotTasksState extends GetTasksState {
   final List<TaskClass> tasks;

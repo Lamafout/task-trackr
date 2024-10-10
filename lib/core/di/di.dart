@@ -1,5 +1,8 @@
 import 'package:get_it/get_it.dart';
+import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:task_trackr/core/entities/project_class.dart';
+import 'package:task_trackr/core/entities/task_class.dart';
 import 'package:task_trackr/core/interceptors/header_interceptor.dart';
 import 'package:task_trackr/core/sources/local_source.dart';
 import 'package:task_trackr/core/sources/remote_source.dart';
@@ -25,6 +28,12 @@ Future<void> setupDi() async {
   // shared preferences
   final sharedPreferences = await SharedPreferences.getInstance();
   di.registerSingleton<SharedPreferences>(sharedPreferences);
+
+  // Hive
+  final taskBox = await Hive.openBox<TaskClass>('tasks');
+  di.registerSingleton<Box<TaskClass>>(taskBox);
+  final projectBox = await Hive.openBox<Project>('projects');
+  di.registerSingleton<Box<Project>>(projectBox);
 
   // interceptors
   di.registerSingleton<HeaderInterceptor>(HeaderInterceptor());
