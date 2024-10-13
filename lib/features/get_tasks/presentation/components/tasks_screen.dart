@@ -4,6 +4,7 @@ import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/core/entities/project_class.dart';
 import 'package:task_trackr/features/get_tasks/presentation/bloc/get_tasks_bloc.dart';
 import 'package:task_trackr/features/get_tasks/presentation/components/task_widget.dart';
+import 'package:task_trackr/features/write_off_time/presentation/components/timer_bottom_widget.dart';
 
 class TasksScreen extends StatelessWidget {
   final Project project;
@@ -52,6 +53,7 @@ class TasksScreen extends StatelessWidget {
           )
         ],
       ),
+      bottomSheet: Container(height: 100, child: const TimerBottomWidget(),)
     );
   }
 }

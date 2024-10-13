@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/features/get_projects/presentation/bloc/get_projects_bloc.dart';
 import 'package:task_trackr/features/get_projects/presentation/components/project_widget.dart';
+import 'package:task_trackr/features/write_off_time/presentation/components/timer_bottom_widget.dart';
 
 class ProjectsScreen extends StatelessWidget {
   const ProjectsScreen({super.key});
@@ -48,6 +49,7 @@ class ProjectsScreen extends StatelessWidget {
           )
         ],
       ),
+      bottomSheet: Container(height: 100, child: const TimerBottomWidget(),)
     );
   }
 }

@@ -21,6 +21,7 @@ import 'package:task_trackr/features/get_tasks/presentation/bloc/get_tasks_bloc.
 import 'package:task_trackr/features/select_employee/data/select_employee_repository_impl.dart';
 import 'package:task_trackr/features/select_employee/domain/select_employee_use_case.dart';
 import 'package:task_trackr/features/select_employee/presentation/bloc/set_employee_bloc.dart';
+import 'package:task_trackr/features/write_off_time/presentation/bloc/bottom_widget_bloc.dart';
 
 final di = GetIt.instance;
 
@@ -67,4 +68,7 @@ Future<void> setupDi() async {
   di.registerLazySingleton<GetTasksRepositoryImpl>(() => GetTasksRepositoryImpl(remoteSource:  di<RemoteSource>(), localSource: di<LocalSource>()));
   di.registerLazySingleton<GetTasksUseCase>(() => GetTasksUseCase(di<GetTasksRepositoryImpl>()));
   di.registerSingleton<GetTasksBloc>(GetTasksBloc());
+
+  // write off time feature
+  di.registerSingleton<BottomWidgetBloc>(BottomWidgetBloc());
 }

@@ -10,6 +10,7 @@ import 'package:task_trackr/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:task_trackr/features/auth/presentation/components/auth_screen.dart';
 import 'package:task_trackr/features/get_projects/presentation/bloc/get_projects_bloc.dart';
 import 'package:task_trackr/features/get_projects/presentation/components/projects_screen.dart';
+import 'package:task_trackr/features/write_off_time/presentation/components/timer_bottom_widget.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,29 +33,36 @@ class TrackerApp extends StatelessWidget {
     di<AuthBloc>().add(EnterIntoApplication()); // Запуск события аутентификации
 
     return MaterialApp(
-      home: Scaffold(
-        body: BlocListener(
-          bloc: di<AuthBloc>(),
-          listener: (context, state) {
-            if (state is AuthenticationIsSuccessState) {
-              // Когда аутентификация успешна, запускаем событие для загрузки проектов
-              di<GetProjectsBloc>().add(ShowListOfActiveProjectsEvent());
-            }
-          },
-          child: BlocBuilder<AuthBloc, AuthState>(
-            bloc: di<AuthBloc>(),
-            builder: (context, state) {
-              if (state is AuthenticationIsSuccessState) {
-                return const ProjectsScreen();
-              } else if (state is AuthenticationIsFailureState) {
-                return const AuthScreen();
-              } else {
-                return const Center(child: CircularProgressIndicator());
-              }
-            },
+      home: 
+          Scaffold(
+            body: BlocListener(
+              bloc: di<AuthBloc>(),
+              listener: (context, state) {
+                if (state is AuthenticationIsSuccessState) {
+                  // Когда аутентификация успешна, запускаем событие для загрузки проектов
+                  di<GetProjectsBloc>().add(ShowListOfActiveProjectsEvent());
+                }
+              },
+              child: BlocBuilder<AuthBloc, AuthState>(
+                bloc: di<AuthBloc>(),
+                builder: (context, state) {
+                  if (state is AuthenticationIsSuccessState) {
+                    return const ProjectsScreen();
+                  } else if (state is AuthenticationIsFailureState) {
+                    return const AuthScreen();
+                  } else {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                },
+              ),
+            ),
           ),
-        ),
-      ),
+          // const Column(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: [
+          //     TimerBottomWidget(),
+            // ],
+          // ),
     );
   }
 }

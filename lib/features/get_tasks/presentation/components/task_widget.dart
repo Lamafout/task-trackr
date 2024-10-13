@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/core/entities/task_class.dart';
 import 'package:task_trackr/features/write_off_time/presentation/bloc/bottom_widget_bloc.dart';
@@ -7,17 +6,15 @@ import 'package:task_trackr/features/write_off_time/presentation/components/time
 
 class TaskWidget extends StatelessWidget {
   onTimerButtonTap() {
-    BlocListener(
-      bloc: di<BottomWidgetBloc>(),
-      listener: (context, state) {
-        switch (state) {
-          case NoRunningTaskState() || BottomWidgetInitial():
-            di<BottomWidgetBloc>().add(RunTaskEvent(task));
-          case TaskIsRunningState():
-            di<BottomWidgetBloc>().add(PauseTaskEvent(task));
-        }
-      }
-    );
+    print('тап есть');
+    var state = di<BottomWidgetBloc>().state;
+    if (state is TaskIsRunningState) {
+      print('ивент отправлен');
+      di<BottomWidgetBloc>().add(PauseTaskEvent(task));
+    } else {
+      print('ивент отправлен');
+      di<BottomWidgetBloc>().add(RunTaskEvent(task));
+    }
   }
   final TaskClass task;
   const TaskWidget({super.key, required this.task});

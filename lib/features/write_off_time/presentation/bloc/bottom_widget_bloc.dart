@@ -11,14 +11,17 @@ class BottomWidgetBloc extends Bloc<BottomWidgetEvent, BottomWidgetState> {
   Duration _elapcedTime = const Duration(seconds: 0);
   BottomWidgetBloc() : super(BottomWidgetInitial()) {
     on<RunTaskEvent>((event, emit) {
+      print('ивент начать таск');
       _startTimer(event.task);
     });
 
     on<PauseTaskEvent>((event, emit) {
+      print('ивент остановить таск');
       _pauseTimer(event.task);
     });
   }
   _startTimer(TaskClass task) {
+    print('start timer with ${task.title}');
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       _elapcedTime += const Duration(seconds: 1);
@@ -27,6 +30,7 @@ class BottomWidgetBloc extends Bloc<BottomWidgetEvent, BottomWidgetState> {
   }
 
   _pauseTimer(TaskClass task) {
+    print('pause timer with ${task.title}');
     _timer?.cancel();
     emit(TaskIsPausedState(time: _elapcedTime, task: task));
   }

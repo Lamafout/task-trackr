@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class TimerButton extends StatefulWidget {
   final Function() onTap;
-  const TimerButton({super.key, required this.onTap});
+  bool? isRunning;
+  TimerButton({super.key, required this.onTap, this.isRunning});
 
   @override
   State<TimerButton> createState() => _TimerButtonState();
@@ -13,11 +14,14 @@ class _TimerButtonState extends State<TimerButton> {
 
   void _onTap() {
     widget.onTap();
-    _isRunning = !_isRunning;
+    setState(() {
+      _isRunning = !_isRunning;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    _isRunning = widget.isRunning ?? _isRunning;
     return IconButton.filled(
       iconSize: 30,
       // TODO replace with Theme
