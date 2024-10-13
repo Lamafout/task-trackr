@@ -18,7 +18,9 @@ class GetTasksBloc extends Bloc<GetTasksEvent, GetTasksState> {
           emit(FailureWhileGettingTasksState(failure.message));
         }, 
         (list) {
-          emit(GotTasksState(list));
+          if (list.isNotEmpty) {
+            emit(GotTasksState(list));
+          }
         }
       );
      final fetchedResult = await useCase.getTasksFromAPI(event.projectID);

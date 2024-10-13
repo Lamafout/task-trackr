@@ -1,8 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/core/entities/task_class.dart';
-import 'package:task_trackr/features/write_off_time/presentation/timer_indicator.dart';
+import 'package:task_trackr/features/write_off_time/presentation/bloc/bottom_widget_bloc.dart';
+import 'package:task_trackr/features/write_off_time/presentation/components/timer_button.dart';
 
 class TaskWidget extends StatelessWidget {
+  onTimerButtonTap() {
+    BlocListener(
+      bloc: di<BottomWidgetBloc>(),
+      listener: (context, state) {
+        switch (state) {
+          case NoRunningTaskState() || BottomWidgetInitial():
+            di<BottomWidgetBloc>().add(RunTaskEvent(task));
+          case TaskIsRunningState():
+            di<BottomWidgetBloc>().add(PauseTaskEvent(task));
+        }
+      }
+    );
+  }
   final TaskClass task;
   const TaskWidget({super.key, required this.task});
 
@@ -27,7 +43,7 @@ class TaskWidget extends StatelessWidget {
               //   color: const Color.fromARGB(255, 198, 182, 39),
               //   size: 45,
               // ),
-              const TimerIndicator(),
+              TimerButton(onTap: onTimerButtonTap),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [

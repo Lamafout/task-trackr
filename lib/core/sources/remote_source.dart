@@ -14,6 +14,14 @@ class RemoteSource {
   RemoteSource() : dio = Dio() {
     dio.interceptors.add(di<HeaderInterceptor>());
   }
+  CancelToken? _cancelToken;
+  void _cancelRequest() {
+    if (_cancelToken != null && !_cancelToken!.isCancelled) {
+      _cancelToken!.cancel();
+    }
+  }
+
+
   Future<List<Employee>> getEmployees() async {
     final response = await dio.post(databaseUrl(peopleDatabasePath));
 
@@ -55,7 +63,6 @@ class RemoteSource {
     if (response.statusCode == 200) {
       final List<dynamic> data = response.data['results'];
       final validatedData = data.where((project) => ids.contains(project['id']));
-      print('прошли валидацию: $validatedData');
       final List<Project> listOfProjects = validatedData.map((project) {        
         return Project(
           id: project['id'],
@@ -75,8 +82,6 @@ class RemoteSource {
         );
       }).toList();
 
-
-      print('создали список: $listOfProjects');
       return listOfProjects;
     } else {
       throw Exception();
@@ -109,6 +114,8 @@ class RemoteSource {
   }
 
   Future<List<TaskClass>> getTasks({required String employeeID, required String projectID}) async {
+    _cancelRequest();
+    _cancelToken = CancelToken();
     final response = await dio.post(
       databaseUrl(tasksDatabasePath),
       data: {
@@ -147,5 +154,5 @@ class RemoteSource {
     }
   }
   
-  Future<void> writeOffTime() async {}
+  Future<void> writeOffTime(int time) async {}
 }

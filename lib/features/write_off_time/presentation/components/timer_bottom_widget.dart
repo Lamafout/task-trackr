@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:task_trackr/features/write_off_time/presentation/timer_button.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:task_trackr/core/di/di.dart';
+import 'package:task_trackr/features/write_off_time/presentation/bloc/bottom_widget_bloc.dart';
 
-class TimerIndicator extends StatefulWidget {
-  const TimerIndicator({super.key});
+class TimerBottomWidget extends StatefulWidget {
+  const TimerBottomWidget({super.key});
 
   @override
-  State<TimerIndicator> createState() => _TimerIndicatorState();
+  State<TimerBottomWidget> createState() => _TimerBottomWidgetState();
 }
 
-class _TimerIndicatorState extends State<TimerIndicator> {
+class _TimerBottomWidgetState extends State<TimerBottomWidget> {
   int seconds = 0;
   int minutes = 0;
   int hours = 0;
@@ -21,10 +23,10 @@ class _TimerIndicatorState extends State<TimerIndicator> {
   }
   @override
   Widget build(BuildContext context) {
+    // TODO засунуть в блок билдер
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        TimerButton(onTimeChanged: updateTime),
         Text(
           '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}',
           // TODO replace with Theme
