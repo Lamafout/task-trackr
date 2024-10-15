@@ -13,7 +13,6 @@ class EmployeeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        print('tapped');
         di<SetEmployeeBloc>().add(SubmitEmployee(employee));
         Future.delayed(const Duration(milliseconds: 100),
         () {

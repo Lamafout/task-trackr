@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/features/write_off_time/presentation/bloc/bottom_widget_bloc.dart';
+import 'package:task_trackr/features/write_off_time/presentation/components/stop_timer_button.dart';
 import 'package:task_trackr/features/write_off_time/presentation/components/timer_button.dart';
 
 class TimerBottomWidget extends StatefulWidget {
@@ -21,7 +22,6 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
     hours = (newTime ~/ 3600) % 60;
   }
   
-
   @override
   Widget build(BuildContext context) {
     // TODO засунуть в блок билдер
@@ -29,7 +29,6 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
       bloc: di<BottomWidgetBloc>(),
       builder: (context, state) {
         if (state is TaskIsRunningState) {
-        print('current state is $state');
         updateTime(state.time.inSeconds);
           return Material(
             child: Container(
@@ -39,7 +38,7 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
                 borderRadius: BorderRadius.all(Radius.circular(15)),
                 color: Colors.white,
                 boxShadow: [
-                  const BoxShadow(
+                  BoxShadow(
                     color: Colors.black12,
                     spreadRadius: 2,
                     blurRadius: 5,
@@ -74,29 +73,14 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
                   ),
                   Container(
                     margin: const EdgeInsets.only(left: 10, right: 5),
-                    child: TimerButton(
-                      isRunning: true,
-                      onTap: () {
-                        di<BottomWidgetBloc>().add(PauseTaskEvent(state.task));
-                      },
-                    ),
+                    child: TimerButton(task: state.task),
                   ),
-                  IconButton.filled(
-                    iconSize: 30,
-                    style: const ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(Colors.amber),
-                    ),
-                    onPressed: () {
-                      di<BottomWidgetBloc>().add(StopTaskEvent(state.task));
-                    }, 
-                    icon: const Icon(Icons.stop_rounded)
-                  )
+                  const StopTimerButton(),
                 ],  
               ),
             ),
           );
         } else  if (state is TaskIsPausedState) {
-          print('current state is $state');
         updateTime(state.time.inSeconds);
           return Material(
             child: Container(
@@ -106,7 +90,7 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
                 borderRadius: BorderRadius.all(Radius.circular(15)),
                 color: Colors.white,
                 boxShadow: [
-                  const BoxShadow(
+                  BoxShadow(
                     color: Colors.black12,
                     spreadRadius: 2,
                     blurRadius: 5,
@@ -141,29 +125,15 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
                   ),
                   Container(
                     margin: const EdgeInsets.only(left: 10, right: 5),
-                    child: TimerButton(
-                      isRunning: false,
-                      onTap: () {
-                        di<BottomWidgetBloc>().add(RunTaskEvent(state.task));
-                      },
-                    ),
+                    child: TimerButton(task: state.task),
                   ),
-                  IconButton.filled(
-                    iconSize: 30,
-                    style: const ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(Colors.amber),
-                    ),
-                    onPressed: () {
-                      di<BottomWidgetBloc>().add(StopTaskEvent(state.task));
-                    }, 
-                    icon: const Icon(Icons.stop_rounded)
-                  )
+                  const StopTimerButton(),
                 ],  
               ),
             ),
           );
         } else {
-          return Container();
+          return Container(height: 0,);
         }
       },
     );

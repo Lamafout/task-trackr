@@ -24,12 +24,22 @@ class GetTasksBloc extends Bloc<GetTasksEvent, GetTasksState> {
         }
       );
      final fetchedResult = await useCase.getTasksFromAPI(event.projectID);
-      fetchedResult.fold(
+      await fetchedResult.fold(
         (failure) {
           emit(FailureWhileGettingTasksState(failure.message));
         },
-        (tasks) {
-          emit(GotTasksState(tasks));
+        (tasks) async {
+          final cachedResult = await useCase.getTasksFromCache(event.projectID);
+          cachedResult.fold(
+            (failure) {
+              emit(FailureWhileGettingTasksState(failure.message));
+            }, 
+            (list) {
+              if (list.isNotEmpty) {
+                emit(GotTasksState(list));
+              }
+            }
+          );
         }
       );
     });

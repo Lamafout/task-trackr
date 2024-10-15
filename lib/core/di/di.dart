@@ -22,6 +22,7 @@ import 'package:task_trackr/features/select_employee/data/select_employee_reposi
 import 'package:task_trackr/features/select_employee/domain/select_employee_use_case.dart';
 import 'package:task_trackr/features/select_employee/presentation/bloc/set_employee_bloc.dart';
 import 'package:task_trackr/features/write_off_time/presentation/bloc/bottom_widget_bloc.dart';
+import 'package:task_trackr/features/write_off_time/presentation/cubit/timer_button_cubit.dart';
 
 final di = GetIt.instance;
 
@@ -71,4 +72,5 @@ Future<void> setupDi() async {
 
   // write off time feature
   di.registerSingleton<BottomWidgetBloc>(BottomWidgetBloc());
+  di.registerSingleton<TimerButtonCubit>(TimerButtonCubit());
 }

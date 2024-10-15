@@ -1,21 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/core/entities/task_class.dart';
-import 'package:task_trackr/features/write_off_time/presentation/bloc/bottom_widget_bloc.dart';
 import 'package:task_trackr/features/write_off_time/presentation/components/timer_button.dart';
 
 class TaskWidget extends StatelessWidget {
-  onTimerButtonTap() {
-    print('тап есть');
-    var state = di<BottomWidgetBloc>().state;
-    if (state is TaskIsRunningState) {
-      print('ивент отправлен');
-      di<BottomWidgetBloc>().add(PauseTaskEvent(task));
-    } else {
-      print('ивент отправлен');
-      di<BottomWidgetBloc>().add(RunTaskEvent(task));
-    }
-  }
   final TaskClass task;
   const TaskWidget({super.key, required this.task});
 
@@ -40,7 +27,7 @@ class TaskWidget extends StatelessWidget {
               //   color: const Color.fromARGB(255, 198, 182, 39),
               //   size: 45,
               // ),
-              TimerButton(onTap: onTimerButtonTap),
+              TimerButton(task: task),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [

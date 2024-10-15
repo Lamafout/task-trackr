@@ -10,7 +10,6 @@ import 'package:task_trackr/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:task_trackr/features/auth/presentation/components/auth_screen.dart';
 import 'package:task_trackr/features/get_projects/presentation/bloc/get_projects_bloc.dart';
 import 'package:task_trackr/features/get_projects/presentation/components/projects_screen.dart';
-import 'package:task_trackr/features/write_off_time/presentation/components/timer_bottom_widget.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

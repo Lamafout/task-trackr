@@ -15,5 +15,3 @@ class TaskIsPausedState extends BottomWidgetState {
   final TaskClass task;
   TaskIsPausedState({required this.time, required this.task});
 }
-
-class NoRunningTaskState extends BottomWidgetState {}

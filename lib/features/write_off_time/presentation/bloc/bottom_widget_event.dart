@@ -12,7 +12,4 @@ class PauseTaskEvent extends BottomWidgetEvent {
   PauseTaskEvent(this.task);
 }
 
-class StopTaskEvent extends BottomWidgetEvent {
-  final TaskClass task;
-  StopTaskEvent(this.task);
-}
+class StopTaskEvent extends BottomWidgetEvent {}

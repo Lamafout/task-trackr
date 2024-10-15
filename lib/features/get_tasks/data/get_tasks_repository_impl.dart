@@ -12,7 +12,7 @@ class GetTasksRepositoryImpl implements GetTasksRepository {
   GetTasksRepositoryImpl({required this.remoteSource, required this.localSource});
 
   @override
-  Future<Either<Failure, List<TaskClass>>> fetchTasks(String projectID) async {
+  Future<Either<Failure, void>> fetchTasks(String projectID) async {
     final employeeID = localSource.getID();
     try {
       final result = await remoteSource.getTasks(employeeID:  employeeID, projectID:  projectID);
@@ -22,7 +22,7 @@ class GetTasksRepositoryImpl implements GetTasksRepository {
 
       await localSource.saveTasks(result);
 
-      return Right(result);
+      return const Right(null);
     } on Exception catch(e) {
       return Left(Failure(e.toString()));
     }

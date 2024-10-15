@@ -6,7 +6,7 @@ import 'package:task_trackr/features/select_employee/domain/select_employee_use_
 part 'set_employee_event.dart';
 part 'set_employee_state.dart';
 
-class SetEmployeeBloc extends Bloc<SetEmployeeEvent, SetEmployeeState> {
+class  SetEmployeeBloc extends Bloc<SetEmployeeEvent, SetEmployeeState> {
   SetEmployeeBloc() : super(SetEmployeeInitial()) {
     on<SubmitEmployee>((event, emit) async {
       final useCase = di<SelectEmployeeUseCase>();

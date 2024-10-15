@@ -8,7 +8,7 @@ class GetTasksUseCase {
 
   GetTasksUseCase(this._getTasksRepository);
 
-  Future<Either<Failure, List<TaskClass>>> getTasksFromAPI(String projectId) async {
+  Future<Either<Failure, void>> getTasksFromAPI(String projectId) async {
     final result = await _getTasksRepository.fetchTasks(projectId);
     return result.fold(
       (failure) => Left(failure),

@@ -53,7 +53,7 @@ class TasksScreen extends StatelessWidget {
           )
         ],
       ),
-      bottomSheet: Container(height: 100, child: const TimerBottomWidget(),)
+      bottomSheet: const TimerBottomWidget()
     );
   }
 }
