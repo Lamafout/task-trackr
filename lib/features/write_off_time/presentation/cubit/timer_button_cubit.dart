@@ -5,13 +5,16 @@ part 'timer_button_state.dart';
 
 class TimerButtonCubit extends Cubit<TimerButtonState> {
   TimerButtonCubit() : super(TimerButtonInitial());
+  TaskClass? currentTask;
   void startTimer(TaskClass task) {
-    emit(TimerIsRunningState(task));
+    currentTask = task;
+    emit(TimerIsRunningState(currentTask!));
   }
   void pauseTimer() {
-    emit(TimerIsPausedState((state as TimerIsRunningState).task));
+    emit(TimerIsPausedState(currentTask!));
   }
   void stopTimer() {
+    currentTask = null;
     emit(TimerButtonInitial());
   }
 }

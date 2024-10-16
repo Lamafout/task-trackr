@@ -37,6 +37,7 @@ class BottomWidgetBloc extends Bloc<BottomWidgetEvent, BottomWidgetState> {
 
   _stopTimer() {
     _timer?.cancel();
-    emit(BottomWidgetState());
+    _elapcedTime = Duration.zero;
+    emit(BottomWidgetInitial());
   }
 }
