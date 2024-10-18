@@ -12,8 +12,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final result = await useCase.enterIntoApplication();
       result.fold(
         //TODO сделать обработку разных ошибок
-        (failure) {emit(AuthenticationIsFailureState(failure.toString())); print('не прошло');},
-        (id) {emit(AuthenticationIsSuccessState(id)); print('прошло');}, 
+        (failure) {emit(AuthenticationIsFailureState(failure.toString()));},
+        (id) {emit(AuthenticationIsSuccessState(id));}, 
       );
     });
   }

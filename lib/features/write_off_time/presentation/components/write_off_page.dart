@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/core/entities/task_class.dart';
 import 'package:task_trackr/features/write_off_time/presentation/bloc/bottom_widget_bloc.dart';
-import 'package:task_trackr/features/write_off_time/presentation/components/timer_bottom_widget.dart';
+import 'package:task_trackr/features/write_off_time/presentation/bloc/write_off_bloc.dart';
 import 'package:task_trackr/features/write_off_time/presentation/cubit/timer_button_cubit.dart';
 
 class WriteOffPage extends StatefulWidget {
@@ -64,27 +64,15 @@ class _WriteOffPageState extends State<WriteOffPage> {
                   ),
                 ),
               ),
-              // add platform style
+              // TODO add platform style
               ElevatedButton(
-                // TODO replace with Button Theme
-                style: const ButtonStyle(
-                  backgroundColor: WidgetStatePropertyAll<Color>(Colors.amber),
-                  shadowColor: WidgetStatePropertyAll<Color>(Colors.transparent)
-                ),
                 onPressed: () {
-                  // TODO добавить отправку времени на таск
+                  di<WriteOffBloc>().add(WriteOffAndPostComment(time: (di<BottomWidgetBloc>().state as TaskIsPausedState).time.inSeconds, comment: _textEditingController.text, task: widget.task.id!));
                   di<BottomWidgetBloc>().add(StopTaskEvent()); // ивент заканчивает работу таймера нижнего виджета
                   di<TimerButtonCubit>().stopTimer(); // ивент разблокирует кнопки тасков, делая текущий таск незапущенным
                   Navigator.pop(context);
                 }, 
-                child: const Text(
-                  'Write off time',
-                  // TODO replace with Theme
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold
-                  ),
-                ),
+                child: const Text('Write off time'),
               ),
             ],
           ),

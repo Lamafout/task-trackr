@@ -19,7 +19,7 @@ Future<void> main() async {
   Hive.registerAdapter(ProjectAdapter());
   Hive.registerAdapter(StatusesAdapter());
 
-  await dotenv.load(fileName: 'lib/core/notion_token.env');
+  await dotenv.load(fileName: 'lib/core/server_token.env');
   await setupDi();
   runApp(const TrackerApp());
 }
@@ -32,36 +32,75 @@ class TrackerApp extends StatelessWidget {
     di<AuthBloc>().add(EnterIntoApplication()); // Запуск события аутентификации
 
     return MaterialApp(
-      home: 
-          Scaffold(
-            body: BlocListener(
-              bloc: di<AuthBloc>(),
-              listener: (context, state) {
-                if (state is AuthenticationIsSuccessState) {
-                  // Когда аутентификация успешна, запускаем событие для загрузки проектов
-                  di<GetProjectsBloc>().add(ShowListOfActiveProjectsEvent());
-                }
-              },
-              child: BlocBuilder<AuthBloc, AuthState>(
-                bloc: di<AuthBloc>(),
-                builder: (context, state) {
-                  if (state is AuthenticationIsSuccessState) {
-                    return const ProjectsScreen();
-                  } else if (state is AuthenticationIsFailureState) {
-                    return const AuthScreen();
-                  } else {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                },
-              ),
-            ),
+      theme: ThemeData(
+        iconButtonTheme: IconButtonThemeData(
+          style: ButtonStyle(
+            side: WidgetStateProperty.resolveWith<BorderSide>((Set<WidgetState> states) {
+              if (states.contains(WidgetState.disabled)) {
+                return const BorderSide(
+                  color: Colors.grey,
+                  width: 4
+                );
+              } else {
+                return const BorderSide(
+                  color: Colors.blue,
+                  width: 4
+                );
+              }
+            }),
+            iconColor: WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
+              if (states.contains(WidgetState.disabled)) {
+                return Colors.grey;
+              } else {
+                return Colors.blue;
+              }
+            }),
+            backgroundColor: const WidgetStatePropertyAll<Color>(Colors.white),
+          )
+        ),
+
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
+              if (states.contains(WidgetState.disabled)) {
+                return Colors.grey;
+              } else {
+                return Colors.blue;
+              }
+            }),
+            textStyle: const WidgetStatePropertyAll<TextStyle>(TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold
+            )),
+            shadowColor: const WidgetStatePropertyAll<Color>(Colors.transparent)
+          )
+        ),
+
+        
+      ),
+      home: Scaffold(
+        body: BlocListener(
+          bloc: di<AuthBloc>(),
+          listener: (context, state) {
+            if (state is AuthenticationIsSuccessState) {
+              // Когда аутентификация успешна, запускаем событие для загрузки проектов
+              di<GetProjectsBloc>().add(ShowListOfActiveProjectsEvent());
+            }
+          },
+          child: BlocBuilder<AuthBloc, AuthState>(
+            bloc: di<AuthBloc>(),
+            builder: (context, state) {
+              if (state is AuthenticationIsSuccessState) {
+                return const ProjectsScreen();
+              } else if (state is AuthenticationIsFailureState) {
+                return const AuthScreen();
+              } else {
+                return const Center(child: CircularProgressIndicator());
+              }
+            },
           ),
-          // const Column(
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   children: [
-          //     TimerBottomWidget(),
-            // ],
-          // ),
+        ),
+      ),
     );
   }
 }

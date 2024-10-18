@@ -45,7 +45,7 @@ class EmployeeWidget extends StatelessWidget {
                 child: employee.photo != null
                 ? CachedNetworkImage(
                   fit: BoxFit.fitHeight,
-                  imageUrl: employee.photo as String,
+                  imageUrl: employee.photo!,
                   placeholder: (context, url) => Container(padding: const EdgeInsets.all(10), child: const CircularProgressIndicator(strokeWidth: 4,)),
                   errorWidget: (context, url, error) => const Icon(Icons.person, size: 40),
                   filterQuality: FilterQuality.none,

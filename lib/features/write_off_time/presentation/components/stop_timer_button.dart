@@ -13,10 +13,8 @@ class StopTimerButton extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    return IconButton.filled(
-      style: const ButtonStyle(
-        backgroundColor: WidgetStatePropertyAll<Color>(Colors.amber),
-      ),
+    return IconButton.outlined(
+      
       iconSize: 25,
       onPressed: () {
         // настоящая остановка будет при отправке списания времени
@@ -32,7 +30,6 @@ class StopTimerButton extends StatelessWidget {
       }, 
       icon: const Icon(
         Icons.stop_rounded,
-        color: Colors.white,
       ),
     );
   }

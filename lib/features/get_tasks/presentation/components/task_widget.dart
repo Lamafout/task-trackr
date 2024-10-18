@@ -21,12 +21,6 @@ class TaskWidget extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // TODO replace with timer button widget
-              // const Icon(
-              //   Icons.play_circle,
-              //   color: const Color.fromARGB(255, 198, 182, 39),
-              //   size: 45,
-              // ),
               TimerButton(task: task),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,

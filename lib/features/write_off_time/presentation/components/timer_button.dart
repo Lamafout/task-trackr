@@ -28,26 +28,17 @@ class TimerButton extends StatelessWidget {
         final bool isRunning = state is TimerIsRunningState && state.task.id == task.id;
         final bool isPaused = state is TimerIsPausedState && state.task.id == task.id; 
         final bool isAnyTaskRunning = state is TimerIsPausedState ||  state is TimerIsRunningState;
-        return IconButton.filled(
-          iconSize: 25,
-          // TODO replace with button theme
-          style: ButtonStyle(
-            backgroundColor: isAnyTaskRunning 
-            ? isRunning || isPaused
-              ? const WidgetStatePropertyAll<Color>(Colors.amber)
-              : const WidgetStatePropertyAll<Color>(Colors.grey)
-            : const WidgetStatePropertyAll<Color>(Colors.amber),
-          ),
+        return IconButton.outlined(
+          iconSize: 20,
           onPressed: isAnyTaskRunning
           ? isRunning
-            ? () {di<TimerButtonCubit>().pauseTimer(); _onTimerButtonTap(); print('PAUSED ${task.title}, ${state.task.title}');}
+            ? () {di<TimerButtonCubit>().pauseTimer(); _onTimerButtonTap();}
             : isPaused
-              ? () {di<TimerButtonCubit>().startTimer(task); _onTimerButtonTap(); print('RESUMED ${task.title}, ${state.task.title}');}
+              ? () {di<TimerButtonCubit>().startTimer(task); _onTimerButtonTap();}
               : null
-          : () {di<TimerButtonCubit>().startTimer(task); _onTimerButtonTap(); print('STARTED ${task.title}');},
+          : () {di<TimerButtonCubit>().startTimer(task); _onTimerButtonTap();},
           icon: Icon(
             isRunning ? Icons.pause_rounded : Icons.play_arrow_rounded,
-            color: Colors.white,
           ),
         );
       }

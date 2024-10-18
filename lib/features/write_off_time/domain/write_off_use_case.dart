@@ -7,8 +7,8 @@ class WriteOffUseCase {
 
   WriteOffUseCase(this._writeOffRepository);
 
-  Future<Either<Failure, void>> tapOnTimerButton(int time) async {
-    final result = await _writeOffRepository.writeOff(time);
+  Future<Either<Failure, void>> tapOnTimerButton({required int time, required String comment, required String taskID}) async {
+    final result = await _writeOffRepository.writeOff(time: time, comment: comment, taskID: taskID);
     return result.fold(
       (failure) => Left(failure),
       (status) => Right(status),

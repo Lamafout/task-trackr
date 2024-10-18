@@ -1,6 +1,9 @@
 part of 'write_off_bloc.dart';
 
-@immutable
-sealed class WriteOffState {}
+class WriteOffState {}
 
-final class WriteOffInitial extends WriteOffState {}
+class WriteOffInitial extends WriteOffState {}
+
+class WriteOffLoading extends WriteOffState {}
+class WriteOffSuccess extends WriteOffState {}
+class WriteOffFailure extends WriteOffState {}
