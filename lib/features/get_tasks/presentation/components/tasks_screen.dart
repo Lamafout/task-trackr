@@ -16,13 +16,22 @@ class TasksScreen extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            leading: IconButton.outlined(
+              style: const ButtonStyle(
+                backgroundColor: WidgetStatePropertyAll<Color>(Colors.transparent),
+                side: WidgetStatePropertyAll<BorderSide>(BorderSide.none)
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              }, 
+              icon: const Icon(
+                Icons.arrow_back,
+              )
+            ),
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
                 project.name as String,
-                // TODO replace with Theme of text
-                style: TextStyle(
-                  fontWeight: FontWeight.bold
-                )
+                style: Theme.of(context).primaryTextTheme.labelMedium
               ),
               centerTitle: true,
             ),

@@ -31,13 +31,14 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
         if (state is TaskIsRunningState) {
         updateTime(state.time.inSeconds);
           return Material(
+            color: Colors.transparent,
             child: Container(
               height: 100,
               padding: const EdgeInsets.all(10),
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(15)),
-                color: Colors.white,
-                boxShadow: [
+              decoration: BoxDecoration(
+                color: Theme.of(context).cardColor,
+                borderRadius: const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+                boxShadow: const [
                   BoxShadow(
                     color: Colors.black12,
                     spreadRadius: 2,
@@ -67,6 +68,7 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
                   Expanded(
                     child: Text(
                       state.task.title!,
+                      style: Theme.of(context).primaryTextTheme.bodySmall,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 3,
                     ),
@@ -83,16 +85,17 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
         } else  if (state is TaskIsPausedState) {
         updateTime(state.time.inSeconds);
           return Material(
+            color: Colors.transparent,
             child: Container(
               height: 100,
               padding: const EdgeInsets.all(10),
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(15)),
-                color: Colors.white,
-                boxShadow: [
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+                color: Theme.of(context).cardColor,
+                boxShadow: const [
                   BoxShadow(
                     color: Colors.black12,
-                    spreadRadius: 2,
+                    spreadRadius: 0.5,
                     blurRadius: 5,
                   )
                 ]
@@ -119,6 +122,7 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
                   Expanded(
                     child: Text(
                       state.task.title!,
+                      style: Theme.of(context).primaryTextTheme.bodySmall,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 3,
                     ),

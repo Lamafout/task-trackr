@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/features/auth/presentation/components/auth_button.dart';
@@ -22,13 +25,12 @@ class AuthScreen extends StatelessWidget {
           const SizedBox(height: 20),
           AuthButton(onTap: () {
             di<GetEmployeesBloc>().add(GetListOfEmployees());
-            showModalBottomSheet(
-              isScrollControlled: true,
-              context: context,
-              builder: (context) {
-                return const EmployeesPage();
-              }
-            );
+            Navigator.push(
+              context,
+              Platform.isIOS
+              ? CupertinoPageRoute(builder: (context) => const EmployeesPage())
+              : MaterialPageRoute(builder: (context) => const EmployeesPage())
+            );            
           })
         ]
       ),

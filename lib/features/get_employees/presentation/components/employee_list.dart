@@ -10,18 +10,6 @@ class EmployeeList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        const Center(
-          child: Padding(
-            padding: EdgeInsets.all(10.0),
-            child: Text(
-              'Select employee',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
         ...employees.map((employee) => EmployeeWidget(employee: employee))
       ],
     );

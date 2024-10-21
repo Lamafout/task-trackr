@@ -14,10 +14,9 @@ class TaskWidget extends StatelessWidget {
         // TODO replace with Theme's radius
         borderRadius: const BorderRadius.all(Radius.circular(15)),
         child: Container(
+          color: Theme.of(context).cardColor,
           padding: const EdgeInsets.all(10),
           width: MediaQuery.of(context).size.width * 0.9,
-          // TODO replace with Theme's color
-          color: Colors.white,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -27,16 +26,13 @@ class TaskWidget extends StatelessWidget {
                 children: [
                   Text(
                     task.status?.displayName as String,
-                    // TODO replace with Theme's style
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.black54
-                    ),
+                    style: Theme.of(context).primaryTextTheme.bodyMedium
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.7,
                     child: Text(
                       task.title as String,
+                      style: Theme.of(context).primaryTextTheme.bodySmall,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),

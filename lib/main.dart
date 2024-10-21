@@ -1,3 +1,4 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,76 +32,171 @@ class TrackerApp extends StatelessWidget {
   Widget build(BuildContext context) {
     di<AuthBloc>().add(EnterIntoApplication()); // Запуск события аутентификации
 
-    return MaterialApp(
-      theme: ThemeData(
-        iconButtonTheme: IconButtonThemeData(
-          style: ButtonStyle(
-            side: WidgetStateProperty.resolveWith<BorderSide>((Set<WidgetState> states) {
-              if (states.contains(WidgetState.disabled)) {
-                return const BorderSide(
-                  color: Colors.grey,
-                  width: 4
-                );
-              } else {
-                return const BorderSide(
-                  color: Colors.blue,
-                  width: 4
-                );
-              }
-            }),
-            iconColor: WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
-              if (states.contains(WidgetState.disabled)) {
-                return Colors.grey;
-              } else {
-                return Colors.blue;
-              }
-            }),
-            backgroundColor: const WidgetStatePropertyAll<Color>(Colors.white),
-          )
-        ),
-
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ButtonStyle(
-            backgroundColor: WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
-              if (states.contains(WidgetState.disabled)) {
-                return Colors.grey;
-              } else {
-                return Colors.blue;
-              }
-            }),
-            textStyle: const WidgetStatePropertyAll<TextStyle>(TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold
-            )),
-            shadowColor: const WidgetStatePropertyAll<Color>(Colors.transparent)
-          )
-        ),
-
+    return DynamicColorBuilder(
+      builder: (lightDynamic, darkDynamic) {
+        ColorScheme lightColorScheme = lightDynamic ?? ColorScheme.fromSwatch(accentColor: Colors.blue);
+        ColorScheme darkColorScheme = darkDynamic ?? ColorScheme.fromSwatch(accentColor: Colors.blue);
+        return MaterialApp(
+          theme: ThemeData(
+            // colorScheme: lightColorScheme,
+            useMaterial3: true,
+            primaryTextTheme: TextTheme(
+              displayMedium: TextStyle(
+                fontSize: 18,
+                color:  
+                Colors.black,
+                fontWeight: FontWeight.w500,
+              )
+            ),
+            iconButtonTheme: IconButtonThemeData(
+              style: ButtonStyle(
+                side: WidgetStateProperty.resolveWith<BorderSide>((Set<WidgetState> states) {
+                  if (states.contains(WidgetState.disabled)) {
+                    return const BorderSide(
+                      color: Colors.grey,
+                      width: 4
+                    );
+                  } else {
+                    return const BorderSide(
+                      color: Colors.blue,
+                      width: 4
+                    );
+                  }
+                }),
+                iconColor: WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
+                  if (states.contains(WidgetState.disabled)) {
+                    return Colors.grey;
+                  } else {
+                    return Colors.blue;
+                  }
+                }),
+                backgroundColor: const WidgetStatePropertyAll<Color>(Colors.white),
+              )
+            ),
         
-      ),
-      home: Scaffold(
-        body: BlocListener(
-          bloc: di<AuthBloc>(),
-          listener: (context, state) {
-            if (state is AuthenticationIsSuccessState) {
-              // Когда аутентификация успешна, запускаем событие для загрузки проектов
-              di<GetProjectsBloc>().add(ShowListOfActiveProjectsEvent());
-            }
-          },
-          child: BlocBuilder<AuthBloc, AuthState>(
-            bloc: di<AuthBloc>(),
-            builder: (context, state) {
-              if (state is AuthenticationIsSuccessState) {
-                return const ProjectsScreen();
-              } else if (state is AuthenticationIsFailureState) {
-                return const AuthScreen();
-              } else {
-                return const Center(child: CircularProgressIndicator());
-              }
-            },
+            elevatedButtonTheme: ElevatedButtonThemeData(
+              style: ButtonStyle(
+                backgroundColor: WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
+                  if (states.contains(WidgetState.disabled)) {
+                    return Colors.grey;
+                  } else {
+                    return Colors.blue;
+                  }
+                }),
+                textStyle: const WidgetStatePropertyAll<TextStyle>(TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold
+                )),
+                shadowColor: const WidgetStatePropertyAll<Color>(Colors.transparent)
+              )
+            ),
           ),
-        ),
-      ),
+
+          darkTheme: ThemeData(
+            // colorScheme: darkColorScheme,
+            useMaterial3: true,
+            primaryTextTheme: const TextTheme(
+              labelMedium: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                fontSize: 20,
+              ),
+              displayMedium: TextStyle(
+                fontSize: 18,
+                color:  
+                Colors.black,
+                fontWeight: FontWeight.w500,
+              ), 
+              bodyMedium: TextStyle(
+                color: Colors.white70
+              ),
+              bodySmall: TextStyle(
+                color: Colors.white
+              )
+            ),
+            iconButtonTheme: IconButtonThemeData(
+              style: ButtonStyle(
+                side: WidgetStateProperty.resolveWith<BorderSide>((Set<WidgetState> states) {
+                  if (states.contains(WidgetState.disabled)) {
+                    return const BorderSide(
+                      color: Colors.grey,
+                      width: 4
+                    );
+                  } else {
+                    return const BorderSide(
+                      color: Color.fromARGB(255, 33, 37, 243),
+                      width: 4
+                    );
+                  }
+                }),
+                iconColor: WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
+                  if (states.contains(WidgetState.disabled)) {
+                    return Colors.grey;
+                  } else {
+                    return const Color.fromARGB(255, 33, 37, 243);
+                  }
+                }),
+                backgroundColor: const WidgetStatePropertyAll<Color>(Colors.transparent),
+              )
+            ),
+        
+            elevatedButtonTheme: ElevatedButtonThemeData(
+              style: ButtonStyle(
+                backgroundColor: WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
+                  if (states.contains(WidgetState.disabled)) {
+                    return Colors.grey;
+                  } else {
+                    return Colors.blue;
+                  }
+                }),
+                textStyle: const WidgetStatePropertyAll<TextStyle>(TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold
+                )),
+                shadowColor: const WidgetStatePropertyAll<Color>(Colors.transparent)
+              )
+            ),
+
+            scaffoldBackgroundColor: const Color.fromARGB(255, 46, 46, 46),
+
+            appBarTheme: const AppBarTheme(
+              color: Color.fromARGB(255, 46, 46, 46),
+            ),
+
+            bottomAppBarTheme: const BottomAppBarTheme(
+              color: Color.fromARGB(255, 46, 46, 46),
+            ),
+
+            cardColor: const Color.fromARGB(255, 34, 34, 34),
+          ),
+
+          themeMode: ThemeMode.system,
+
+          home: Scaffold(
+            body: BlocListener(
+              bloc: di<AuthBloc>(),
+              listener: (context, state) {
+                if (state is AuthenticationIsSuccessState) {
+                  // Когда аутентификация успешна, запускаем событие для загрузки проектов
+                  di<GetProjectsBloc>().add(ShowListOfActiveProjectsEvent());
+                }
+              },
+              child: BlocBuilder<AuthBloc, AuthState>(
+                bloc: di<AuthBloc>(),
+                builder: (context, state) {
+                  if (state is AuthenticationIsSuccessState) {
+                    return const ProjectsScreen();
+                  } else if (state is AuthenticationIsFailureState) {
+                    return const AuthScreen();
+                  } else {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                },
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

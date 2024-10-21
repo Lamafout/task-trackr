@@ -13,12 +13,11 @@ class ProjectsScreen extends StatelessWidget {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          const SliverAppBar(
+          SliverAppBar(
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
                 'Projects',
-                // TODO replase with Theme
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: Theme.of(context).primaryTextTheme.labelMedium
               ),
               centerTitle: true,
             ),

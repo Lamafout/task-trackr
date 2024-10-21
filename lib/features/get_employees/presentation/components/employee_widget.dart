@@ -26,36 +26,42 @@ class EmployeeWidget extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(20)),
           boxShadow:  [
             BoxShadow(
-              color: Color.fromARGB(255, 117, 117, 117),
-              spreadRadius: 0.5,
-              blurRadius: 5,
+              color: Color.fromARGB(255, 207, 207, 207),
+              spreadRadius: 0.1,
+              blurRadius: 3,
               blurStyle: BlurStyle.normal
             ),
           ]
         ),
         padding: const EdgeInsets.all(10),
-        margin: const EdgeInsets.all(5),
+        margin: const EdgeInsets.all(2),
         child: Row(
           children: [
             ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(90)),
               child: SizedBox(
-                height: 50,
-                width: 50,
+                height: 70,
+                width: 70,
                 child: employee.photo != null
                 ? CachedNetworkImage(
                   fit: BoxFit.fitHeight,
                   imageUrl: employee.photo!,
                   placeholder: (context, url) => Container(padding: const EdgeInsets.all(10), child: const CircularProgressIndicator(strokeWidth: 4,)),
-                  errorWidget: (context, url, error) => const Icon(Icons.person, size: 40),
+                  errorWidget: (context, url, error) {
+                    return const Icon(Icons.person, size: 60);
+                  },
                   filterQuality: FilterQuality.none,
                   useOldImageOnUrlChange: true,
                 )
-                : const Icon(Icons.person, size: 40),
+                : const Icon(Icons.person, size: 60),
               ),
             ),
             const SizedBox(width: 20,),
-            Text(employee.name ?? ''),
+            // TODO add Theme
+            Text(
+              employee.name ?? '',
+              style: Theme.of(context).primaryTextTheme.displayMedium,
+            ),
           ],
         ),
       ),
