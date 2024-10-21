@@ -24,6 +24,7 @@ class BottomWidgetBloc extends Bloc<BottomWidgetEvent, BottomWidgetState> {
   }
   _startTimer(TaskClass task) {
     _timer?.cancel();
+    emit(TaskIsRunningState(time: _elapcedTime, task: task));
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       _elapcedTime += const Duration(seconds: 1);
       emit(TaskIsRunningState(time: _elapcedTime, task: task));

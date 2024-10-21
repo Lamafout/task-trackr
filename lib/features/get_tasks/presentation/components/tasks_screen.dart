@@ -42,13 +42,14 @@ class TasksScreen extends StatelessWidget {
               builder:(context, state) {
                 switch (state) {
                   case GetTasksLoading():
-                    return const Center(
-                      child: CircularProgressIndicator(),
+                    return Center(
+                      child: SizedBox(height: MediaQuery.of(context).size.height * 0.8, child: CircularProgressIndicator(color: Theme.of(context).primaryColor,)),
                     );
                   case GotTasksState():
                     return Column(
                       children: [
                         ...state.tasks.map((task) => TaskWidget(task: task)),
+                        SizedBox(height: 60,)
                       ],
                     );
                   case FailureWhileGettingTasksState():
@@ -59,7 +60,7 @@ class TasksScreen extends StatelessWidget {
                 }
               } ,
             ),
-          )
+          ),
         ],
       ),
       bottomSheet: const TimerBottomWidget()

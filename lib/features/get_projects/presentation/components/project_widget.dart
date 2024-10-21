@@ -56,7 +56,7 @@ class ProjectWidget extends StatelessWidget {
                   child: Text(
                     project.name as String,
                     //TODO replace with Theme
-                    style: Theme.of(context).primaryTextTheme.displayMedium,
+                    style: Theme.of(context).primaryTextTheme.headlineLarge,
                   ),
                 ),
               ]

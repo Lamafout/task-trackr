@@ -8,7 +8,7 @@ class EmployeeList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return Column(
       children: [
         ...employees.map((employee) => EmployeeWidget(employee: employee))
       ],

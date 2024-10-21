@@ -16,11 +16,9 @@ class AuthScreen extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text(
+          Text(
             'Hola 👋 ',
-            style: TextStyle(
-              fontSize: 30,
-            ),
+            style: Theme.of(context).primaryTextTheme.displaySmall
           ),
           const SizedBox(height: 20),
           AuthButton(onTap: () {

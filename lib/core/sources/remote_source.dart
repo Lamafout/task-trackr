@@ -37,7 +37,6 @@ class RemoteSource {
           photo: employee['icon'] != '' ? employee['icon'] as String? : null,
         );
       }).toList();
-      print('${listOfEmployees.map((element) => element.photo.runtimeType)}, ');
       return listOfEmployees;
     } else {
       throw InternetException();
@@ -73,7 +72,7 @@ class RemoteSource {
     );
 
     if (response.statusCode == 200) {
-      final List<dynamic> data = jsonDecode(response.data);
+      final List<dynamic> data = jsonDecode(response.data) ?? [];
       final List<TaskClass> listOfTasks = data.map((task) {
         return TaskClass(
           id: task['id'],

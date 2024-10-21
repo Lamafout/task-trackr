@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/core/entities/employee_class.dart';
 import 'package:task_trackr/features/select_employee/domain/select_employee_use_case.dart';
@@ -16,7 +15,6 @@ class  SetEmployeeBloc extends Bloc<SetEmployeeEvent, SetEmployeeState> {
         (status) {
           if (status) {
             emit(SettedState());
-            print(di<SharedPreferences>().get('name'));
           } else {
             emit(UnsettedState());
           }

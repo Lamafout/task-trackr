@@ -59,7 +59,7 @@ class EmployeeWidget extends StatelessWidget {
             const SizedBox(width: 20,),
             Text(
               employee.name ?? '',
-              style: Theme.of(context).primaryTextTheme.displayMedium,
+              style: Theme.of(context).primaryTextTheme.headlineLarge,
             ),
           ],
         ),

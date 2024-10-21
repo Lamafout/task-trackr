@@ -18,6 +18,18 @@ class EmployeesScreenState extends State<EmployeesScreen> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            leading: IconButton.outlined(
+              style: const ButtonStyle(
+                backgroundColor: WidgetStatePropertyAll<Color>(Colors.transparent),
+                side: WidgetStatePropertyAll<BorderSide>(BorderSide.none)
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              }, 
+              icon: const Icon(
+                Icons.arrow_back,
+              )
+            ),
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
                 'Choose your fighter',

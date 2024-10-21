@@ -24,7 +24,6 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
   
   @override
   Widget build(BuildContext context) {
-    // TODO засунуть в блок билдер
     return BlocBuilder(
       bloc: di<BottomWidgetBloc>(),
       builder: (context, state) {
