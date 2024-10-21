@@ -4,14 +4,14 @@ import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/features/get_employees/presentation/bloc/get_employees_bloc.dart';
 import 'package:task_trackr/features/get_employees/presentation/components/employee_list.dart';
 
-class EmployeesPage extends StatefulWidget {
-  const EmployeesPage({super.key});
+class EmployeesScreen extends StatefulWidget {
+  const EmployeesScreen({super.key});
 
   @override
-  State<EmployeesPage> createState() => EmployeesPageState();
+  State<EmployeesScreen> createState() => EmployeesScreenState();
 }
 
-class EmployeesPageState extends State<EmployeesPage> {
+class EmployeesScreenState extends State<EmployeesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

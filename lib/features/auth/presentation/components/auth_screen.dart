@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/features/auth/presentation/components/auth_button.dart';
 import 'package:task_trackr/features/get_employees/presentation/bloc/get_employees_bloc.dart';
-import 'package:task_trackr/features/get_employees/presentation/components/employees_page.dart';
+import 'package:task_trackr/features/get_employees/presentation/components/employees_screen.dart';
 
 class AuthScreen extends StatelessWidget {
   const AuthScreen({super.key});
@@ -28,8 +28,8 @@ class AuthScreen extends StatelessWidget {
             Navigator.push(
               context,
               Platform.isIOS
-              ? CupertinoPageRoute(builder: (context) => const EmployeesPage())
-              : MaterialPageRoute(builder: (context) => const EmployeesPage())
+              ? CupertinoPageRoute(builder: (context) => const EmployeesScreen())
+              : MaterialPageRoute(builder: (context) => const EmployeesScreen())
             );            
           })
         ]

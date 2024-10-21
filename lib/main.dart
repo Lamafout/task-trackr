@@ -1,4 +1,5 @@
 import 'package:dynamic_color/dynamic_color.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -104,15 +105,12 @@ class TrackerApp extends StatelessWidget {
               displayMedium: TextStyle(
                 fontSize: 18,
                 color:  
-                Colors.black,
+                Colors.white,
                 fontWeight: FontWeight.w500,
               ), 
               bodyMedium: TextStyle(
                 color: Colors.white70
               ),
-              bodySmall: TextStyle(
-                color: Colors.white
-              )
             ),
             iconButtonTheme: IconButtonThemeData(
               style: ButtonStyle(
@@ -139,14 +137,19 @@ class TrackerApp extends StatelessWidget {
                 backgroundColor: const WidgetStatePropertyAll<Color>(Colors.transparent),
               )
             ),
+
+            cupertinoOverrideTheme: const NoDefaultCupertinoThemeData(
+              primaryColor: Color.fromARGB(255, 33, 37, 243)
+            ),
         
             elevatedButtonTheme: ElevatedButtonThemeData(
               style: ButtonStyle(
+                padding: const WidgetStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.symmetric(horizontal: 50)),
                 backgroundColor: WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
                   if (states.contains(WidgetState.disabled)) {
                     return Colors.grey;
                   } else {
-                    return Colors.blue;
+                    return const Color.fromARGB(255, 33, 37, 243);
                   }
                 }),
                 textStyle: const WidgetStatePropertyAll<TextStyle>(TextStyle(

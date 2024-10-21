@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/core/entities/project_class.dart';
@@ -16,7 +19,12 @@ class ProjectWidget extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           di<GetTasksBloc>().add(GetTasksOfProjectsEvent(project.id as String));
-          Navigator.push(context, MaterialPageRoute(builder: (context) => TasksScreen(project: project)));
+          Navigator.push(
+              context,
+              Platform.isIOS
+              ? CupertinoPageRoute(builder: (context) => TasksScreen(project: project))
+              : MaterialPageRoute(builder: (context) => TasksScreen(project: project))
+            ); 
         },
         child: ClipRRect(
           //TODO replace with Theme 
@@ -24,7 +32,7 @@ class ProjectWidget extends StatelessWidget {
           child: Container(
             width: MediaQuery.of(context).size.width * 0.9,
             padding: const EdgeInsets.all(10),
-            color: Colors.white,
+            color: Theme.of(context).cardColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -48,10 +56,7 @@ class ProjectWidget extends StatelessWidget {
                   child: Text(
                     project.name as String,
                     //TODO replace with Theme
-                    style: const TextStyle(
-                      fontSize: 18,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                    style: Theme.of(context).primaryTextTheme.displayMedium,
                   ),
                 ),
               ]

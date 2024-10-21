@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/core/entities/task_class.dart';
@@ -20,7 +23,14 @@ class StopTimerButton extends StatelessWidget {
         // настоящая остановка будет при отправке списания времени
         di<BottomWidgetBloc>().add(PauseTaskEvent(task));
         di<TimerButtonCubit>().pauseTimer();
-        showModalBottomSheet(
+        Platform.isIOS
+        ? showCupertinoModalPopup(
+          context: context, 
+          builder: (context) {
+            return WriteOffPage(task: task);
+          }
+        )
+        : showModalBottomSheet(
           isScrollControlled: true,
           context: context, 
           builder: (context) {

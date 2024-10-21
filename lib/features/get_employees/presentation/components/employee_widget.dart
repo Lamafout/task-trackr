@@ -21,12 +21,12 @@ class EmployeeWidget extends StatelessWidget {
         Navigator.pop(context);
       },
       child: Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-          boxShadow:  [
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
+          boxShadow:  const [
             BoxShadow(
-              color: Color.fromARGB(255, 207, 207, 207),
+              color: Colors.black12,
               spreadRadius: 0.1,
               blurRadius: 3,
               blurStyle: BlurStyle.normal
@@ -57,7 +57,6 @@ class EmployeeWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 20,),
-            // TODO add Theme
             Text(
               employee.name ?? '',
               style: Theme.of(context).primaryTextTheme.displayMedium,
