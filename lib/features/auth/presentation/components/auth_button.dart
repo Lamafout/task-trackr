@@ -11,26 +11,9 @@ class AuthButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.6,
-      child: Platform.isAndroid 
-        ? ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.black,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(15)),
-              ),
-            ),
-            onPressed: onTap, 
-            child: const Text(
-              'Continue',
-              style: TextStyle(
-                fontSize: 15,
-                color: Colors.white,
-              ),
-            )
-          )
-        : CupertinoButton(
-            color: Colors.black,
-            borderRadius: const BorderRadius.all(Radius.circular(15)),
+      child: Platform.isIOS 
+        ? CupertinoButton(
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
             onPressed: onTap,
             child: const Text(
               'Continue',
@@ -39,6 +22,22 @@ class AuthButton extends StatelessWidget {
                 color: Colors.white,
               ),
             ), 
+          )
+        : ElevatedButton(
+            // style: ElevatedButton.styleFrom(
+            //   backgroundColor: Colors.black,
+            //   shape: const RoundedRectangleBorder(
+            //     borderRadius: BorderRadius.all(Radius.circular(15)),
+            //   ),
+            // ),
+            onPressed: onTap, 
+            child: const Text(
+              'Continue',
+              style: TextStyle(
+                fontSize: 15,
+                color: Colors.white,
+              ),
+            )
           ),
     );
   }

@@ -1,5 +1,7 @@
+import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:task_trackr/config/statuses.dart';
 import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/core/entities/employee_class.dart';
 import 'package:task_trackr/core/entities/project_class.dart';
@@ -38,6 +40,7 @@ class LocalSource {
   Future<List<TaskClass>> getTasks(String projectID) async {
     final box = di.get<Box<TaskClass>>();
     final List<TaskClass> tasks = box.values.where((task) => task.projectID == projectID).toList();
+    tasks.sort((a, b) => (a.status as Statuses).index.compareTo((b.status as Statuses).index));
     return tasks;
   }
 

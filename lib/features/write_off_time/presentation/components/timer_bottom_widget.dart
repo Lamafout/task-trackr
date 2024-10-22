@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_trackr/core/di/di.dart';
@@ -32,7 +34,7 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
           return Material(
             color: Colors.transparent,
             child: Container(
-              height: 100,
+              height: 80,
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: Theme.of(context).cardColor,
@@ -60,7 +62,7 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 14,
+                        fontSize: 12,
                       )
                     ),
                   ),
@@ -86,11 +88,13 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
           return Material(
             color: Colors.transparent,
             child: Container(
-              height: 100,
+              height: 80,
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
-                color: Theme.of(context).cardColor,
+                color: Platform.isIOS
+                ? Theme.of(context).cupertinoOverrideTheme!.primaryContrastingColor 
+                : Theme.of(context).cardColor,
                 boxShadow: const [
                   BoxShadow(
                     color: Colors.black12,
@@ -110,11 +114,10 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
                     ),
                     child: Text(
                       '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}',
-                      // TODO replace with theme
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 14,
+                        fontSize: 12,
                       )
                     ),
                   ),

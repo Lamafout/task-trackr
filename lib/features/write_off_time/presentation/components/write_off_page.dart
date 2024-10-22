@@ -43,11 +43,16 @@ class _WriteOffPageState extends State<WriteOffPage> {
                 margin: const EdgeInsets.all(10),
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).cardColor,
+                  color: Platform.isIOS
+                  ? Theme.of(context).cupertinoOverrideTheme!.primaryContrastingColor
+                  : Theme.of(context).cardColor,
                   borderRadius: const BorderRadius.all(Radius.circular(15))
                 ),
                 child: Platform.isIOS
                 ? CupertinoTextField(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).cupertinoOverrideTheme!.primaryContrastingColor,
+                  ),
                   controller: _textEditingController,
                   autofocus: true,
                   maxLines: null,

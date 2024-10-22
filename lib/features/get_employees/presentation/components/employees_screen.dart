@@ -44,13 +44,20 @@ class EmployeesScreenState extends State<EmployeesScreen> {
               builder: (context, state) {
                 switch (state) {
                   case LoadingListOfEmployeesState():
-                    return const Center(
-                      child: CircularProgressIndicator(),
+                    return SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.8,
+                      child: Center(
+                        child: CircularProgressIndicator(color: Theme.of(context).primaryColor,),
+                      ),
                     );
                   case LoadedListOfEmployeesState():
                     return EmployeeList(employees: state.employees);
                   case FailureWhileLoadedListOfEmployeesState():
-                    return Center(child: Text(state.errorMessage),);
+                    return Column(
+                      children: [
+                        Center(child: Text(state.errorMessage),),
+                      ],
+                    );
                   default: 
                     return Container();
                 }

@@ -35,21 +35,40 @@ class TrackerApp extends StatelessWidget {
 
     return DynamicColorBuilder(
       builder: (lightDynamic, darkDynamic) {
-        ColorScheme lightColorScheme = lightDynamic ?? ColorScheme.fromSwatch(accentColor: Colors.blue);
-        ColorScheme darkColorScheme = darkDynamic ?? ColorScheme.fromSwatch(accentColor: Colors.blue);
+        ColorScheme lightColorScheme = lightDynamic ?? ColorScheme.fromSwatch(primarySwatch: Colors.blue);
+        ColorScheme darkColorScheme =  darkDynamic ?? ColorScheme.fromSwatch(brightness: Brightness.dark , primarySwatch: Colors.indigo, backgroundColor: Colors.grey[700] ,cardColor: Colors.grey[850]);
         return MaterialApp(
           theme: ThemeData(
-            // colorScheme: lightColorScheme,
+            colorScheme: lightColorScheme,
             useMaterial3: true,
-            primaryTextTheme: TextTheme(
+            primaryTextTheme: const TextTheme(
+              labelMedium: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+                fontSize: 20,
+              ),
               headlineLarge: TextStyle(
-                fontSize: 18,
-                color:  
-                Colors.black,
+                color: Colors.black,
                 fontWeight: FontWeight.w500,
+              ), 
+              headlineMedium: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w500,
+              ), 
+              titleLarge: TextStyle(
+                color: Colors.black
+              ),
+              titleMedium: TextStyle(
+                color: Colors.black
+              ),
+              bodyMedium: TextStyle(
+                color: Colors.black87
+              ),
+              bodySmall: TextStyle(
+                color: Colors.black
               )
             ),
-            iconButtonTheme: IconButtonThemeData(
+             iconButtonTheme: IconButtonThemeData(
               style: ButtonStyle(
                 side: WidgetStateProperty.resolveWith<BorderSide>((Set<WidgetState> states) {
                   if (states.contains(WidgetState.disabled)) {
@@ -58,8 +77,8 @@ class TrackerApp extends StatelessWidget {
                       width: 4
                     );
                   } else {
-                    return const BorderSide(
-                      color: Colors.blue,
+                    return  BorderSide(
+                      color: lightColorScheme.primary,
                       width: 4
                     );
                   }
@@ -68,20 +87,20 @@ class TrackerApp extends StatelessWidget {
                   if (states.contains(WidgetState.disabled)) {
                     return Colors.grey;
                   } else {
-                    return Colors.blue;
+                    return lightColorScheme.primary;
                   }
                 }),
-                backgroundColor: const WidgetStatePropertyAll<Color>(Colors.white),
+                backgroundColor: const WidgetStatePropertyAll<Color>(Colors.transparent),
               )
             ),
-        
             elevatedButtonTheme: ElevatedButtonThemeData(
               style: ButtonStyle(
+                padding: const WidgetStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.symmetric(horizontal: 50)),
                 backgroundColor: WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
                   if (states.contains(WidgetState.disabled)) {
                     return Colors.grey;
                   } else {
-                    return Colors.blue;
+                    return lightColorScheme.primary;
                   }
                 }),
                 textStyle: const WidgetStatePropertyAll<TextStyle>(TextStyle(
@@ -91,10 +110,17 @@ class TrackerApp extends StatelessWidget {
                 shadowColor: const WidgetStatePropertyAll<Color>(Colors.transparent)
               )
             ),
+            cardColor: lightColorScheme.secondaryContainer,
+            scaffoldBackgroundColor: lightColorScheme.surface,
+
+            // cupertino
+            cupertinoOverrideTheme: NoDefaultCupertinoThemeData(
+              primaryContrastingColor: Colors.grey[400]
+            )
           ),
 
           darkTheme: ThemeData(
-            // colorScheme: darkColorScheme,
+            colorScheme: darkColorScheme,
             useMaterial3: true,
             primaryTextTheme: const TextTheme(
               labelMedium: TextStyle(
@@ -103,16 +129,27 @@ class TrackerApp extends StatelessWidget {
                 fontSize: 20,
               ),
               headlineLarge: TextStyle(
-                fontSize: 18,
-                color:  
-                Colors.white,
+                color: Colors.white,
                 fontWeight: FontWeight.w500,
               ), 
-              bodyMedium: TextStyle(
-                color: Colors.white70
+              headlineMedium: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ), 
+              titleLarge: TextStyle(
+                color: Colors.white
               ),
+              titleMedium: TextStyle(
+                color: Colors.white
+              ),
+              bodyMedium: TextStyle(
+                color: Colors.white
+              ),
+              bodySmall: TextStyle(
+                color: Colors.white
+              )
             ),
-            iconButtonTheme: IconButtonThemeData(
+             iconButtonTheme: IconButtonThemeData(
               style: ButtonStyle(
                 side: WidgetStateProperty.resolveWith<BorderSide>((Set<WidgetState> states) {
                   if (states.contains(WidgetState.disabled)) {
@@ -121,8 +158,8 @@ class TrackerApp extends StatelessWidget {
                       width: 4
                     );
                   } else {
-                    return const BorderSide(
-                      color: Color.fromARGB(255, 33, 37, 243),
+                    return  BorderSide(
+                      color: darkColorScheme.primary,
                       width: 4
                     );
                   }
@@ -131,17 +168,12 @@ class TrackerApp extends StatelessWidget {
                   if (states.contains(WidgetState.disabled)) {
                     return Colors.grey;
                   } else {
-                    return const Color.fromARGB(255, 33, 37, 243);
+                    return darkColorScheme.primary;
                   }
                 }),
                 backgroundColor: const WidgetStatePropertyAll<Color>(Colors.transparent),
               )
             ),
-
-            cupertinoOverrideTheme: const NoDefaultCupertinoThemeData(
-              primaryColor: Color.fromARGB(255, 33, 37, 243)
-            ),
-        
             elevatedButtonTheme: ElevatedButtonThemeData(
               style: ButtonStyle(
                 padding: const WidgetStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.symmetric(horizontal: 50)),
@@ -149,7 +181,7 @@ class TrackerApp extends StatelessWidget {
                   if (states.contains(WidgetState.disabled)) {
                     return Colors.grey;
                   } else {
-                    return const Color.fromARGB(255, 33, 37, 243);
+                    return darkColorScheme.primary;
                   }
                 }),
                 textStyle: const WidgetStatePropertyAll<TextStyle>(TextStyle(
@@ -159,18 +191,13 @@ class TrackerApp extends StatelessWidget {
                 shadowColor: const WidgetStatePropertyAll<Color>(Colors.transparent)
               )
             ),
+            cardColor: darkColorScheme.secondaryContainer,
+            scaffoldBackgroundColor: darkColorScheme.surface,
 
-            scaffoldBackgroundColor: const Color.fromARGB(255, 46, 46, 46),
-
-            appBarTheme: const AppBarTheme(
-              color: Color.fromARGB(255, 46, 46, 46),
-            ),
-
-            bottomAppBarTheme: const BottomAppBarTheme(
-              color: Color.fromARGB(255, 46, 46, 46),
-            ),
-
-            cardColor: const Color.fromARGB(255, 34, 34, 34),
+            // cupertino
+            cupertinoOverrideTheme: NoDefaultCupertinoThemeData(
+              primaryContrastingColor: Colors.grey[800]
+            )
           ),
 
           themeMode: ThemeMode.system,
@@ -192,7 +219,11 @@ class TrackerApp extends StatelessWidget {
                   } else if (state is AuthenticationIsFailureState) {
                     return const AuthScreen();
                   } else {
-                    return const Center(child: CircularProgressIndicator());
+                    return Column(
+                      children: [
+                        Center(child: CircularProgressIndicator(color: Theme.of(context).primaryColor,)),
+                      ],
+                    );
                   }
                 },
               ),

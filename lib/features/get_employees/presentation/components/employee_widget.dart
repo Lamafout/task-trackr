@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/core/entities/employee_class.dart';
@@ -17,12 +20,14 @@ class EmployeeWidget extends StatelessWidget {
         Future.delayed(const Duration(milliseconds: 100),
         () {
           di<AuthBloc>().add(EnterIntoApplication());
+          Navigator.pop(context);
         });
-        Navigator.pop(context);
       },
       child: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).cardColor,
+          color: Platform.isIOS
+          ? Theme.of(context).cupertinoOverrideTheme!.primaryContrastingColor 
+          : Theme.of(context).cardColor,
           borderRadius: const BorderRadius.all(Radius.circular(20)),
           boxShadow:  const [
             BoxShadow(
@@ -46,7 +51,7 @@ class EmployeeWidget extends StatelessWidget {
                 ? CachedNetworkImage(
                   fit: BoxFit.fitHeight,
                   imageUrl: employee.photo!,
-                  placeholder: (context, url) => Container(padding: const EdgeInsets.all(10), child: const CircularProgressIndicator(strokeWidth: 4,)),
+                  placeholder: (context, url) => Container(padding: const EdgeInsets.all(25), child: Platform.isIOS ? CupertinoActivityIndicator(color: Theme.of(context).primaryColor,) : CircularProgressIndicator(strokeWidth: 4, color: Theme.of(context).primaryColor,)),
                   errorWidget: (context, url, error) {
                     return const Icon(Icons.person, size: 60);
                   },
@@ -59,7 +64,7 @@ class EmployeeWidget extends StatelessWidget {
             const SizedBox(width: 20,),
             Text(
               employee.name ?? '',
-              style: Theme.of(context).primaryTextTheme.headlineLarge,
+              style: Theme.of(context).primaryTextTheme.titleMedium,
             ),
           ],
         ),

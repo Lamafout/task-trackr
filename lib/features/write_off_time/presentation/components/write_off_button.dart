@@ -19,7 +19,7 @@ class WriteOffButton extends StatelessWidget {
     return Platform.isIOS
     ? CupertinoButton(
       padding: const EdgeInsets.symmetric(horizontal: 50),
-      color: Theme.of(context).cupertinoOverrideTheme!.primaryColor,
+      color: Theme.of(context).cupertinoOverrideTheme!.primaryContrastingColor,
       onPressed: () {
         di<WriteOffBloc>().add(WriteOffAndPostComment(time: (di<BottomWidgetBloc>().state as TaskIsPausedState).time.inSeconds, comment: textEditingController.text, task: task.id!));
         di<BottomWidgetBloc>().add(StopTaskEvent()); // ивент заканчивает работу таймера нижнего виджета
@@ -55,7 +55,7 @@ class WriteOffButton extends StatelessWidget {
           } else {
             return Text(
               'Write off time',
-              style: Theme.of(context).primaryTextTheme.titleMedium,
+              style: Theme.of(context).primaryTextTheme.titleMedium!.copyWith(color: Colors.white),
             );
           }
         }

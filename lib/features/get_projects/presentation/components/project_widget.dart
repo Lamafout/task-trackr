@@ -32,7 +32,9 @@ class ProjectWidget extends StatelessWidget {
           child: Container(
             width: MediaQuery.of(context).size.width * 0.9,
             padding: const EdgeInsets.all(10),
-            color: Theme.of(context).cardColor,
+            color: Platform.isIOS
+            ? Theme.of(context).cupertinoOverrideTheme!.primaryContrastingColor
+            : Theme.of(context).cardColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -55,8 +57,7 @@ class ProjectWidget extends StatelessWidget {
                   width: MediaQuery.of(context).size.width * 0.7,
                   child: Text(
                     project.name as String,
-                    //TODO replace with Theme
-                    style: Theme.of(context).primaryTextTheme.headlineLarge,
+                    style: Theme.of(context).primaryTextTheme.titleMedium,
                   ),
                 ),
               ]

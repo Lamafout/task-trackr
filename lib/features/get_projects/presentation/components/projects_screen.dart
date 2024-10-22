@@ -14,6 +14,9 @@ class ProjectsScreen extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            automaticallyImplyLeading: false,
+            snap: true,
+            floating: true,
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
                 'Projects',
@@ -35,6 +38,7 @@ class ProjectsScreen extends StatelessWidget {
                         children: [
                           ...state.projects
                               .map((project) => ProjectWidget(project: project)),
+                              const SizedBox(height: 90)
                         ],
                       );
                     case FailureWhileGettingProjectsState():

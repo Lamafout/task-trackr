@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:task_trackr/core/entities/task_class.dart';
 import 'package:task_trackr/features/write_off_time/presentation/components/timer_button.dart';
@@ -14,30 +16,23 @@ class TaskWidget extends StatelessWidget {
         // TODO replace with Theme's radius
         borderRadius: const BorderRadius.all(Radius.circular(15)),
         child: Container(
-          color: Theme.of(context).cardColor,
+          color: Platform.isIOS
+          ? Theme.of(context).cupertinoOverrideTheme!.primaryContrastingColor
+          : Theme.of(context).cardColor,
           padding: const EdgeInsets.all(10),
           width: MediaQuery.of(context).size.width * 0.9,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               TimerButton(task: task),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    task.status?.displayName as String,
-                    style: Theme.of(context).primaryTextTheme.bodyMedium
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.7,
-                    child: Text(
-                      task.title as String,
-                      style: Theme.of(context).primaryTextTheme.bodySmall,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ],
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.7,
+                child: Text(
+                  task.title as String,
+                  style: Theme.of(context).primaryTextTheme.bodySmall,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
             ],
           )
