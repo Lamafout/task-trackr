@@ -58,7 +58,9 @@ class ProjectWidget extends StatelessWidget {
                   width: MediaQuery.of(context).size.width * 0.7,
                   child: Text(
                     project.name as String,
-                    style: Theme.of(context).primaryTextTheme.titleMedium,
+                    style: Platform.isIOS
+                    ? Theme.of(context).primaryTextTheme.titleMedium!.copyWith(fontFamily: 'San-Francisco')
+                    : Theme.of(context).primaryTextTheme.titleMedium,
                   ),
                 ),
               ]

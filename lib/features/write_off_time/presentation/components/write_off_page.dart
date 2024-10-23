@@ -37,7 +37,9 @@ class _WriteOffPageState extends State<WriteOffPage> {
             children: [
               Text(
                 'Add comment to task',
-                style: Theme.of(context).primaryTextTheme.labelMedium,
+                style: Platform.isIOS
+                ? Theme.of(context).primaryTextTheme.labelMedium!.copyWith(fontFamily: 'San-Francisco')
+                : Theme.of(context).primaryTextTheme.labelMedium,
               ),
               Container(
                 margin: const EdgeInsets.all(10),
@@ -56,7 +58,7 @@ class _WriteOffPageState extends State<WriteOffPage> {
                   controller: _textEditingController,
                   autofocus: true,
                   maxLines: null,
-                  style: Theme.of(context).primaryTextTheme.titleMedium
+                  style: Theme.of(context).primaryTextTheme.titleMedium!.copyWith(fontFamily: 'San-Francisco')
                 ) 
                 : TextField(
                   controller: _textEditingController,

@@ -24,7 +24,7 @@ class WriteOffButton extends StatelessWidget {
           Navigator.pop(context);
         }
       },
-      child: Container(
+      child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.6,
         child: Platform.isIOS
             ? CupertinoButton(
@@ -56,7 +56,7 @@ class WriteOffButton extends StatelessWidget {
                         }
                         return Text(
                           'Write off time',
-                          style: Theme.of(context).primaryTextTheme.titleMedium,
+                          style: Theme.of(context).primaryTextTheme.titleMedium!.copyWith(fontFamily: 'San-Francisco'),
                         );
                       }
                     }))

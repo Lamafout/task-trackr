@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_trackr/core/di/di.dart';
@@ -25,7 +27,9 @@ class TasksScreen extends StatelessWidget {
             child: Center(
               child: Text(
                 task.status!.displayName,
-                style: Theme.of(context).primaryTextTheme.titleMedium,
+                style: Platform.isIOS
+                ? Theme.of(context).primaryTextTheme.titleMedium!.copyWith(fontFamily: 'San-Francisco')
+                : Theme.of(context).primaryTextTheme.titleMedium,
               ),
             ),
           ),
@@ -59,7 +63,9 @@ class TasksScreen extends StatelessWidget {
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
                 project.name as String,
-                style: Theme.of(context).primaryTextTheme.labelMedium
+                style: Platform.isIOS
+                ? Theme.of(context).primaryTextTheme.labelMedium!.copyWith(fontFamily: 'San-Francisco')
+                : Theme.of(context).primaryTextTheme.labelMedium,
               ),
               centerTitle: true,
             ),

@@ -69,7 +69,9 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
                   Expanded(
                     child: Text(
                       state.task.title!,
-                      style: Theme.of(context).primaryTextTheme.bodySmall,
+                      style: Platform.isIOS
+                      ? Theme.of(context).primaryTextTheme.bodySmall!.copyWith(fontFamily: 'San-Francisco') 
+                      : Theme.of(context).primaryTextTheme.bodySmall,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 3,
                     ),

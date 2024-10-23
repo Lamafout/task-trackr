@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_trackr/core/di/di.dart';
@@ -33,7 +35,9 @@ class EmployeesScreenState extends State<EmployeesScreen> {
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
                 'Choose your fighter',
-                style: Theme.of(context).primaryTextTheme.labelMedium
+                style: Platform.isIOS
+                ? Theme.of(context).primaryTextTheme.labelMedium!.copyWith(fontFamily: 'San-Francisco')
+                : Theme.of(context).primaryTextTheme.labelMedium,
               ),
               centerTitle: true,
             ),

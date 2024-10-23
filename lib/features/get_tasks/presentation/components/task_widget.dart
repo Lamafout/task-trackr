@@ -50,7 +50,9 @@ class TaskWidget extends StatelessWidget {
                   width: MediaQuery.of(context).size.width * 0.7,
                   child: Text(
                     task.title as String,
-                    style: Theme.of(context).primaryTextTheme.bodySmall,
+                    style: Platform.isIOS 
+                    ? Theme.of(context).primaryTextTheme.bodySmall!.copyWith(fontFamily: 'San-Francisco')
+                    : Theme.of(context).primaryTextTheme.bodySmall,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),

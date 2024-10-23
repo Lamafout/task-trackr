@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_trackr/core/di/di.dart';
@@ -20,7 +22,9 @@ class ProjectsScreen extends StatelessWidget {
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
                 'Projects',
-                style: Theme.of(context).primaryTextTheme.labelMedium
+                style: Platform.isIOS
+                ? Theme.of(context).primaryTextTheme.labelMedium!.copyWith(fontFamily: 'San-Francisco')
+                : Theme.of(context).primaryTextTheme.labelMedium,
               ),
               centerTitle: true,
             ),
