@@ -40,20 +40,24 @@ class ProjectWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                project.icon != null 
-                ? SizedBox(
-                  height: 40,
-                  width: 40,
-                  child: CachedNetworkImage(
-                    imageUrl: project.icon as String,  
-                    errorWidget: (context, url, error) => const Icon(Icons.smartphone_rounded, size: 40,),
+                SmoothClipRRect(
+                  smoothness: 0.6,  // iOS default
+                  borderRadius: BorderRadius.circular(12),
+                  child: project.icon != null 
+                  ? SizedBox(
+                    height: 40,
+                    width: 40,
+                    child: CachedNetworkImage(
+                      imageUrl: project.icon as String,  
+                      errorWidget: (context, url, error) => const Icon(Icons.smartphone_rounded, size: 40,),
+                    ),
+                  )
+                  : const Icon(
+                    Icons.smartphone_rounded,
+                    size: 40,
                   ),
-                )
-                : const Icon(
-                  Icons.smartphone_rounded,
-                  size: 40,
                 ),
-          
+
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.7,
                   child: Text(

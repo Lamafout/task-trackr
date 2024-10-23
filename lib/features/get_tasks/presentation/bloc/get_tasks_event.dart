@@ -7,3 +7,5 @@ class GetTasksOfProjectsEvent extends GetTasksEvent {
   final String projectID;
   GetTasksOfProjectsEvent(this.projectID);
 }
+
+class QuitFromTasksScreenEvent extends GetTasksEvent {}

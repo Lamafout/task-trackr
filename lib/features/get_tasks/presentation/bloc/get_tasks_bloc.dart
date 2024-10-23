@@ -43,5 +43,9 @@ class GetTasksBloc extends Bloc<GetTasksEvent, GetTasksState> {
         }
       );
     });
+
+    on<QuitFromTasksScreenEvent>((event, emit) {
+      emit(GetTasksInitial());
+    });
   }
 }

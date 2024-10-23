@@ -54,6 +54,7 @@ class TasksScreen extends StatelessWidget {
                 side: WidgetStatePropertyAll<BorderSide>(BorderSide.none)
               ),
               onPressed: () {
+                di<GetTasksBloc>().add(QuitFromTasksScreenEvent());
                 Navigator.pop(context);
               }, 
               icon: const Icon(
@@ -77,7 +78,7 @@ class TasksScreen extends StatelessWidget {
                 switch (state) {
                   case GetTasksLoading():
                     return Center(
-                      child: SizedBox(height: MediaQuery.of(context).size.height * 0.8, child: Center(child: CircularProgressIndicator(color: Theme.of(context).primaryColor,))),
+                      child: SizedBox(height: MediaQuery.of(context).size.height * 0.8, child: Center(child: CircularProgressIndicator(color: Theme.of(context).indicatorColor,))),
                     );
                   case GotTasksState():
                     return Column(
@@ -88,7 +89,7 @@ class TasksScreen extends StatelessWidget {
                     );
                   case FailureWhileGettingTasksState():
                     //TODO replace with retry button
-                    return  Center(child: Text(state.errorMessage),);
+                    return  SizedBox(height: MediaQuery.of(context).size.height * 0.8, child: Center(child: Text(state.errorMessage),));
                   default:
                     return Container();
                 }
