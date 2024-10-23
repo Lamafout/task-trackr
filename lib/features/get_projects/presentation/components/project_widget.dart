@@ -29,7 +29,7 @@ class ProjectWidget extends StatelessWidget {
         },
         child: SmoothClipRRect(
           smoothness: 0.6,  // iOS default 
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(20),
           child: Container(
             width: MediaQuery.of(context).size.width * 0.9,
             padding: const EdgeInsets.all(10),

@@ -8,17 +8,11 @@ import 'package:task_trackr/features/write_off_time/presentation/cubit/timer_but
 class TimerButton extends StatelessWidget {
   const TimerButton({
     super.key,
-    required this.task
+    required this.task,
+    required this.onTap
   });
   final TaskClass task;
-  _onTimerButtonTap() {
-    var state = di<BottomWidgetBloc>().state;
-    if (state is TaskIsRunningState) {
-      di<BottomWidgetBloc>().add(PauseTaskEvent(task));
-    } else {
-      di<BottomWidgetBloc>().add(RunTaskEvent(task));
-    }
-  }
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +26,11 @@ class TimerButton extends StatelessWidget {
           iconSize: 20,
           onPressed: isAnyTaskRunning
           ? isRunning
-            ? () {di<TimerButtonCubit>().pauseTimer(); _onTimerButtonTap();}
+            ? () {di<TimerButtonCubit>().pauseTimer(); onTap();}
             : isPaused
-              ? () {di<TimerButtonCubit>().startTimer(task); _onTimerButtonTap();}
+              ? () {di<TimerButtonCubit>().startTimer(task); onTap();}
               : null
-          : () {di<TimerButtonCubit>().startTimer(task); _onTimerButtonTap();},
+          : () {di<TimerButtonCubit>().startTimer(task); onTap();},
           icon: Icon(
             isRunning ? Icons.pause_rounded : Icons.play_arrow_rounded,
           ),

@@ -42,6 +42,9 @@ class TrackerApp extends StatelessWidget {
             colorScheme: lightColorScheme,
             useMaterial3: true,
             primaryTextTheme: const TextTheme(
+              displaySmall: TextStyle(
+                color: Colors.black
+              ),
               labelMedium: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
@@ -123,6 +126,9 @@ class TrackerApp extends StatelessWidget {
             colorScheme: darkColorScheme,
             useMaterial3: true,
             primaryTextTheme: const TextTheme(
+              displaySmall: TextStyle(
+                color: Colors.white
+              ),
               labelMedium: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.white,

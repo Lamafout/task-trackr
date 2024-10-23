@@ -23,7 +23,7 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
     minutes = (newTime ~/ 60) % 60;
     hours = (newTime ~/ 3600) % 60;
   }
-  
+  // TODO рефакторинг, а то говнокода и легаси многовато
   @override
   Widget build(BuildContext context) {
     return BlocBuilder(
@@ -76,7 +76,15 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
                   ),
                   Container(
                     margin: const EdgeInsets.only(left: 10, right: 5),
-                    child: TimerButton(task: state.task),
+                    child: TimerButton(task: state.task, onTap: () {
+                        var stateForButton = di<BottomWidgetBloc>().state;
+                        if (stateForButton is TaskIsRunningState) {
+                          di<BottomWidgetBloc>().add(PauseTaskEvent(state.task));
+                        } else {
+                          di<BottomWidgetBloc>().add(RunTaskEvent(state.task));
+                        }
+                      },
+                    ),
                   ),
                   StopTimerButton(task: state.task,),
                 ],  
@@ -131,7 +139,15 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
                   ),
                   Container(
                     margin: const EdgeInsets.only(left: 10, right: 5),
-                    child: TimerButton(task: state.task),
+                    child: TimerButton(task: state.task, onTap: () {
+                        var stateForButton = di<BottomWidgetBloc>().state;
+                        if (stateForButton is TaskIsRunningState) {
+                          di<BottomWidgetBloc>().add(PauseTaskEvent(state.task));
+                        } else {
+                          di<BottomWidgetBloc>().add(RunTaskEvent(state.task));
+                        }
+                      },
+                    ),
                   ),
                   StopTimerButton(task: state.task),
                 ],  
