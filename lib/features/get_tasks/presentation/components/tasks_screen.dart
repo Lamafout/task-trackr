@@ -84,7 +84,7 @@ class TasksScreen extends StatelessWidget {
                     //TODO replace with retry button
                     return  Center(child: Text(state.errorMessage),);
                   default:
-                  return Container();
+                    return Container();
                 }
               } ,
             ),

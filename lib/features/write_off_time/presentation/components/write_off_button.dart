@@ -16,50 +16,58 @@ class WriteOffButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Platform.isIOS
-    ? CupertinoButton(
-      padding: const EdgeInsets.symmetric(horizontal: 50),
-      color: Theme.of(context).cupertinoOverrideTheme!.primaryContrastingColor,
-      onPressed: () {
-        di<WriteOffBloc>().add(WriteOffAndPostComment(time: (di<BottomWidgetBloc>().state as TaskIsPausedState).time.inSeconds, comment: textEditingController.text, task: task.id!));
-        di<BottomWidgetBloc>().add(StopTaskEvent()); // ивент заканчивает работу таймера нижнего виджета
-        di<TimerButtonCubit>().stopTimer(); // ивент разблокирует кнопки тасков, делая текущий таск незапущенным
-        Navigator.pop(context);
-      }, 
-      child: BlocBuilder(
-        bloc: di<WriteOffBloc>(),
-        builder: (context, state) {
-          if (state is WriteOffLoading) {
-            return const CupertinoActivityIndicator();
-          } else {
-            return Text(
-              'Write off time',
-              style: Theme.of(context).primaryTextTheme.titleMedium,
-            );
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.6,
+      child: Platform.isIOS
+      ? CupertinoButton(
+        padding: const EdgeInsets.symmetric(horizontal: 50),
+        color: Theme.of(context).cupertinoOverrideTheme!.primaryContrastingColor,
+        onPressed: () {
+          di<WriteOffBloc>().add(WriteOffAndPostComment(time: (di<BottomWidgetBloc>().state as TaskIsPausedState).time.inSeconds, comment: textEditingController.text, task: task.id!));
+          di<BottomWidgetBloc>().add(StopTaskEvent()); // ивент заканчивает работу таймера нижнего виджета
+          di<TimerButtonCubit>().stopTimer(); // ивент разблокирует кнопки тасков, делая текущий таск незапущенным
+          Navigator.pop(context);
+        }, 
+        child: BlocBuilder(
+          bloc: di<WriteOffBloc>(),
+          builder: (context, state) {
+            if (state is WriteOffLoading) {
+              return const CupertinoActivityIndicator();
+            } else {
+              if (state is WriteOffSuccess) {
+                Navigator.pop(context);
+              }
+              return Text(
+                'Write off time',
+                style: Theme.of(context).primaryTextTheme.titleMedium,
+              );
+            }
           }
-        }
+        )
       )
-    )
-    : ElevatedButton(
-      onPressed: () {
-        di<WriteOffBloc>().add(WriteOffAndPostComment(time: (di<BottomWidgetBloc>().state as TaskIsPausedState).time.inSeconds, comment: textEditingController.text, task: task.id!));
-        di<BottomWidgetBloc>().add(StopTaskEvent()); // ивент заканчивает работу таймера нижнего виджета
-        di<TimerButtonCubit>().stopTimer(); // ивент разблокирует кнопки тасков, делая текущий таск незапущенным
-        Navigator.pop(context);
-      }, 
-      child: BlocBuilder(
-        bloc: di<WriteOffBloc>(),
-        builder: (context, state) {
-          if (state is WriteOffLoading) {
-            return const CircularProgressIndicator();
-          } else {
-            return Text(
-              'Write off time',
-              style: Theme.of(context).primaryTextTheme.titleMedium!.copyWith(color: Colors.white),
-            );
+      : ElevatedButton(
+        onPressed: () {
+          di<WriteOffBloc>().add(WriteOffAndPostComment(time: (di<BottomWidgetBloc>().state as TaskIsPausedState).time.inSeconds, comment: textEditingController.text, task: task.id!));
+          di<BottomWidgetBloc>().add(StopTaskEvent()); // ивент заканчивает работу таймера нижнего виджета
+          di<TimerButtonCubit>().stopTimer(); // ивент разблокирует кнопки тасков, делая текущий таск незапущенным
+        }, 
+        child: BlocBuilder(
+          bloc: di<WriteOffBloc>(),
+          builder: (context, state) {
+            if (state is WriteOffLoading) {
+              return Container(width: 30, height: 30, padding: const EdgeInsets.all(5), child: CircularProgressIndicator(color: Theme.of(context).indicatorColor,));
+            } else {
+              if (state is WriteOffSuccess) {
+                Navigator.pop(context);
+              }
+              return Text(
+                'Write off time',
+                style: Theme.of(context).primaryTextTheme.titleMedium!.copyWith(color: Colors.white),
+              );
+            }
           }
-        }
-      )
-    );
+        )
+      ),
+    ); 
   }
 }

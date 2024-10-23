@@ -88,10 +88,14 @@ class RemoteSource {
   }
   
   Future<void> writeOffTime(TimeRequest request) async {
-    final response = await dio.patch(
+    final response = await dio.post(
       writeTimePath,
       data: request.toJSON()
     );
+
+    if (response.statusCode == 201) {
+      print('NEW LINE INTO TIME TABLE IS CREATED');
+    }
 
     if (response.statusCode == 400) {
       throw DioException.badResponse(statusCode: response.statusCode!, requestOptions: response.requestOptions, response: response);

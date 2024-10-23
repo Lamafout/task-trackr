@@ -13,7 +13,7 @@ class WriteOffRepositoryImpl implements WriteOffRepository {
   @override
   Future<Either<Failure, void>> writeOff({required int time, required String comment, required String taskID}) async {
     final employeeID = localSource.getID();
-    final request = TimeRequest(taskID: taskID, desciption: comment, duration: time, employeeID: employeeID);
+    final request = TimeRequest(taskID: taskID, description: comment, duration: time, employeeID: employeeID);
     try {
       await remoteSource.writeOffTime(request);
       return const Right(null);
