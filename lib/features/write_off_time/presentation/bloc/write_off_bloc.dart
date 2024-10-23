@@ -15,7 +15,7 @@ class WriteOffBloc extends Bloc<WriteOffEvent, WriteOffState> {
         (failure) => emit(WriteOffFailure()),
         (success) => emit (WriteOffSuccess()),
       );
-      emit(WriteOffInitial());
+      await Future.delayed(const Duration(microseconds: 200), () => emit(WriteOffInitial()));
     });
   }
 }
