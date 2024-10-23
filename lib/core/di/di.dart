@@ -23,7 +23,6 @@ import 'package:task_trackr/features/select_employee/domain/select_employee_use_
 import 'package:task_trackr/features/select_employee/presentation/bloc/set_employee_bloc.dart';
 import 'package:task_trackr/features/write_off_time/data/write_off_repository_impl.dart';
 import 'package:task_trackr/features/write_off_time/domain/write_off_use_case.dart';
-import 'package:task_trackr/features/write_off_time/presentation/bloc/bottom_widget_bloc.dart';
 import 'package:task_trackr/features/write_off_time/presentation/bloc/write_off_bloc.dart';
 import 'package:task_trackr/features/write_off_time/presentation/cubit/timer_button_cubit.dart';
 
@@ -77,6 +76,5 @@ Future<void> setupDi() async {
   di.registerLazySingleton<WriteOffRepositoryImpl>(() => WriteOffRepositoryImpl(di<RemoteSource>(), di<LocalSource>()));
   di.registerLazySingleton<WriteOffUseCase>(() => WriteOffUseCase(di<WriteOffRepositoryImpl>()));
   di.registerSingleton<WriteOffBloc>(WriteOffBloc());
-  di.registerSingleton<BottomWidgetBloc>(BottomWidgetBloc());
   di.registerSingleton<TimerButtonCubit>(TimerButtonCubit());
 }

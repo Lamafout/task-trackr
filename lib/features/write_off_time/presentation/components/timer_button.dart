@@ -8,10 +8,8 @@ class TimerButton extends StatelessWidget {
   const TimerButton({
     super.key,
     required this.task,
-    required this.onTap
   });
   final TaskClass task;
-  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +23,11 @@ class TimerButton extends StatelessWidget {
           iconSize: 20,
           onPressed: isAnyTaskRunning
           ? isRunning
-            ? () {di<TimerButtonCubit>().pauseTimer(); onTap();}
+            ? () {di<TimerButtonCubit>().pauseTimer(); }
             : isPaused
-              ? () {di<TimerButtonCubit>().startTimer(task); onTap();}
+              ? () {di<TimerButtonCubit>().startTimer(task); }
               : null
-          : () {di<TimerButtonCubit>().startTimer(task); onTap();},
+          : () {di<TimerButtonCubit>().startTimer(task); },
           icon: Icon(
             isRunning ? Icons.pause_rounded : Icons.play_arrow_rounded,
           ),

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/core/entities/task_class.dart';
-import 'package:task_trackr/features/write_off_time/presentation/bloc/bottom_widget_bloc.dart';
 import 'package:task_trackr/features/write_off_time/presentation/bloc/write_off_bloc.dart';
 import 'package:task_trackr/features/write_off_time/presentation/cubit/timer_button_cubit.dart';
 
@@ -34,13 +33,11 @@ class WriteOffButton extends StatelessWidget {
                     .primaryContrastingColor,
                 onPressed: () {
                   di<WriteOffBloc>().add(WriteOffAndPostComment(
-                      time: (di<BottomWidgetBloc>().state as TaskIsPausedState)
+                      time: (di<TimerButtonCubit>().state as TimerIsWorksState)
                           .time
                           .inSeconds,
                       comment: textEditingController.text,
                       task: task.id!));
-                  di<BottomWidgetBloc>().add(
-                      StopTaskEvent()); // ивент заканчивает работу таймера нижнего виджета
                   di<TimerButtonCubit>()
                       .stopTimer(); // ивент разблокирует кнопки тасков, делая текущий таск незапущенным
                   Navigator.pop(context);
@@ -56,20 +53,18 @@ class WriteOffButton extends StatelessWidget {
                         }
                         return Text(
                           'Write off time',
-                          style: Theme.of(context).primaryTextTheme.titleMedium!.copyWith(fontFamily: 'San-Francisco'),
+                          style: Theme.of(context).primaryTextTheme.titleMedium!.copyWith(fontFamily: 'San-Francisco', color: Colors.white),
                         );
                       }
                     }))
             : ElevatedButton(
                 onPressed: () {
                   di<WriteOffBloc>().add(WriteOffAndPostComment(
-                      time: (di<BottomWidgetBloc>().state as TaskIsPausedState)
+                      time: (di<TimerButtonCubit>().state as TimerIsWorksState)
                           .time
                           .inSeconds,
                       comment: textEditingController.text,
                       task: task.id!));
-                  di<BottomWidgetBloc>().add(
-                      StopTaskEvent()); // ивент заканчивает работу таймера нижнего виджета
                   di<TimerButtonCubit>()
                       .stopTimer(); // ивент разблокирует кнопки тасков, делая текущий таск незапущенным
                 },

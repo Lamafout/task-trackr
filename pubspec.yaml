@@ -33,6 +33,6 @@ flutter:
   fonts:
     - family: San-Francisco
       fonts:
-      - asset: assets/fonts/San-Francisco.ttf
+      - asset: assets/fonts/SF-Pro.ttf
   assets:
     - lib/core/server_token.env
