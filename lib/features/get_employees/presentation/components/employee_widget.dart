@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:smooth_corner/smooth_corner.dart';
 import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/core/entities/employee_class.dart';
 import 'package:task_trackr/features/auth/presentation/bloc/auth_bloc.dart';
@@ -24,12 +25,15 @@ class EmployeeWidget extends StatelessWidget {
         });
       },
       child: Container(
-        decoration: BoxDecoration(
+        decoration: ShapeDecoration(
           color: Platform.isIOS
           ? Theme.of(context).cupertinoOverrideTheme!.primaryContrastingColor 
           : Theme.of(context).cardColor,
-          borderRadius: const BorderRadius.all(Radius.circular(20)),
-          boxShadow:  const [
+          shape: SmoothRectangleBorder(
+            smoothness: 0.6,
+            borderRadius: const BorderRadius.all(Radius.circular(30)),
+          ),
+          shadows:  const [
             BoxShadow(
               color: Colors.black12,
               spreadRadius: 0.1,
@@ -39,7 +43,7 @@ class EmployeeWidget extends StatelessWidget {
           ]
         ),
         padding: const EdgeInsets.all(10),
-        margin: const EdgeInsets.all(2),
+        margin: const EdgeInsets.only(bottom: 10,),
         child: Row(
           children: [
             ClipRRect(

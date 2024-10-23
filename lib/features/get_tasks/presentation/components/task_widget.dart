@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:smooth_corner/smooth_corner.dart';
 import 'package:task_trackr/core/entities/task_class.dart';
 import 'package:task_trackr/features/write_off_time/presentation/components/timer_button.dart';
 
@@ -12,9 +13,9 @@ class TaskWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(top: 10),
-      child: ClipRRect(
-        // TODO replace with Theme's radius
-        borderRadius: const BorderRadius.all(Radius.circular(15)),
+      child: SmoothClipRRect(
+        smoothness: 0.6, //iOS default
+        borderRadius: BorderRadius.circular(30),
         child: Container(
           color: Platform.isIOS
           ? Theme.of(context).cupertinoOverrideTheme!.primaryContrastingColor

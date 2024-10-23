@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:smooth_corner/smooth_corner.dart';
 import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/core/entities/project_class.dart';
 import 'package:task_trackr/features/get_tasks/presentation/bloc/get_tasks_bloc.dart';
@@ -26,9 +27,9 @@ class ProjectWidget extends StatelessWidget {
               : MaterialPageRoute(builder: (context) => TasksScreen(project: project))
             ); 
         },
-        child: ClipRRect(
-          //TODO replace with Theme 
-          borderRadius: BorderRadius.circular(15),
+        child: SmoothClipRRect(
+          smoothness: 0.6,  // iOS default 
+          borderRadius: BorderRadius.circular(30),
           child: Container(
             width: MediaQuery.of(context).size.width * 0.9,
             padding: const EdgeInsets.all(10),
