@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:task_trackr/config/statuses.dart';
+import 'package:task_trackr/config/project_statuses.dart';
+import 'package:task_trackr/config/task_statuses.dart';
 import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/core/entities/project_class.dart';
 import 'package:task_trackr/core/entities/task_class.dart';
@@ -19,7 +20,8 @@ Future<void> main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(TaskClassAdapter());
   Hive.registerAdapter(ProjectAdapter());
-  Hive.registerAdapter(StatusesAdapter());
+  Hive.registerAdapter(TaskStatusesAdapter());
+  Hive.registerAdapter(ProjectStatusesAdapter());
 
   await dotenv.load(fileName: 'lib/core/server_token.env');
   await setupDi();

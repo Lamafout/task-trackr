@@ -1,64 +1,64 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'statuses.dart';
+part of 'task_statuses.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class StatusesAdapter extends TypeAdapter<Statuses> {
+class TaskStatusesAdapter extends TypeAdapter<TaskStatuses> {
   @override
   final int typeId = 2;
 
   @override
-  Statuses read(BinaryReader reader) {
+  TaskStatuses read(BinaryReader reader) {
     switch (reader.readByte()) {
       case 0:
-        return Statuses.todo;
+        return TaskStatuses.todo;
       case 1:
-        return Statuses.canDo;
+        return TaskStatuses.canDo;
       case 2:
-        return Statuses.onHold;
+        return TaskStatuses.onHold;
       case 3:
-        return Statuses.waiting;
+        return TaskStatuses.waiting;
       case 4:
-        return Statuses.inProgress;
+        return TaskStatuses.inProgress;
       case 5:
-        return Statuses.needDiscussion;
+        return TaskStatuses.needDiscussion;
       case 6:
-        return Statuses.codeReview;
+        return TaskStatuses.codeReview;
       case 7:
-        return Statuses.internalReview;
+        return TaskStatuses.internalReview;
       default:
-        return Statuses.todo;
+        return TaskStatuses.todo;
     }
   }
 
   @override
-  void write(BinaryWriter writer, Statuses obj) {
+  void write(BinaryWriter writer, TaskStatuses obj) {
     switch (obj) {
-      case Statuses.todo:
+      case TaskStatuses.todo:
         writer.writeByte(0);
         break;
-      case Statuses.canDo:
+      case TaskStatuses.canDo:
         writer.writeByte(1);
         break;
-      case Statuses.onHold:
+      case TaskStatuses.onHold:
         writer.writeByte(2);
         break;
-      case Statuses.waiting:
+      case TaskStatuses.waiting:
         writer.writeByte(3);
         break;
-      case Statuses.inProgress:
+      case TaskStatuses.inProgress:
         writer.writeByte(4);
         break;
-      case Statuses.needDiscussion:
+      case TaskStatuses.needDiscussion:
         writer.writeByte(5);
         break;
-      case Statuses.codeReview:
+      case TaskStatuses.codeReview:
         writer.writeByte(6);
         break;
-      case Statuses.internalReview:
+      case TaskStatuses.internalReview:
         writer.writeByte(7);
         break;
     }
@@ -70,7 +70,7 @@ class StatusesAdapter extends TypeAdapter<Statuses> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is StatusesAdapter &&
+      other is TaskStatusesAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

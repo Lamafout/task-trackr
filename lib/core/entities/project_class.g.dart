@@ -20,7 +20,7 @@ class ProjectAdapter extends TypeAdapter<Project> {
       id: fields[0] as String?,
       icon: fields[1] as String?,
       name: fields[2] as String?,
-      status: fields[3] as Statuses?,
+      status: fields[3] as ProjectStatuses?,
     );
   }
 

@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:task_trackr/config/statuses.dart';
+import 'package:task_trackr/config/project_statuses.dart';
 
 part 'project_class.g.dart';
 
@@ -12,7 +12,7 @@ class Project {
   @HiveField(2)
   final String? name;
   @HiveField(3)
-  final Statuses? status;
+  final ProjectStatuses? status;
 
   Project({required this.id, required this.icon, required this.name, required this.status});
 }

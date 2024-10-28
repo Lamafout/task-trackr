@@ -19,7 +19,7 @@ class TaskClassAdapter extends TypeAdapter<TaskClass> {
     return TaskClass(
       id: fields[0] as String?,
       title: fields[1] as String?,
-      status: fields[2] as Statuses?,
+      status: fields[2] as TaskStatuses?,
       projectID: fields[3] as String?,
     );
   }

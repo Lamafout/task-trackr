@@ -10,16 +10,37 @@ class GetProjectsBloc extends Bloc<GetProjectsEvent, GetProjectsState> {
   GetProjectsBloc() : super(GetProjectsInitial()) {
     on<ShowListOfActiveProjectsEvent>((event, emit) async {
       final useCase = di<GetProjectsUseCase>();
+
       final listFromCache = await useCase.getProjectsFromCash();
       listFromCache.fold(
         (failure) => emit(FailureWhileGettingProjectsState(errorMessage: failure.message)),
         (projects) => emit(GotListOfProjectsState(projects: projects))
       );
+
       final listFromAPI = await useCase.fetchProjects();
-      listFromAPI.fold(
-        (failure) => emit(FailureWhileGettingProjectsState(errorMessage: failure.message)),
-        (projects) => emit(GotListOfProjectsState(projects: projects))
+      await listFromAPI.fold(
+        (failure) {
+          if (!emit.isDone) {
+            emit(FailureWhileGettingProjectsState(errorMessage: failure.message));
+          }
+        },
+        (projects) async {
+          final cachedResult = await useCase.getProjectsFromCash();
+          cachedResult.fold(
+            (failure) {
+              if (!emit.isDone) {
+                emit(FailureWhileGettingProjectsState(errorMessage: failure.message));
+              }
+            },
+            (cachedProjects) {
+              if (!emit.isDone) {
+                emit(GotListOfProjectsState(projects: cachedProjects));
+              }
+            }
+          );
+        }
       );
     });
   }
 }
+

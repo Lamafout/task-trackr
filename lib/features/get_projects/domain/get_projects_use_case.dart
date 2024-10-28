@@ -8,7 +8,7 @@ class GetProjectsUseCase {
 
   GetProjectsUseCase(this._getProjectsRepository);
 
-  Future<Either<Failure, List<Project>>> fetchProjects() async {
+  Future<Either<Failure, void>> fetchProjects() async {
     final result = await _getProjectsRepository.fetchProjects();
     return result.fold(
       (failure) => Left(failure),

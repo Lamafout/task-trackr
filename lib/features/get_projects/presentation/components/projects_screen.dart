@@ -10,7 +10,7 @@ import 'package:task_trackr/features/write_off_time/presentation/components/time
 
 class ProjectsScreen extends StatelessWidget {
   const ProjectsScreen({super.key});
-  List<Widget> _drawListOfTasks({required List<Project> projects, required BuildContext context}) { // нужно для того, чтобы поделить на блоки по статусам
+  List<Widget> _drawListOfProjects({required List<Project> projects, required BuildContext context}) { // нужно для того, чтобы поделить на блоки по статусам
     String currentStatus = '';
     final resultList = <Widget>[];
     for (var project in projects) {
@@ -67,9 +67,8 @@ class ProjectsScreen extends StatelessWidget {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          ...state.projects
-                              .map((project) => ProjectWidget(project: project)),
-                              const SizedBox(height: 90)
+                          ..._drawListOfProjects(projects: state.projects, context: context),
+                          const SizedBox(height: 90)
                         ],
                       );
                     case FailureWhileGettingProjectsState():

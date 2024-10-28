@@ -1,9 +1,9 @@
 import 'package:hive/hive.dart';
 
-part 'statuses.g.dart';
+part 'task_statuses.g.dart';
 
 @HiveType(typeId: 2)
-enum Statuses {
+enum TaskStatuses {
   @HiveField(0)
   todo('Формируется'),
   @HiveField(1)
@@ -22,9 +22,9 @@ enum Statuses {
   internalReview('Внутренняя проверка');
 
   final String displayName;
-  const Statuses(this.displayName);
+  const TaskStatuses(this.displayName);
 
-  static Statuses fromString (String value) {
-    return Statuses.values.firstWhere((elem) => elem.displayName == value);
+  static TaskStatuses fromString (String value) {
+    return TaskStatuses.values.firstWhere((elem) => elem.displayName == value);
   }
 }

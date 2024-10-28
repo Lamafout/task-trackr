@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:task_trackr/config/paths_to_pages.dart';
-import 'package:task_trackr/config/statuses.dart';
+import 'package:task_trackr/config/project_statuses.dart';
+import 'package:task_trackr/config/task_statuses.dart';
 import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/core/entities/employee_class.dart';
 import 'package:task_trackr/core/entities/project_class.dart';
@@ -48,15 +49,16 @@ class RemoteSource {
    
     if (response.statusCode == 200) {
       final List<dynamic> data = jsonDecode(response.data);
-      final List<Project> listOfProjects = data.map((project) {        
+      final List<Project> listOfProjects = data.map((project) {    
+        print(project['status']);    
         return Project(
           id: project['id'],
           icon: project['icon'] != '' ? project['icon'] : null,
           name: project['name'],
-          status: Statuses.values.map((status) => status.displayName).toList().contains(project['status']) ? Statuses.fromString(project['status'] as String) : null,
+          status: ProjectStatuses.values.map((status) => status.displayName).toList().contains(project['status']) ? ProjectStatuses.fromString(project['status'] as String) : null,
         );
-      }).where((task) => (task.status != null)).toList();
-
+      }).where((project) => (project.status != null)).toList();
+      print(listOfProjects);
       return listOfProjects;
     } else {
       throw Exception();
@@ -76,7 +78,7 @@ class RemoteSource {
         return TaskClass(
           id: task['id'],
           title: task['title'],
-          status: Statuses.values.map((status) => status.displayName).toList().contains(task['status']) ? Statuses.fromString(task['status'] as String) : null,
+          status: TaskStatuses.values.map((status) => status.displayName).toList().contains(task['status']) ? TaskStatuses.fromString(task['status'] as String) : null,
         );
       }).where((task) => (task.status != null)).toList();
 

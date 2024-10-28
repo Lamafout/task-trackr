@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:task_trackr/config/statuses.dart';
+import 'package:task_trackr/config/task_statuses.dart';
 
 part 'task_class.g.dart';
 
@@ -10,7 +10,7 @@ class TaskClass {
   @HiveField(1)
   final String? title;
   @HiveField(2)
-  final Statuses? status;
+  final TaskStatuses? status;
   @HiveField(3)
   String? projectID;
 
