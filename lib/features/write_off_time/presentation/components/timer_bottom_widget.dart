@@ -23,7 +23,6 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
     minutes = (newTime ~/ 60) % 60;
     hours = (newTime ~/ 3600) % 60;
   }
-  // TODO рефакторинг, а то говнокода и легаси многовато
   @override
   Widget build(BuildContext context) {
     return BlocBuilder(
@@ -55,14 +54,13 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
                     padding: const EdgeInsets.all(10),
                     margin: const EdgeInsets.only(right: 10),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                      borderRadius: const BorderRadius.all(Radius.circular(15)),
                       color: Platform.isIOS
                       ? Theme.of(context).cupertinoOverrideTheme!.primaryColor
                       : Theme.of(context).primaryColor
                     ),
                     child: Text(
                       '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}',
-                      // TODO replace with theme
                       style: Platform.isIOS
                       ? Theme.of(context).primaryTextTheme.titleSmall!.copyWith(fontFamily: 'San-Francisco', color: Colors.white)
                       : Theme.of(context).primaryTextTheme.titleSmall!.copyWith(color: Colors.white)                    ),

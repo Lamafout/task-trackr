@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/features/auth/presentation/components/auth_button.dart';
 import 'package:task_trackr/features/get_employees/presentation/bloc/get_employees_bloc.dart';
@@ -26,7 +27,7 @@ class AuthScreen extends StatelessWidget {
             Navigator.push(
               context,
               Platform.isIOS
-              ? CupertinoPageRoute(builder: (context) => const EmployeesScreen())
+              ? MaterialWithModalsPageRoute(builder: (context) => const EmployeesScreen())
               : MaterialPageRoute(builder: (context) => const EmployeesScreen())
             );            
           })

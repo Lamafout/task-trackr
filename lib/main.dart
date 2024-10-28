@@ -204,7 +204,7 @@ class TrackerApp extends StatelessWidget {
 
             // cupertino
             cupertinoOverrideTheme: NoDefaultCupertinoThemeData(
-              primaryContrastingColor: Colors.grey[800]
+              primaryContrastingColor: const Color.fromARGB(255, 33, 41, 56)
             )
           ),
 

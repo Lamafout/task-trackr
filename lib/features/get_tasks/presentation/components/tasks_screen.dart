@@ -88,7 +88,6 @@ class TasksScreen extends StatelessWidget {
                       ],
                     );
                   case FailureWhileGettingTasksState():
-                    //TODO replace with retry button
                     return  SizedBox(height: MediaQuery.of(context).size.height * 0.8, child: Center(child: Text(state.errorMessage),));
                   default:
                     return Container();
