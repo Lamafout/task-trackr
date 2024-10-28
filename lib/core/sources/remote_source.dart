@@ -53,10 +53,9 @@ class RemoteSource {
           id: project['id'],
           icon: project['icon'] != '' ? project['icon'] : null,
           name: project['name'],
-          // TODO remove
-          picture: null,
+          status: Statuses.values.map((status) => status.displayName).toList().contains(project['status']) ? Statuses.fromString(project['status'] as String) : null,
         );
-      }).toList();
+      }).where((task) => (task.status != null)).toList();
 
       return listOfProjects;
     } else {
@@ -80,7 +79,7 @@ class RemoteSource {
           status: Statuses.values.map((status) => status.displayName).toList().contains(task['status']) ? Statuses.fromString(task['status'] as String) : null,
         );
       }).where((task) => (task.status != null)).toList();
-      listOfTasks.sort((a, b) => (a.status as Statuses).index.compareTo((b.status as Statuses).index));
+
       return listOfTasks;
     } else {
       throw Exception();
@@ -92,10 +91,6 @@ class RemoteSource {
       writeTimePath,
       data: request.toJSON()
     );
-
-    if (response.statusCode == 201) {
-      print('NEW LINE INTO TIME TABLE IS CREATED');
-    }
 
     if (response.statusCode == 400) {
       throw DioException.badResponse(statusCode: response.statusCode!, requestOptions: response.requestOptions, response: response);

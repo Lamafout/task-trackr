@@ -19,8 +19,8 @@ class ProjectAdapter extends TypeAdapter<Project> {
     return Project(
       id: fields[0] as String?,
       icon: fields[1] as String?,
-      picture: fields[2] as String?,
-      name: fields[3] as String?,
+      name: fields[2] as String?,
+      status: fields[3] as Statuses?,
     );
   }
 
@@ -33,9 +33,9 @@ class ProjectAdapter extends TypeAdapter<Project> {
       ..writeByte(1)
       ..write(obj.icon)
       ..writeByte(2)
-      ..write(obj.picture)
+      ..write(obj.name)
       ..writeByte(3)
-      ..write(obj.name);
+      ..write(obj.status);
   }
 
   @override

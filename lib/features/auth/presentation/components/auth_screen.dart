@@ -25,7 +25,7 @@ class AuthScreen extends StatelessWidget {
             di<GetEmployeesBloc>().add(GetListOfEmployees());
             Navigator.push(
               context,
-              !Platform.isIOS
+              Platform.isIOS
               ? CupertinoPageRoute(builder: (context) => const EmployeesScreen())
               : MaterialPageRoute(builder: (context) => const EmployeesScreen())
             );            

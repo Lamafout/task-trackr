@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:task_trackr/config/statuses.dart';
 
 part 'project_class.g.dart';
 
@@ -9,9 +10,9 @@ class Project {
   @HiveField(1)
   final String? icon;
   @HiveField(2)
-  final String? picture;
-  @HiveField(3)
   final String? name;
+  @HiveField(3)
+  final Statuses? status;
 
-  Project({required this.id, required this.icon, required this.picture, required this.name});
+  Project({required this.id, required this.icon, required this.name, required this.status});
 }

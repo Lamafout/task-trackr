@@ -42,7 +42,7 @@ class ProjectWidget extends StatelessWidget {
               children: [
                 SmoothClipRRect(
                   smoothness: 0.6,  // iOS default
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(10),
                   child: project.icon != null 
                   ? SizedBox(
                     height: 40,
