@@ -38,7 +38,9 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
               height: 80,
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: Theme.of(context).cardColor,
+                color: Platform.isIOS
+                ? Theme.of(context).cupertinoOverrideTheme!.primaryContrastingColor 
+                : Theme.of(context).cardColor,
                 borderRadius: const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
                 boxShadow: const [
                   BoxShadow(

@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:task_trackr/config/project_statuses.dart';
 import 'package:task_trackr/config/task_statuses.dart';
 import 'package:task_trackr/core/di/di.dart';
@@ -38,7 +41,7 @@ class TrackerApp extends StatelessWidget {
     return DynamicColorBuilder(
       builder: (lightDynamic, darkDynamic) {
         ColorScheme lightColorScheme = lightDynamic ?? ColorScheme.fromSwatch(primarySwatch: Colors.blue);
-        ColorScheme darkColorScheme =  darkDynamic ?? ColorScheme.fromSwatch(brightness: Brightness.dark , primarySwatch: Colors.indigo, backgroundColor: Colors.grey[700] ,cardColor: Colors.grey[850]);
+        ColorScheme darkColorScheme = darkDynamic ?? ColorScheme.fromSwatch(brightness: Brightness.dark , primarySwatch: Colors.indigo, backgroundColor: Colors.grey[700] ,cardColor: Colors.grey[850]);
         return MaterialApp(
           theme: ThemeData(
             colorScheme: lightColorScheme,
@@ -120,7 +123,7 @@ class TrackerApp extends StatelessWidget {
 
             // cupertino
             cupertinoOverrideTheme: NoDefaultCupertinoThemeData(
-              primaryContrastingColor: Colors.grey[400]
+              primaryContrastingColor: Colors.blue[100]
             )
           ),
 
@@ -204,7 +207,7 @@ class TrackerApp extends StatelessWidget {
 
             // cupertino
             cupertinoOverrideTheme: NoDefaultCupertinoThemeData(
-              primaryContrastingColor: const Color.fromARGB(255, 33, 41, 56)
+              primaryContrastingColor: const Color.fromARGB(255, 55, 68, 93)
             )
           ),
 
@@ -223,7 +226,15 @@ class TrackerApp extends StatelessWidget {
                 bloc: di<AuthBloc>(),
                 builder: (context, state) {
                   if (state is AuthenticationIsSuccessState) {
-                    return const ProjectsScreen();
+                    if (Platform.isIOS) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        Navigator.push(context, MaterialWithModalsPageRoute(builder: (context) => ProjectsScreen()));
+                      });
+                      return Center(child: CupertinoActivityIndicator(),);
+                    } else {
+                      return ProjectsScreen();
+                    }
+                    
                   } else if (state is AuthenticationIsFailureState) {
                     return const AuthScreen();
                   } else {

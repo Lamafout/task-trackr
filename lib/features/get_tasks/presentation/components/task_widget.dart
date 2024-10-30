@@ -27,7 +27,9 @@ class TaskWidget extends StatelessWidget {
           smoothness: 0.6, //iOS default
           borderRadius: BorderRadius.circular(20),
           child: Container(
-            color:Theme.of(context).cardColor,
+            color: Platform.isIOS
+            ? Theme.of(context).cupertinoOverrideTheme!.primaryContrastingColor
+            : Theme.of(context).cardColor,
             padding: const EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width * 0.9,
             child: Row(

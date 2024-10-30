@@ -1,10 +1,15 @@
 name: task_trackr
-description: "A new Flutter project."
+description: "Application for tracking your tasks and writong off time."
 publish_to: 'none'
 version: 0.1.0
 
 environment:
   sdk: '>=3.4.3 <4.0.0'
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/ic_launcher_round.png"
 
 dependencies:
   cached_network_image: ^3.4.1
@@ -15,6 +20,7 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^8.1.6
   flutter_dotenv: ^5.1.0
+  flutter_launcher_icons: ^0.14.1
   get_it: ^8.0.0
   hive: ^2.2.3
   hive_flutter: ^1.1.0

@@ -26,7 +26,9 @@ class EmployeeWidget extends StatelessWidget {
       },
       child: Container(
         decoration: ShapeDecoration(
-          color: Theme.of(context).cardColor,
+          color: Platform.isIOS
+          ? Theme.of(context).cupertinoOverrideTheme!.primaryContrastingColor 
+          : Theme.of(context).cardColor,
           shape: SmoothRectangleBorder(
             smoothness: 0.6,
             borderRadius: const BorderRadius.all(Radius.circular(30)),
