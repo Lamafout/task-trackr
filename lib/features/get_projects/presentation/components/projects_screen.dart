@@ -15,23 +15,24 @@ class ProjectsScreen extends StatelessWidget {
     final resultList = <Widget>[];
     for (var project in projects) {
       if (project.status!.displayName == currentStatus) {
-        resultList.add(ProjectWidget(project: project));
+        resultList.add(Center(child: ProjectWidget(project: project)));
       } else {
         currentStatus = project.status!.displayName; // меняем текущий статус на новый
         resultList.add(
           Container(
-            margin: const EdgeInsets.only(top: 30),
-            child: Center(
+            margin: const EdgeInsets.only(top: 30, bottom: 10),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 15.0),
               child: Text(
                 project.status!.displayName,
                 style: Platform.isIOS
-                ? Theme.of(context).primaryTextTheme.titleMedium!.copyWith(fontFamily: 'San-Francisco')
-                : Theme.of(context).primaryTextTheme.titleMedium,
+                ? Theme.of(context).primaryTextTheme.headlineLarge!.copyWith(fontFamily: 'San-Francisco')
+                : Theme.of(context).primaryTextTheme.headlineLarge,
               ),
             ),
           ),
         );
-        resultList.add(ProjectWidget(project: project,));
+        resultList.add(Center(child: ProjectWidget(project: project)));
       }
     }
     return resultList;
@@ -50,8 +51,8 @@ class ProjectsScreen extends StatelessWidget {
               title: Text(
                 'Projects',
                 style: Platform.isIOS
-                ? Theme.of(context).primaryTextTheme.labelMedium!.copyWith(fontFamily: 'San-Francisco')
-                : Theme.of(context).primaryTextTheme.labelMedium,
+                ? Theme.of(context).primaryTextTheme.titleLarge!.copyWith(fontFamily: 'San-Francisco', fontWeight: FontWeight.bold)
+                : Theme.of(context).primaryTextTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold),
               ),
               centerTitle: true,
             ),
@@ -65,7 +66,7 @@ class ProjectsScreen extends StatelessWidget {
                   switch (state) {
                     case GotListOfProjectsState():
                       return Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ..._drawListOfProjects(projects: state.projects, context: context),
                           const SizedBox(height: 90)

@@ -120,6 +120,9 @@ class TrackerApp extends StatelessWidget {
             ),
             cardColor: lightColorScheme.secondaryContainer,
             scaffoldBackgroundColor: lightColorScheme.surface,
+            iconTheme: IconThemeData(
+              color: Colors.grey
+            ),
 
             // cupertino
             cupertinoOverrideTheme: NoDefaultCupertinoThemeData(
@@ -137,7 +140,6 @@ class TrackerApp extends StatelessWidget {
               labelMedium: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
-                fontSize: 20,
               ),
               headlineLarge: TextStyle(
                 color: Colors.white,
@@ -203,7 +205,13 @@ class TrackerApp extends StatelessWidget {
               )
             ),
             cardColor: darkColorScheme.secondaryContainer,
-            scaffoldBackgroundColor: darkColorScheme.surface,
+            appBarTheme: AppBarTheme(
+              color: Colors.black
+            ),
+            scaffoldBackgroundColor: Colors.black,
+            iconTheme: IconThemeData(
+              color: Colors.grey
+            ),
 
             // cupertino
             cupertinoOverrideTheme: NoDefaultCupertinoThemeData(

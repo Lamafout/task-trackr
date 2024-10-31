@@ -16,9 +16,9 @@ class ProjectWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 10),
-      child: GestureDetector(
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
         onTap: () {
           di<GetTasksBloc>().add(GetTasksOfProjectsEvent(project.id as String));
           Navigator.push(
@@ -28,47 +28,57 @@ class ProjectWidget extends StatelessWidget {
               : MaterialPageRoute(builder: (context) => TasksScreen(project: project))
             ); 
         },
-        child: SmoothClipRRect(
-          smoothness: 0.6,  // iOS default 
-          borderRadius: BorderRadius.circular(20),
-          child: Container(
-            width: MediaQuery.of(context).size.width * 0.9,
-            padding: const EdgeInsets.all(10),
-            color: Platform.isIOS 
-            ? Theme.of(context).cupertinoOverrideTheme!.primaryContrastingColor 
-            : Theme.of(context).cardColor,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SmoothClipRRect(
-                  smoothness: 0.6,  // iOS default
-                  borderRadius: BorderRadius.circular(10),
-                  child: project.icon != null 
-                  ? SizedBox(
-                    height: 40,
-                    width: 40,
-                    child: CachedNetworkImage(
-                      imageUrl: project.icon as String,  
-                      errorWidget: (context, url, error) => const Icon(Icons.smartphone_rounded, size: 40,),
-                    ),
+        child: Container(
+          margin: const EdgeInsets.only(top: 5, bottom: 5),
+          child: SmoothClipRRect(
+            smoothness: 0.6,  // iOS default 
+            borderRadius: BorderRadius.circular(20),
+            child: Container(
+              width: MediaQuery.of(context).size.width ,
+              padding: const EdgeInsets.only(top: 10, bottom: 10, left: 30, right: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    children: [
+                      SmoothClipRRect(
+                        smoothness: 0.6,  // iOS default
+                        borderRadius: BorderRadius.circular(10),
+                        child: project.icon != null 
+                        ? SizedBox(
+                          height: 40,
+                          width: 40,
+                          child: CachedNetworkImage(
+                            imageUrl: project.icon as String,  
+                            errorWidget: (context, url, error) => const Icon(Icons.smartphone_rounded, size: 40,),
+                          ),
+                        )
+                        : const Icon(
+                          Icons.smartphone_rounded,
+                          size: 40,
+                        ),
+                      ),
+                                
+                      Container(
+                        margin: EdgeInsets.only(left: 20),
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        child: Text(
+                          project.name as String,
+                          style: Platform.isIOS
+                          ? Theme.of(context).primaryTextTheme.labelMedium!.copyWith(fontFamily: 'San-Francisco', fontSize: 18)
+                          : Theme.of(context).primaryTextTheme.labelMedium!.copyWith(fontSize: 18),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Icon(
+                    Icons.chevron_right_rounded,
+                    size: 30,
                   )
-                  : const Icon(
-                    Icons.smartphone_rounded,
-                    size: 40,
-                  ),
-                ),
-
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.7,
-                  child: Text(
-                    project.name as String,
-                    style: Platform.isIOS
-                    ? Theme.of(context).primaryTextTheme.titleMedium!.copyWith(fontFamily: 'San-Francisco')
-                    : Theme.of(context).primaryTextTheme.titleMedium,
-                  ),
-                ),
-              ]
+                ]
+              ),
             ),
           ),
         ),
