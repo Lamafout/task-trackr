@@ -13,30 +13,20 @@ class AuthButton extends StatelessWidget {
       width: MediaQuery.of(context).size.width * 0.6,
       child: Platform.isIOS 
         ? CupertinoButton(
+          color: Theme.of(context).cupertinoOverrideTheme!.primaryContrastingColor,
             borderRadius: const BorderRadius.all(Radius.circular(10)),
             onPressed: onTap,
-            child: const Text(
+            child: Text(
               'Continue',
-              style: TextStyle(
-                fontSize: 15,
-                color: Colors.white,
-              ),
+              style: Theme.of(context).primaryTextTheme.titleMedium!.copyWith(fontFamily: 'San-Francisco'),
             ), 
           )
         : ElevatedButton(
-            // style: ElevatedButton.styleFrom(
-            //   backgroundColor: Colors.black,
-            //   shape: const RoundedRectangleBorder(
-            //     borderRadius: BorderRadius.all(Radius.circular(15)),
-            //   ),
-            // ),
+            
             onPressed: onTap, 
-            child: const Text(
+            child: Text(
               'Continue',
-              style: TextStyle(
-                fontSize: 15,
-                color: Colors.white,
-              ),
+              style: Theme.of(context).primaryTextTheme.titleMedium,
             )
           ),
     );

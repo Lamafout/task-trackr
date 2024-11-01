@@ -28,7 +28,7 @@ class WriteOffButton extends StatelessWidget {
         child: Platform.isIOS
             ? CupertinoButton(
                 padding: const EdgeInsets.symmetric(horizontal: 50),
-                color: Theme.of(context).cardColor,
+                color: Theme.of(context).cupertinoOverrideTheme!.primaryContrastingColor,
                 onPressed: () {
                   di<WriteOffBloc>().add(WriteOffAndPostComment(
                       time: (di<TimerButtonCubit>().state as TimerIsWorksState)

@@ -19,7 +19,9 @@ class AuthScreen extends StatelessWidget {
         children: [
           Text(
             'Hola 👋 ',
-            style: Theme.of(context).primaryTextTheme.displaySmall
+            style: Platform.isIOS
+            ? Theme.of(context).primaryTextTheme.displaySmall!.copyWith(fontFamily: 'San-Francisco') 
+            : Theme.of(context).primaryTextTheme.displaySmall
           ),
           const SizedBox(height: 20),
           AuthButton(onTap: () {

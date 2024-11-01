@@ -51,7 +51,7 @@ class _WriteOffPageState extends State<WriteOffPage> {
                 child: Platform.isIOS
                 ? CupertinoTextField(
                   decoration: BoxDecoration(
-                    color: Theme.of(context).cardColor
+                    color: Theme.of(context).cupertinoOverrideTheme!.primaryContrastingColor
                   ),
                   controller: _textEditingController,
                   autofocus: true,

@@ -15,8 +15,10 @@ class EmployeeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () {
         di<SetEmployeeBloc>().add(SubmitEmployee(employee));
         Future.delayed(const Duration(milliseconds: 100),
         () {
@@ -24,55 +26,58 @@ class EmployeeWidget extends StatelessWidget {
           Navigator.pop(context);
         });
       },
-      child: Container(
-        decoration: ShapeDecoration(
-          color: Platform.isIOS
-          ? Theme.of(context).cupertinoOverrideTheme!.primaryContrastingColor 
-          : Theme.of(context).cardColor,
-          shape: SmoothRectangleBorder(
-            smoothness: 0.6,
-            borderRadius: const BorderRadius.all(Radius.circular(30)),
+        child: Container(
+          decoration: ShapeDecoration(
+            shape: SmoothRectangleBorder(
+              smoothness: 0.6,
+              borderRadius: const BorderRadius.all(Radius.circular(30)),
+            ),
           ),
-          shadows:  const [
-            BoxShadow(
-              color: Colors.black12,
-              spreadRadius: 0.1,
-              blurRadius: 3,
-              blurStyle: BlurStyle.normal
-            ),
-          ]
-        ),
-        padding: const EdgeInsets.all(10),
-        margin: const EdgeInsets.only(bottom: 10,),
-        child: Row(
-          children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(90)),
-              child: SizedBox(
-                height: 70,
-                width: 70,
-                child: employee.photo != null
-                ? CachedNetworkImage(
-                  fit: BoxFit.fitHeight,
-                  imageUrl: employee.photo!,
-                  placeholder: (context, url) => Container(padding: const EdgeInsets.all(25), child: Platform.isIOS ? CupertinoActivityIndicator(color: Theme.of(context).primaryColor,) : CircularProgressIndicator(strokeWidth: 4, color: Theme.of(context).primaryColor,)),
-                  errorWidget: (context, url, error) {
-                    return const Icon(Icons.person, size: 60);
-                  },
-                  filterQuality: FilterQuality.none,
-                  useOldImageOnUrlChange: true,
-                )
-                : const Icon(Icons.person, size: 60),
+          width: MediaQuery.of(context).size.width,
+          padding: const EdgeInsets.only(top: 10, bottom: 10, left: 30, right: 30),
+          margin: const EdgeInsets.only(bottom: 5, top: 5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(90)),
+                    child: SizedBox(
+                      height: 30,
+                      width: 30,
+                      child: employee.photo != null
+                      ? CachedNetworkImage(
+                        fit: BoxFit.fitHeight,
+                        imageUrl: employee.photo!,
+                        placeholder: (context, url) => Container(padding: const EdgeInsets.all(25), child: Platform.isIOS ? CupertinoActivityIndicator(color: Theme.of(context).primaryColor,) : CircularProgressIndicator(strokeWidth: 4, color: Theme.of(context).primaryColor,)),
+                        errorWidget: (context, url, error) {
+                          return const Icon(Icons.person, size: 30);
+                        },
+                        filterQuality: FilterQuality.none,
+                        useOldImageOnUrlChange: true,
+                      )
+                      : const Icon(Icons.person, size: 30),
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(left: 20),
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    child: Text(
+                      employee.name ?? '',
+                      style: Platform.isIOS
+                      ? Theme.of(context).primaryTextTheme.labelMedium!.copyWith(fontFamily: 'San-Francisco', fontSize: 18)
+                      : Theme.of(context).primaryTextTheme.labelMedium!.copyWith(fontSize: 18),
+                    ),
+                  ),
+                ],
               ),
-            ),
-            const SizedBox(width: 20,),
-            Text(
-              employee.name ?? '',
-              style: Platform.isIOS
-              ? Theme.of(context).primaryTextTheme.titleMedium 
-              : Theme.of(context).primaryTextTheme.titleMedium,
-            ),
-          ],
+              const Icon(
+                Icons.chevron_right_rounded,
+                size: 30,
+              )
+            ],
+          ),
         ),
       ),
     );

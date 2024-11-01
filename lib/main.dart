@@ -108,7 +108,7 @@ class TrackerApp extends StatelessWidget {
                   if (states.contains(WidgetState.disabled)) {
                     return Colors.grey;
                   } else {
-                    return lightColorScheme.primary;
+                    return lightColorScheme.secondaryContainer;
                   }
                 }),
                 textStyle: const WidgetStatePropertyAll<TextStyle>(TextStyle(

@@ -42,26 +42,22 @@ class ProjectWidget extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      SmoothClipRRect(
-                        smoothness: 0.6,  // iOS default
-                        borderRadius: BorderRadius.circular(10),
-                        child: project.icon != null 
-                        ? SizedBox(
-                          height: 40,
-                          width: 40,
-                          child: CachedNetworkImage(
-                            imageUrl: project.icon as String,  
-                            errorWidget: (context, url, error) => const Icon(Icons.smartphone_rounded, size: 40,),
-                          ),
-                        )
-                        : const Icon(
-                          Icons.smartphone_rounded,
-                          size: 40,
+                      project.icon != null 
+                      ? SizedBox(
+                        height: 30,
+                        width: 30,
+                        child: CachedNetworkImage(
+                          imageUrl: project.icon as String,  
+                          errorWidget: (context, url, error) => const Icon(Icons.smartphone_rounded, size: 30,),
                         ),
+                      )
+                      : const Icon(
+                        Icons.smartphone_rounded,
+                        size: 30,
                       ),
                                 
                       Container(
-                        margin: EdgeInsets.only(left: 20),
+                        margin: const EdgeInsets.only(left: 20),
                         width: MediaQuery.of(context).size.width * 0.5,
                         child: Text(
                           project.name as String,

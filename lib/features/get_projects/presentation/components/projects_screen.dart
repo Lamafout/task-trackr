@@ -26,7 +26,7 @@ class ProjectsScreen extends StatelessWidget {
               child: Text(
                 project.status!.displayName,
                 style: Platform.isIOS
-                ? Theme.of(context).primaryTextTheme.headlineLarge!.copyWith(fontFamily: 'San-Francisco')
+                ? Theme.of(context).primaryTextTheme.headlineLarge!.copyWith(fontFamily: 'San-Francisco', fontWeight: FontWeight.w600)
                 : Theme.of(context).primaryTextTheme.headlineLarge,
               ),
             ),
