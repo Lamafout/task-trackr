@@ -16,8 +16,8 @@ class StopTimerButton extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    return IconButton.outlined(
-      iconSize: 25,
+    return IconButton(
+      iconSize: 35,
       onPressed: () {
         di<TimerButtonCubit>().pauseTimer();
         Platform.isIOS

@@ -119,6 +119,9 @@ class TrackerApp extends StatelessWidget {
             ),
             cardColor: lightColorScheme.secondaryContainer,
             scaffoldBackgroundColor: lightColorScheme.surface,
+            bottomSheetTheme: BottomSheetThemeData(
+              backgroundColor: Colors.transparent
+            ),
             iconTheme: IconThemeData(
               color: Colors.grey
             ),
@@ -207,6 +210,9 @@ class TrackerApp extends StatelessWidget {
               color: Colors.black
             ),
             scaffoldBackgroundColor: Colors.black,
+            bottomSheetTheme: BottomSheetThemeData(
+              backgroundColor: Colors.transparent
+            ),
             iconTheme: IconThemeData(
               color: Colors.grey
             ),

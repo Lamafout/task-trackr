@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,57 +33,41 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
           return Container(height: 0,);
         } else {
           updateTime((state as TimerIsWorksState).time.inSeconds);
-          return Material(
-            color: Colors.transparent,
+          return ClipRRect(
             child: Container(
-              height: 80,
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Platform.isIOS
-                ? Theme.of(context).cupertinoOverrideTheme!.primaryContrastingColor 
-                : Theme.of(context).cardColor,
-                borderRadius: const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black12,
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                  )
-                ]
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    margin: const EdgeInsets.only(right: 10),
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(15)),
-                      color: Platform.isIOS
-                      ? Theme.of(context).cupertinoOverrideTheme!.primaryColor
-                      : Theme.of(context).primaryColor
+              height: 70,
+              color: Platform.isIOS
+              ? Theme.of(context).cupertinoOverrideTheme!.primaryContrastingColor!.withOpacity(0.8) 
+              : Theme.of(context).cardColor.withOpacity(0.8),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 5,),
+                child: Row(
+                  children: [
+                    TimerButton(task: state.task),
+                    Container(
+                      margin: const EdgeInsets.only(right: 10),
+                      child: StopTimerButton(task: state.task,),
                     ),
-                    child: Text(
-                      '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}',
-                      style: Platform.isIOS
-                      ? Theme.of(context).primaryTextTheme.titleSmall!.copyWith(fontFamily: 'San-Francisco', color: Colors.white)
-                      : Theme.of(context).primaryTextTheme.titleSmall!.copyWith(color: Colors.white)                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      state.task.title!,
-                      style: Platform.isIOS
-                      ? Theme.of(context).primaryTextTheme.bodySmall!.copyWith(fontFamily: 'San-Francisco') 
-                      : Theme.of(context).primaryTextTheme.bodySmall,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 3,
+                    Expanded(
+                      child: Text(
+                        state.task.title!,
+                        style: Platform.isIOS
+                        ? Theme.of(context).primaryTextTheme.bodySmall!.copyWith(fontFamily: 'San-Francisco') 
+                        : Theme.of(context).primaryTextTheme.bodySmall,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 3,
+                      ),
                     ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(left: 10, right: 5),
-                    child: TimerButton(task: state.task),
-                  ),
-                  StopTimerButton(task: state.task,),
-                ],  
+                    Container(
+                      margin: const EdgeInsets.only(right: 13),
+                      child: Text(
+                        '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}',
+                        style: Platform.isIOS
+                        ? Theme.of(context).primaryTextTheme.titleMedium!.copyWith(fontFamily: 'San-Francisco', color: Colors.white)
+                        : Theme.of(context).primaryTextTheme.titleMedium!.copyWith(color: Colors.white)                    ),
+                    ),
+                  ],  
+                ),
               ),
             ),
           );
