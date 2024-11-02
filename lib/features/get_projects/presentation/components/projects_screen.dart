@@ -21,14 +21,12 @@ class ProjectsScreen extends StatelessWidget {
         resultList.add(
           Container(
             margin: const EdgeInsets.only(top: 30, bottom: 10),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 15.0),
-              child: Text(
-                project.status!.displayName,
-                style: Platform.isIOS
-                ? Theme.of(context).primaryTextTheme.headlineLarge!.copyWith(fontFamily: 'San-Francisco', fontWeight: FontWeight.w600)
-                : Theme.of(context).primaryTextTheme.headlineLarge,
-              ),
+            padding: const EdgeInsets.only(left: 15.0),
+            child: Text(
+              project.status!.displayName,
+              style: Platform.isIOS
+              ? Theme.of(context).primaryTextTheme.headlineLarge!.copyWith(fontFamily: 'San-Francisco', fontWeight: FontWeight.w600)
+              : Theme.of(context).primaryTextTheme.headlineLarge,
             ),
           ),
         );

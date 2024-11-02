@@ -78,19 +78,19 @@ class TrackerApp extends StatelessWidget {
             ),
              iconButtonTheme: IconButtonThemeData(
               style: ButtonStyle(
-                side: WidgetStateProperty.resolveWith<BorderSide>((Set<WidgetState> states) {
-                  if (states.contains(WidgetState.disabled)) {
-                    return const BorderSide(
-                      color: Colors.grey,
-                      width: 4
-                    );
-                  } else {
-                    return  BorderSide(
-                      color: lightColorScheme.primary,
-                      width: 4
-                    );
-                  }
-                }),
+                // side: WidgetStateProperty.resolveWith<BorderSide>((Set<WidgetState> states) {
+                //   if (states.contains(WidgetState.disabled)) {
+                //     return const BorderSide(
+                //       color: Colors.grey,
+                //       width: 4
+                //     );
+                //   } else {
+                //     return  BorderSide(
+                //       color: lightColorScheme.primary,
+                //       width: 4
+                //     );
+                //   }
+                // }),
                 iconColor: WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
                   if (states.contains(WidgetState.disabled)) {
                     return Colors.grey;
@@ -98,7 +98,6 @@ class TrackerApp extends StatelessWidget {
                     return lightColorScheme.primary;
                   }
                 }),
-                backgroundColor: const WidgetStatePropertyAll<Color>(Colors.transparent),
               )
             ),
             elevatedButtonTheme: ElevatedButtonThemeData(
@@ -164,19 +163,19 @@ class TrackerApp extends StatelessWidget {
             ),
              iconButtonTheme: IconButtonThemeData(
               style: ButtonStyle(
-                side: WidgetStateProperty.resolveWith<BorderSide>((Set<WidgetState> states) {
-                  if (states.contains(WidgetState.disabled)) {
-                    return const BorderSide(
-                      color: Colors.grey,
-                      width: 4
-                    );
-                  } else {
-                    return  BorderSide(
-                      color: darkColorScheme.primary,
-                      width: 4
-                    );
-                  }
-                }),
+                // side: WidgetStateProperty.resolveWith<BorderSide>((Set<WidgetState> states) {
+                //   if (states.contains(WidgetState.disabled)) {
+                //     return const BorderSide(
+                //       color: Colors.grey,
+                //       width: 4
+                //     );
+                //   } else {
+                //     return  BorderSide(
+                //       color: darkColorScheme.primary,
+                //       width: 4
+                //     );
+                //   }
+                // }),
                 iconColor: WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
                   if (states.contains(WidgetState.disabled)) {
                     return Colors.grey;
@@ -184,7 +183,6 @@ class TrackerApp extends StatelessWidget {
                     return darkColorScheme.primary;
                   }
                 }),
-                backgroundColor: const WidgetStatePropertyAll<Color>(Colors.transparent),
               )
             ),
             elevatedButtonTheme: ElevatedButtonThemeData(

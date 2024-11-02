@@ -18,23 +18,24 @@ class TasksScreen extends StatelessWidget {
     final resultList = <Widget>[];
     for (var task in tasks) {
       if (task.status!.displayName == currentStatus) {
-        resultList.add(TaskWidget(task: task));
+        resultList.add(Center(child: TaskWidget(task: task)));
       } else {
         currentStatus = task.status!.displayName; // меняем текущий статус на новый
         resultList.add(
           Container(
-            margin: const EdgeInsets.only(top: 30),
-            child: Center(
-              child: Text(
-                task.status!.displayName,
-                style: Platform.isIOS
-                ? Theme.of(context).primaryTextTheme.titleMedium!.copyWith(fontFamily: 'San-Francisco')
-                : Theme.of(context).primaryTextTheme.titleMedium,
-              ),
+            width: MediaQuery.of(context).size.width * 0.8,
+            margin: const EdgeInsets.only(top: 30, bottom: 10),
+            padding: const EdgeInsets.only(left: 15.0),
+            child: Text(
+              task.status!.displayName,
+              style: !Platform.isIOS
+              ? Theme.of(context).primaryTextTheme.headlineLarge!.copyWith(fontFamily: 'San-Francisco', fontWeight: FontWeight.w600   )
+              : Theme.of(context).primaryTextTheme.headlineLarge,
+              maxLines: 2,
             ),
           ),
         );
-        resultList.add(TaskWidget(task: task,));
+        resultList.add(Center(child: TaskWidget(task: task,)));
       }
     }
     return resultList;
@@ -82,6 +83,7 @@ class TasksScreen extends StatelessWidget {
                     );
                   case GotTasksState():
                     return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ..._drawListOfTasks(tasks: state.tasks, context: context),
                         const SizedBox(height: 90,)

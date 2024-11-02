@@ -50,7 +50,6 @@ class RemoteSource {
     if (response.statusCode == 200) {
       final List<dynamic> data = jsonDecode(response.data);
       final List<Project> listOfProjects = data.map((project) {    
-        print(project['status']);    
         return Project(
           id: project['id'],
           icon: project['icon'] != '' ? project['icon'] : null,
@@ -58,7 +57,6 @@ class RemoteSource {
           status: ProjectStatuses.values.map((status) => status.displayName).toList().contains(project['status']) ? ProjectStatuses.fromString(project['status'] as String) : null,
         );
       }).where((project) => (project.status != null)).toList();
-      print(listOfProjects);
       return listOfProjects;
     } else {
       throw Exception();

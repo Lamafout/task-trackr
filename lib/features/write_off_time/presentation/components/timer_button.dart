@@ -19,8 +19,8 @@ class TimerButton extends StatelessWidget {
         final bool isRunning = state is TimerIsRunningState && state.task.id == task.id;
         final bool isPaused = state is TimerIsPausedState && state.task.id == task.id; 
         final bool isAnyTaskRunning = state is TimerIsPausedState ||  state is TimerIsRunningState;
-        return IconButton.outlined(
-          iconSize: 20,
+        return IconButton(
+          iconSize: 35,
           onPressed: isAnyTaskRunning
           ? isRunning
             ? () {di<TimerButtonCubit>().pauseTimer(); }
