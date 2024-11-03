@@ -22,6 +22,7 @@ class TaskWidget extends StatelessWidget {
         child: Material(
           color: Colors.transparent,
           child: InkWell(
+            splashColor: task.status!.color,
             onTap: () {
               if (di<TimerButtonCubit>().state is TimerIsRunningState && (di<TimerButtonCubit>().state as TimerIsRunningState).task == task) {
                 di<TimerButtonCubit>().pauseTimer();

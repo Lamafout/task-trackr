@@ -21,9 +21,10 @@ class TaskContainer extends StatelessWidget {
           width: MediaQuery.of(context).size.width * 0.9,
           color: state is TimerIsWorksState
           ? state.task.id == task.id
-          // TODO add color with dependence on status
-            ? Theme.of(context).cupertinoOverrideTheme!.primaryContrastingColor
-            : Theme.of(context).cardColor
+            ? task.status!.color
+            : Platform.isIOS
+              ? Theme.of(context).cupertinoOverrideTheme!.primaryContrastingColor
+              : Theme.of(context).cardColor
           : Platform.isIOS
             ? Theme.of(context).cupertinoOverrideTheme!.primaryContrastingColor
             : Theme.of(context).cardColor,

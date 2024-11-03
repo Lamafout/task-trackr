@@ -8,8 +8,12 @@ class TimerButton extends StatelessWidget {
   const TimerButton({
     super.key,
     required this.task,
+    this.useTaskColor = true
   });
+
   final TaskClass task;
+  final bool useTaskColor;
+
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +34,9 @@ class TimerButton extends StatelessWidget {
           : () {di<TimerButtonCubit>().startTimer(task); },
           icon: Icon(
             isRunning ? Icons.pause_rounded : Icons.play_arrow_rounded,
+            color: useTaskColor
+            ? task.status!.color
+            : null,
           ),
         );
       }

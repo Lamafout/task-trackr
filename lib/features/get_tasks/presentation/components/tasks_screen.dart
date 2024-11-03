@@ -29,8 +29,8 @@ class TasksScreen extends StatelessWidget {
             child: Text(
               task.status!.displayName,
               style: !Platform.isIOS
-              ? Theme.of(context).primaryTextTheme.headlineLarge!.copyWith(fontFamily: 'San-Francisco', fontWeight: FontWeight.w600   )
-              : Theme.of(context).primaryTextTheme.headlineLarge,
+              ? Theme.of(context).primaryTextTheme.headlineLarge!.copyWith(fontFamily: 'San-Francisco', fontWeight: FontWeight.w600, color: task.status!.color)
+              : Theme.of(context).primaryTextTheme.headlineLarge!.copyWith(color: task.status!.color),
               maxLines: 2,
             ),
           ),
