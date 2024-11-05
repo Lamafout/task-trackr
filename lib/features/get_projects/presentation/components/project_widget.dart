@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:smooth_corner/smooth_corner.dart';
 import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/core/entities/project_class.dart';
 import 'package:task_trackr/features/get_tasks/presentation/bloc/get_tasks_bloc.dart';
@@ -37,18 +38,37 @@ class ProjectWidget extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    project.icon != null 
-                    ? SizedBox(
-                      height: 30,
-                      width: 30,
-                      child: CachedNetworkImage(
-                        imageUrl: project.icon as String,  
-                        errorWidget: (context, url, error) => const Icon(Icons.smartphone_rounded, size: 30,),
+                    SmoothClipRRect(
+                      smoothness: 0.6,
+                      borderRadius: const BorderRadius.all(Radius.circular(5)),
+                      child: project.icon != null 
+                      ? SizedBox(
+                        height: 30,
+                        width: 30,
+                        child: CachedNetworkImage(
+                          imageUrl: project.icon as String,  
+                          errorWidget: (context, url, error) {
+                            return Container(
+                              color: Theme.of(context).cardColor,
+                              child: Icon(
+                                Icons.folder,
+                                color: Theme.of(context).primaryTextTheme.displaySmall!.color, 
+                                size: 20,
+                              ),
+                            ); 
+                          },
+                        ),
+                      )
+                      : Container(
+                        height: 30,
+                        width: 30,
+                        color: Theme.of(context).cardColor,
+                        child: Icon(
+                            Icons.folder,
+                            color: Theme.of(context).primaryTextTheme.displaySmall!.color,
+                            size: 20,
+                          ),
                       ),
-                    )
-                    : const Icon(
-                      Icons.smartphone_rounded,
-                      size: 30,
                     ),
                               
                     Container(
