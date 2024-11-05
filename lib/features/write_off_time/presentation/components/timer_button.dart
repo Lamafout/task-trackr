@@ -30,12 +30,14 @@ class TimerButton extends StatelessWidget {
             ? () {di<TimerButtonCubit>().pauseTimer(); }
             : isPaused
               ? () {di<TimerButtonCubit>().startTimer(task); }
-              : null
+              : () {}
           : () {di<TimerButtonCubit>().startTimer(task); },
           icon: Icon(
             isRunning ? Icons.pause_rounded : Icons.play_arrow_rounded,
             color: useTaskColor
-            ? task.status!.color
+            ? isRunning || isPaused 
+              ? null
+              : task.status!.color
             : null,
           ),
         );

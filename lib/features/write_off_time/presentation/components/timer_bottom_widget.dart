@@ -63,8 +63,9 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
                       child: Text(
                         '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}',
                         style: Platform.isIOS
-                        ? Theme.of(context).primaryTextTheme.titleMedium!.copyWith(fontFamily: 'San-Francisco', color: Colors.white)
-                        : Theme.of(context).primaryTextTheme.titleMedium!.copyWith(color: Colors.white)                    ),
+                        ? Theme.of(context).primaryTextTheme.titleMedium!.copyWith(fontFamily: 'San-Francisco',)
+                        : Theme.of(context).primaryTextTheme.titleMedium!.copyWith()                    
+                      ),
                     ),
                   ],  
                 ),

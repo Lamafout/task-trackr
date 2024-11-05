@@ -28,7 +28,7 @@ class TasksScreen extends StatelessWidget {
             padding: const EdgeInsets.only(left: 15.0),
             child: Text(
               task.status!.displayName,
-              style: !Platform.isIOS
+              style: Platform.isIOS
               ? Theme.of(context).primaryTextTheme.headlineLarge!.copyWith(fontFamily: 'San-Francisco', fontWeight: FontWeight.w600, color: task.status!.color)
               : Theme.of(context).primaryTextTheme.headlineLarge!.copyWith(color: task.status!.color),
               maxLines: 2,
@@ -66,8 +66,8 @@ class TasksScreen extends StatelessWidget {
               title: Text(
                 project.name as String,
                 style: Platform.isIOS
-                ? Theme.of(context).primaryTextTheme.labelMedium!.copyWith(fontFamily: 'San-Francisco')
-                : Theme.of(context).primaryTextTheme.labelMedium,
+                ? Theme.of(context).primaryTextTheme.titleLarge!.copyWith(fontFamily: 'San-Francisco', fontWeight: FontWeight.bold)
+                : Theme.of(context).primaryTextTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold),
               ),
               centerTitle: true,
             ),

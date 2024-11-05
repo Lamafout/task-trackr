@@ -6,8 +6,8 @@ import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/core/entities/task_class.dart';
 import 'package:task_trackr/features/write_off_time/presentation/cubit/timer_button_cubit.dart';
 
-class TaskContainer extends StatelessWidget {
-  const TaskContainer({super.key, required this.child, required this.task});
+class TaskMaterial extends StatelessWidget {
+  const TaskMaterial({super.key, required this.child, required this.task});
   final Widget child;
   final TaskClass task;
 
@@ -16,9 +16,10 @@ class TaskContainer extends StatelessWidget {
     return BlocBuilder(
       bloc: di.get<TimerButtonCubit>(),
       builder: (context, state) {
-        return Container(
-          padding: const EdgeInsets.only(right: 10, top: 2, bottom: 2),
-          width: MediaQuery.of(context).size.width * 0.9,
+        final bool isRunning = state is TimerIsRunningState && state.task.id == task.id;
+        final bool isPaused = state is TimerIsPausedState && state.task.id == task.id; 
+        final bool isAnyTaskRunning = state is TimerIsPausedState ||  state is TimerIsRunningState;
+        return Material(
           color: state is TimerIsWorksState
           ? state.task.id == task.id
             ? task.status!.color
@@ -28,7 +29,17 @@ class TaskContainer extends StatelessWidget {
           : Platform.isIOS
             ? Theme.of(context).cupertinoOverrideTheme!.primaryContrastingColor
             : Theme.of(context).cardColor,
-          child: child,
+          child: InkWell(
+            splashColor: task.status!.color,
+            onTap: isAnyTaskRunning
+            ? isRunning
+              ? () {di<TimerButtonCubit>().pauseTimer(); }
+              : isPaused
+                ? () {di<TimerButtonCubit>().startTimer(task); }
+                : () {}
+            : () {di<TimerButtonCubit>().startTimer(task); },
+            child: child
+          ),
         );
       }
     );

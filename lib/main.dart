@@ -50,6 +50,9 @@ class TrackerApp extends StatelessWidget {
               displaySmall: TextStyle(
                 color: Colors.black
               ),
+              labelLarge: TextStyle(
+                color: Colors.black
+              ),
               labelMedium: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
@@ -78,19 +81,6 @@ class TrackerApp extends StatelessWidget {
             ),
              iconButtonTheme: IconButtonThemeData(
               style: ButtonStyle(
-                // side: WidgetStateProperty.resolveWith<BorderSide>((Set<WidgetState> states) {
-                //   if (states.contains(WidgetState.disabled)) {
-                //     return const BorderSide(
-                //       color: Colors.grey,
-                //       width: 4
-                //     );
-                //   } else {
-                //     return  BorderSide(
-                //       color: lightColorScheme.primary,
-                //       width: 4
-                //     );
-                //   }
-                // }),
                 iconColor: WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
                   if (states.contains(WidgetState.disabled)) {
                     return Colors.grey;
@@ -119,10 +109,10 @@ class TrackerApp extends StatelessWidget {
             ),
             cardColor: lightColorScheme.secondaryContainer,
             scaffoldBackgroundColor: lightColorScheme.surface,
-            bottomSheetTheme: BottomSheetThemeData(
+            bottomSheetTheme: const BottomSheetThemeData(
               backgroundColor: Colors.transparent
             ),
-            iconTheme: IconThemeData(
+            iconTheme: const IconThemeData(
               color: Colors.grey
             ),
 
@@ -166,19 +156,6 @@ class TrackerApp extends StatelessWidget {
             ),
              iconButtonTheme: IconButtonThemeData(
               style: ButtonStyle(
-                // side: WidgetStateProperty.resolveWith<BorderSide>((Set<WidgetState> states) {
-                //   if (states.contains(WidgetState.disabled)) {
-                //     return const BorderSide(
-                //       color: Colors.grey,
-                //       width: 4
-                //     );
-                //   } else {
-                //     return  BorderSide(
-                //       color: darkColorScheme.primary,
-                //       width: 4
-                //     );
-                //   }
-                // }),
                 iconColor: WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
                   if (states.contains(WidgetState.disabled)) {
                     return Colors.grey;
@@ -206,20 +183,20 @@ class TrackerApp extends StatelessWidget {
               )
             ),
             cardColor: darkColorScheme.secondaryContainer,
-            appBarTheme: AppBarTheme(
+            appBarTheme: const AppBarTheme(
               color: Colors.black
             ),
             scaffoldBackgroundColor: Colors.black,
-            bottomSheetTheme: BottomSheetThemeData(
+            bottomSheetTheme: const BottomSheetThemeData(
               backgroundColor: Colors.transparent
             ),
-            iconTheme: IconThemeData(
+            iconTheme: const IconThemeData(
               color: Colors.grey
             ),
 
             // cupertino
-            cupertinoOverrideTheme: NoDefaultCupertinoThemeData(
-              primaryContrastingColor: const Color.fromARGB(255, 55, 68, 93)
+            cupertinoOverrideTheme: const NoDefaultCupertinoThemeData(
+              primaryContrastingColor: Color.fromARGB(255, 55, 68, 93)
             )
           ),
 
@@ -240,11 +217,11 @@ class TrackerApp extends StatelessWidget {
                   if (state is AuthenticationIsSuccessState) {
                     if (Platform.isIOS) {
                       WidgetsBinding.instance.addPostFrameCallback((_) {
-                        Navigator.push(context, MaterialWithModalsPageRoute(builder: (context) => ProjectsScreen()));
+                        Navigator.push(context, MaterialWithModalsPageRoute(builder: (context) => const ProjectsScreen()));
                       });
-                      return Center(child: CupertinoActivityIndicator(),);
+                      return const Center(child: CupertinoActivityIndicator(),);
                     } else {
-                      return ProjectsScreen();
+                      return const ProjectsScreen();
                     }
                     
                   } else if (state is AuthenticationIsFailureState) {
