@@ -29,6 +29,14 @@ class TaskStatusesAdapter extends TypeAdapter<TaskStatuses> {
         return TaskStatuses.codeReview;
       case 7:
         return TaskStatuses.internalReview;
+      case 8:
+        return TaskStatuses.canUnload;
+      case 9:
+        return TaskStatuses.verification;
+      case 10:
+        return TaskStatuses.canceled;
+      case 11:
+        return TaskStatuses.done;
       default:
         return TaskStatuses.todo;
     }
@@ -60,6 +68,18 @@ class TaskStatusesAdapter extends TypeAdapter<TaskStatuses> {
         break;
       case TaskStatuses.internalReview:
         writer.writeByte(7);
+        break;
+      case TaskStatuses.canUnload:
+        writer.writeByte(8);
+        break;
+      case TaskStatuses.verification:
+        writer.writeByte(9);
+        break;
+      case TaskStatuses.canceled:
+        writer.writeByte(10);
+        break;
+      case TaskStatuses.done:
+        writer.writeByte(11);
         break;
     }
   }
