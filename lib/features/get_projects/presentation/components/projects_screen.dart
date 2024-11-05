@@ -7,6 +7,7 @@ import 'package:task_trackr/core/entities/project_class.dart';
 import 'package:task_trackr/features/get_projects/presentation/bloc/get_projects_bloc.dart';
 import 'package:task_trackr/features/get_projects/presentation/components/project_widget.dart';
 import 'package:task_trackr/features/write_off_time/presentation/components/timer_bottom_widget.dart';
+import 'package:task_trackr/features/write_off_time/presentation/cubit/timer_button_cubit.dart';
 
 class ProjectsScreen extends StatelessWidget {
   const ProjectsScreen({super.key});
@@ -67,7 +68,16 @@ class ProjectsScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ..._drawListOfProjects(projects: state.projects, context: context),
-                          const SizedBox(height: 90)
+                          BlocBuilder(
+                            bloc: di<TimerButtonCubit>(),
+                            builder: (context, state) {
+                              if (state is TimerButtonInitial) {
+                                return const SizedBox(height: 0,);
+                              } else {
+                                return const SizedBox(height: 75,);
+                              }
+                            },
+                          )
                         ],
                       );
                     case FailureWhileGettingProjectsState():
