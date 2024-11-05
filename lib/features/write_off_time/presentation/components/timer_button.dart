@@ -36,7 +36,9 @@ class TimerButton extends StatelessWidget {
             isRunning ? Icons.pause_rounded : Icons.play_arrow_rounded,
             color: useTaskColor
             ? isRunning || isPaused 
-              ? null
+              ? task.status!.displayName == 'В работе'
+                ? Colors.black
+                : Theme.of(context).primaryTextTheme.displaySmall!.color
               : task.status!.color
             : null,
           ),

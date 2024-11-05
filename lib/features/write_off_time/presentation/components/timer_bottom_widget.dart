@@ -43,7 +43,7 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
                 filter: ImageFilter.blur(sigmaX: 10, sigmaY: 5,),
                 child: Row(
                   children: [
-                    TimerButton(task: state.task),
+                    TimerButton(task: state.task, useTaskColor: false,),
                     Container(
                       margin: const EdgeInsets.only(right: 10),
                       child: StopTimerButton(task: state.task,),
