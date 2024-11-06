@@ -25,7 +25,7 @@ enum TaskStatuses {
   @HiveField(8)
   canUnload(displayName: 'Можно выгружать', color: Color(0xFF5856D6)),
    @HiveField(9)
-  verification(displayName: 'Проверерка клиентом', color: Color(0xFFFF9500)),
+  verification(displayName: 'Проверка клиентом', color: Color(0xFFFF9500)),
    @HiveField(10)
   canceled(displayName: 'Отменена', color: Color(0xFFFF3B30)),
    @HiveField(11)
