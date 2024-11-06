@@ -20,6 +20,8 @@ class GetTasksBloc extends Bloc<GetTasksEvent, GetTasksState> {
         (list) {
           if (list.isNotEmpty) {
             emit(GotTasksState(list));
+          } else {
+             emit(HaveNotTasksInThisProjectState());
           }
         }
       );
@@ -37,11 +39,14 @@ class GetTasksBloc extends Bloc<GetTasksEvent, GetTasksState> {
             (list) {
               if (list.isNotEmpty) {
                 emit(GotTasksState(list));
+              } else {
+                emit(HaveNotTasksInThisProjectState());
               }
             }
           );
         }
       );
+      print(this.state);
     });
 
     on<QuitFromTasksScreenEvent>((event, emit) {

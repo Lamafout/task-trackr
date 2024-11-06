@@ -13,6 +13,8 @@ class GotTasksState extends GetTasksState {
   GotTasksState(this.tasks);
 }
 
+class HaveNotTasksInThisProjectState extends GetTasksState {}
+
 class FailureWhileGettingTasksState extends GetTasksState {
   final String errorMessage;
 

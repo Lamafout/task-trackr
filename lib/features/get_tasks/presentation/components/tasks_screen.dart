@@ -78,15 +78,12 @@ class TasksScreen extends StatelessWidget {
               bloc: di<GetTasksBloc>(),
               builder:(context, state) {
                 switch (state) {
-                  case GetTasksLoading():
-                    return Center(
-                      child: SizedBox(height: MediaQuery.of(context).size.height * 0.8, child: Center(child: CircularProgressIndicator(color: Theme.of(context).indicatorColor,))),
-                    );
                   case GotTasksState():
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ..._drawListOfTasks(tasks: state.tasks, context: context),
+                        // регулирование размера отступа для корректного отображения плеера
                         BlocBuilder(
                           bloc: di<TimerButtonCubit>(),
                           builder: (context, state) {
@@ -99,10 +96,34 @@ class TasksScreen extends StatelessWidget {
                         )
                       ],
                     );
+
+                  case HaveNotTasksInThisProjectState():
+                    return SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.8, 
+                      child: Center(
+                        child: Text(
+                          'You have not any tasks in this project',
+                          style: Platform.isIOS 
+                          ? Theme.of(context).primaryTextTheme.labelLarge!.copyWith(fontFamily: 'San-Francisco', fontWeight: FontWeight.w600)
+                          : Theme.of(context).primaryTextTheme.labelLarge!.copyWith(fontWeight: FontWeight.w600),
+                        ),
+                      )
+                    );
+
                   case FailureWhileGettingTasksState():
                     return  SizedBox(height: MediaQuery.of(context).size.height * 0.8, child: Center(child: Text(state.errorMessage),));
+                  
                   default:
-                    return Container();
+                    return Center(
+                      child: SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.8, 
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: Theme.of(context).progressIndicatorTheme.color,
+                          )
+                        )
+                      ),
+                    );
                 }
               } ,
             ),

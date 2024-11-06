@@ -40,7 +40,7 @@ class ProjectWidget extends StatelessWidget {
                   children: [
                     SmoothClipRRect(
                       smoothness: 0.6,
-                      borderRadius: const BorderRadius.all(Radius.circular(5)),
+                      borderRadius: const BorderRadius.all(Radius.circular(7)),
                       child: project.icon != null 
                       ? SizedBox(
                         height: 30,
