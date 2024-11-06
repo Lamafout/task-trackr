@@ -23,7 +23,19 @@ class TimerButton extends StatelessWidget {
         final bool isRunning = state is TimerIsRunningState && state.task.id == task.id;
         final bool isPaused = state is TimerIsPausedState && state.task.id == task.id; 
         final bool isAnyTaskRunning = state is TimerIsPausedState ||  state is TimerIsRunningState;
-        return IconButton(
+        // TODO сделать айос кнопку
+        return IconButton.filled(
+          style: ButtonStyle(
+            backgroundColor: useTaskColor
+            ? const WidgetStatePropertyAll<Color>(Colors.transparent)
+            : WidgetStatePropertyAll<Color>(Colors.blue.withOpacity(0.3)),
+            fixedSize: useTaskColor
+            ? null
+            : const WidgetStatePropertyAll<Size>(Size(70, 70)),
+            shape: useTaskColor
+            ? null
+            : const WidgetStatePropertyAll<RoundedRectangleBorder>(RoundedRectangleBorder()),
+          ),
           iconSize: 35,
           onPressed: isAnyTaskRunning
           ? isRunning

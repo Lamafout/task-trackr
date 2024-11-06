@@ -40,15 +40,15 @@ class LocalSource {
     final box = di.get<Box<TaskClass>>();
     final List<TaskClass> tasks = box.values.where((task) => task.projectID == projectID).toList();
     tasks.sort((a, b) => a.status!.index.compareTo(b.status!.index));
-    print(tasks.where((task) => task.status!.displayName == 'В работе').map((task) => task.title));
     return tasks;
   }
 
   Future<void> saveTasks(List<TaskClass> tasks) async {
-    print(tasks.where((task) => task.status!.displayName == 'В работе').map((task) => task.title));
     final box = di<Box<TaskClass>>();
     for (var task in tasks) {
       box.put(task.id, task);
     }
   }
+
+  //TODO сделать сохранения состояния таймера и количества секунд
 }
