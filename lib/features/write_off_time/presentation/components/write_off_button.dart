@@ -31,7 +31,7 @@ class WriteOffButton extends StatelessWidget {
         child: ValueListenableBuilder(
           valueListenable: notifier,
           builder: (context, value, child) {
-            return !Platform.isIOS
+            return Platform.isIOS
             ? CupertinoButton(
               padding: EdgeInsets.zero,
               onPressed: value.isEmpty
@@ -61,7 +61,9 @@ class WriteOffButton extends StatelessWidget {
                   } else {
                     return Container(
                       decoration: BoxDecoration(
-                        color: task.status!.color,
+                        color: value.isEmpty
+                        ? Colors.white.withOpacity(0.05) 
+                        : task.status!.color,
                         shape: BoxShape.circle,
                       ),
                       padding: const EdgeInsets.all(15),
@@ -103,7 +105,7 @@ class WriteOffButton extends StatelessWidget {
                         height: 30,
                         padding: const EdgeInsets.all(5),
                         child: CircularProgressIndicator(
-                          color: Theme.of(context).indicatorColor,
+                          color: Colors.black.withOpacity(0.8),
                         ));
                   } else {
                     return Padding(

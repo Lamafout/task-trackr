@@ -43,100 +43,120 @@ class _WriteOffPageState extends State<WriteOffPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(15),
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
-        color: widget.task.status!.color.withOpacity(0.05)
+        color: Theme.of(context).scaffoldBackgroundColor
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          BlocBuilder(
-            bloc: di<TimerButtonCubit>(),
-            builder: (context, state) {
-              updateTime((state as TimerIsRunningState).time.inSeconds);
-              if (state is TimerButtonInitial) {
-                return Container();
-              } else {
-                return Text(
-                  '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}',
-                  style: !Platform.isIOS
-                  ? Theme.of(context).primaryTextTheme.displayMedium!.copyWith(fontFamily: 'San-Francisco', fontSize: 70)
-                  : Theme.of(context).primaryTextTheme.displayLarge!.copyWith(fontSize: 70)                    
-                );
+      child: Container(
+        height: Platform.isIOS
+        ? null
+        : MediaQuery.of(context).size.height * 0.9,
+        padding: const EdgeInsets.all(15),
+        decoration: BoxDecoration(
+          color: widget.task.status!.color.withOpacity(0.05),
+          borderRadius:  Platform.isIOS
+          ? null
+          : const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10))
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            BlocBuilder(
+              bloc: di<TimerButtonCubit>(),
+              builder: (context, state) {
+                updateTime((state as TimerIsWorksState).time.inSeconds);
+                if (state is TimerButtonInitial) {
+                  return Container();
+                } else {
+                  return Text(
+                    '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}',
+                    style: Platform.isIOS
+                    ? Theme.of(context).primaryTextTheme.displayMedium!.copyWith(fontFamily: 'San-Francisco', fontSize: 75)
+                    : Theme.of(context).primaryTextTheme.displayLarge!.copyWith(fontSize: 75)                    
+                  );
+                }
               }
-            }
-          ),
-          Column(
-            children: [
-              Container(
-                width: MediaQuery.of(context).size.width,
-                margin: const EdgeInsets.all(10),
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.05),
-                  borderRadius: const BorderRadius.all(Radius.circular(15))
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Opacity(
-                      opacity: 0.6,
-                      child: Text(
-                        widget.task.projectName!.toUpperCase(),
-                        style: Platform.isIOS
-                        ? Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(fontFamily: 'San-Francisco', fontWeight: FontWeight.w600) 
-                        : Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w600),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 3,
+            ),
+            SingleChildScrollView(
+              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: Column(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    margin: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.05),
+                      borderRadius: const BorderRadius.all(Radius.circular(15))
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Opacity(
+                          opacity: 0.6,
+                          child: Text(
+                            widget.task.projectName!.toUpperCase(),
+                            style: Platform.isIOS
+                            ? Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(fontFamily: 'San-Francisco', fontWeight: FontWeight.w600) 
+                            : Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w600),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 3,
+                          ),
+                        ),
+                        Text(
+                          widget.task.title!,
+                          style: Platform.isIOS
+                          ? Theme.of(context).primaryTextTheme.titleLarge!.copyWith(fontFamily: 'San-Francisco', fontWeight: FontWeight.w600) 
+                          : Theme.of(context).primaryTextTheme.titleLarge!.copyWith(fontWeight: FontWeight.w600),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 3,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.05),
+                      borderRadius: const BorderRadius.all(Radius.circular(15))
+                    ),
+                    child: Platform.isIOS
+                    ? CupertinoTextField(
+                      decoration: const BoxDecoration(
+                        color: Colors.transparent
                       ),
+                      controller: _textEditingController,
+                      autofocus: true,
+                      maxLines: null,
+                      style: Theme.of(context).primaryTextTheme.titleMedium!.copyWith(fontFamily: 'San-Francisco', fontWeight: FontWeight.w600),
+                      placeholder:  'write down what you were doing',
+                      cursorColor: widget.task.status!.color,
+                    ) 
+                    : TextField(
+                      controller: _textEditingController,
+                      autofocus: true,
+                      maxLines: null,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'write down what you were doing',
+                        hintStyle: TextStyle(
+                          color: Theme.of(context).primaryTextTheme.titleMedium!.color!.withOpacity(0.3)
+                        )
+                      ),
+                      style: Theme.of(context).primaryTextTheme.titleMedium!.copyWith(fontWeight: FontWeight.w600),
+                      
+                      cursorColor: widget.task.status!.color,
                     ),
-                    Text(
-                      widget.task.title!,
-                      style: Platform.isIOS
-                      ? Theme.of(context).primaryTextTheme.titleLarge!.copyWith(fontFamily: 'San-Francisco', fontWeight: FontWeight.w600) 
-                      : Theme.of(context).primaryTextTheme.titleLarge!.copyWith(fontWeight: FontWeight.w600),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 3,
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.all(10),
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.05),
-                  borderRadius: const BorderRadius.all(Radius.circular(15))
-                ),
-                child: !Platform.isIOS
-                ? CupertinoTextField(
-                  
-                  decoration: const BoxDecoration(
-                    color: Colors.transparent
                   ),
-                  controller: _textEditingController,
-                  autofocus: true,
-                  maxLines: null,
-                  minLines: 3,
-                  style: Theme.of(context).primaryTextTheme.titleMedium!.copyWith(fontFamily: 'San-Francisco', fontWeight: FontWeight.w600)
-                ) 
-                : TextField(
-                  controller: _textEditingController,
-                  autofocus: true,
-                  maxLines: null,
-                  decoration: const InputDecoration(
-                    border: InputBorder.none
-                  ),
-                  style: Theme.of(context).primaryTextTheme.titleMedium!.copyWith(fontWeight: FontWeight.w600)
-                ),
+                  WriteOffButton(task: widget.task, notifier: notifier,),
+                ],
               ),
-            ],
-          ),
-          WriteOffButton(task: widget.task, notifier: notifier,),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }

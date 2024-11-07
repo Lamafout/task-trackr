@@ -38,7 +38,7 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
           return ClipRRect(
             child: InkWell(
                onTap: () {
-                !Platform.isIOS
+                Platform.isIOS
                 ? showCupertinoModalBottomSheet(
                   context: context, 
                   builder: (context) {
