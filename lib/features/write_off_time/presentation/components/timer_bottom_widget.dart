@@ -84,7 +84,6 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
                                   ? Theme.of(context).primaryTextTheme.bodySmall!.copyWith(fontFamily: 'San-Francisco',) 
                                   : Theme.of(context).primaryTextTheme.bodySmall,
                                   overflow: TextOverflow.ellipsis,
-                                  maxLines: 3,
                                 ),
                               ),
                               // govnocode: on
@@ -95,7 +94,6 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
                                 ? Theme.of(context).primaryTextTheme.titleMedium!.copyWith(fontFamily: 'San-Francisco') 
                                 : Theme.of(context).primaryTextTheme.titleMedium,
                                 overflow: TextOverflow.ellipsis,
-                                maxLines: 3,
                               ),
                             ],
                           ),
@@ -106,8 +104,8 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
                         child: Text(
                           '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}',
                           style: Platform.isIOS
-                          ? Theme.of(context).primaryTextTheme.titleMedium!.copyWith(fontFamily: 'San-Francisco',)
-                          : Theme.of(context).primaryTextTheme.titleMedium!.copyWith()                    
+                          ? Theme.of(context).primaryTextTheme.titleMedium!.copyWith(fontFamily: 'San-Francisco', fontSize: 18, fontWeight: FontWeight.w600)
+                          : Theme.of(context).primaryTextTheme.titleMedium!.copyWith(fontSize: 18, fontWeight: FontWeight.w600)                    
                         ),
                       ),
                     ],  

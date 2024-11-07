@@ -50,7 +50,7 @@ class TrackerApp extends StatelessWidget {
             TargetPlatform.iOS: CupertinoPageTransitionsBuilder()
           }
         ),
-        
+
         primaryTextTheme: const TextTheme(
           displaySmall: TextStyle(
             color: Colors.black

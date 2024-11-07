@@ -32,7 +32,7 @@ class TimerButton extends StatelessWidget {
           style: ButtonStyle(
             backgroundColor: useTaskColor
             ? const WidgetStatePropertyAll<Color>(Colors.transparent)
-            : WidgetStatePropertyAll<Color>(Colors.blue.withOpacity(0.3)),
+            : WidgetStatePropertyAll<Color>(task.status!.color.withOpacity(0.3)),
             fixedSize: useTaskColor
             ? null
             : const WidgetStatePropertyAll<Size>(Size(60, 60)),
@@ -73,7 +73,7 @@ class TimerButton extends StatelessWidget {
                 ? Colors.black
                 : Theme.of(context).primaryTextTheme.displaySmall!.color
               : task.status!.color
-            : null,
+            : task.status!.color,
           ),
         );
       }
