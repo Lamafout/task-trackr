@@ -31,7 +31,7 @@ class TimerButton extends StatelessWidget {
             : WidgetStatePropertyAll<Color>(Colors.blue.withOpacity(0.3)),
             fixedSize: useTaskColor
             ? null
-            : const WidgetStatePropertyAll<Size>(Size(70, 70)),
+            : const WidgetStatePropertyAll<Size>(Size(60, 60)),
             shape: useTaskColor
             ? null
             : const WidgetStatePropertyAll<RoundedRectangleBorder>(RoundedRectangleBorder()),

@@ -43,6 +43,14 @@ class TrackerApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: lightColorScheme,
         useMaterial3: true,
+
+        // iOS like page transition (change to .android for tests)
+        pageTransitionsTheme: const PageTransitionsTheme(
+          builders: <TargetPlatform, PageTransitionsBuilder> {
+            TargetPlatform.iOS: CupertinoPageTransitionsBuilder()
+          }
+        ),
+        
         primaryTextTheme: const TextTheme(
           displaySmall: TextStyle(
             color: Colors.black
@@ -53,7 +61,6 @@ class TrackerApp extends StatelessWidget {
           labelMedium: TextStyle(
             fontWeight: FontWeight.bold,
             color: Colors.black,
-            fontSize: 20,
           ),
           headlineLarge: TextStyle(
             color: Colors.black,
@@ -122,6 +129,15 @@ class TrackerApp extends StatelessWidget {
       darkTheme: ThemeData(
         colorScheme: darkColorScheme,
         useMaterial3: true,
+
+        // iOS like page transition (change to .android for tests)
+        pageTransitionsTheme: const PageTransitionsTheme(
+          builders: <TargetPlatform, PageTransitionsBuilder> {
+            TargetPlatform.iOS: CupertinoPageTransitionsBuilder()
+          }
+        ),
+
+
         primaryTextTheme: const TextTheme(
           displaySmall: TextStyle(
             color: Colors.white
@@ -197,7 +213,7 @@ class TrackerApp extends StatelessWidget {
         )
       ),
 
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.dark,
 
       home: Scaffold(
         body: BlocListener(
