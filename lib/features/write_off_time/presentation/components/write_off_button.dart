@@ -9,10 +9,13 @@ import 'package:task_trackr/features/write_off_time/presentation/bloc/write_off_
 import 'package:task_trackr/features/write_off_time/presentation/cubit/timer_button_cubit.dart';
 
 class WriteOffButton extends StatelessWidget {
-  final TextEditingController textEditingController;
   final TaskClass task;
-  const WriteOffButton(
-      {super.key, required this.textEditingController, required this.task});
+  final ValueNotifier<String> notifier;
+  const WriteOffButton({
+    super.key, 
+    required this.task,
+    required this.notifier
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,68 +28,160 @@ class WriteOffButton extends StatelessWidget {
       },
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.6,
-        child: Platform.isIOS
+        child: ValueListenableBuilder(
+          valueListenable: notifier,
+          builder: (context, value, child) {
+            return !Platform.isIOS
             ? CupertinoButton(
-                padding: const EdgeInsets.symmetric(horizontal: 50),
-                color: Theme.of(context).cupertinoOverrideTheme!.primaryContrastingColor,
-                onPressed: () {
-                  di<WriteOffBloc>().add(WriteOffAndPostComment(
-                      time: (di<TimerButtonCubit>().state as TimerIsWorksState)
-                          .time
-                          .inSeconds,
-                      comment: textEditingController.text,
-                      task: task.id!));
-                  di<TimerButtonCubit>()
-                      .stopTimer(); // ивент разблокирует кнопки тасков, делая текущий таск незапущенным
-                  Navigator.pop(context);
-                },
-                child: BlocBuilder(
-                    bloc: di<WriteOffBloc>(),
-                    builder: (context, state) {
-                      if (state is WriteOffLoading) {
-                        return const CupertinoActivityIndicator();
-                      } else {
-                        if (state is WriteOffSuccess) {
-                          Navigator.pop(context);
-                        }
-                        return Text(
-                          'Write off time',
-                          style: Theme.of(context).primaryTextTheme.titleMedium!.copyWith(fontFamily: 'San-Francisco', color: Colors.white),
-                        );
-                      }
-                    }))
-            : ElevatedButton(
-                onPressed: () {
-                  di<WriteOffBloc>().add(WriteOffAndPostComment(
-                      time: (di<TimerButtonCubit>().state as TimerIsWorksState)
-                          .time
-                          .inSeconds,
-                      comment: textEditingController.text,
-                      task: task.id!));
-                  di<TimerButtonCubit>()
-                      .stopTimer(); // ивент разблокирует кнопки тасков, делая текущий таск незапущенным
-                },
-                child: BlocBuilder(
-                    bloc: di<WriteOffBloc>(),
-                    builder: (context, state) {
-                      if (state is WriteOffLoading) {
-                        return Container(
-                            width: 30,
-                            height: 30,
-                            padding: const EdgeInsets.all(5),
-                            child: CircularProgressIndicator(
-                              color: Theme.of(context).indicatorColor,
-                            ));
-                      } else {
-                        return Text(
-                          'Write off time',
-                          style: Theme.of(context)
-                              .primaryTextTheme
-                              .titleMedium!
-                              .copyWith(color: Colors.white),
-                        );
-                      }
-                    })),
+              padding: EdgeInsets.zero,
+              onPressed: value.isEmpty
+              ? () {}
+              : () {
+                di<WriteOffBloc>().add(WriteOffAndPostComment(
+                    time: (di<TimerButtonCubit>().state as TimerIsWorksState)
+                        .time
+                        .inSeconds,
+                    comment: value,
+                    task: task.id!));
+                di<TimerButtonCubit>()
+                    .stopTimer(); // ивент разблокирует кнопки тасков, делая текущий таск незапущенным
+                Navigator.pop(context);
+              },
+              child: BlocBuilder(
+                bloc: di<WriteOffBloc>(),
+                builder: (context, state) {
+                  if (state is WriteOffLoading) {
+                    return Container(
+                        width: 30,
+                        height: 30,
+                        padding: const EdgeInsets.all(5),
+                        child: CircularProgressIndicator(
+                          color: Theme.of(context).indicatorColor,
+                        ));
+                  } else {
+                    return Container(
+                      decoration: BoxDecoration(
+                        color: task.status!.color,
+                        shape: BoxShape.circle,
+                      ),
+                      padding: const EdgeInsets.all(15),
+                      child: Icon(
+                        Icons.pause_rounded,
+                        size: 70,
+                        color: Colors.black.withOpacity(0.8),
+                      ),
+                    );
+                  }
+                }
+              )
+            )
+            : MaterialButton(
+              color: task.status!.color,
+              shape: const CircleBorder(),
+              splashColor: value.isEmpty
+              ? Colors.transparent
+              : null,
+              onPressed: value.isEmpty
+              ? () {}
+              : () {
+                di<WriteOffBloc>().add(WriteOffAndPostComment(
+                    time: (di<TimerButtonCubit>().state as TimerIsWorksState)
+                        .time
+                        .inSeconds,
+                    comment: value,
+                    task: task.id!));
+                di<TimerButtonCubit>()
+                    .stopTimer(); // ивент разблокирует кнопки тасков, делая текущий таск незапущенным
+                Navigator.pop(context);
+              },
+              child: BlocBuilder(
+                bloc: di<WriteOffBloc>(),
+                builder: (context, state) {
+                  if (state is WriteOffLoading) {
+                    return Container(
+                        width: 30,
+                        height: 30,
+                        padding: const EdgeInsets.all(5),
+                        child: CircularProgressIndicator(
+                          color: Theme.of(context).indicatorColor,
+                        ));
+                  } else {
+                    return Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Icon(
+                        Icons.pause_rounded,
+                        size: 70,
+                        color: Colors.black.withOpacity(0.8),
+                      ),
+                    );
+                  }
+                }
+              )
+            );
+          }
+        ),
+        // child: Platform.isIOS
+        //     ? CupertinoButton(
+        //         padding: const EdgeInsets.symmetric(horizontal: 50),
+        //         color: Theme.of(context).cupertinoOverrideTheme!.primaryContrastingColor,
+        //         onPressed: () {
+        //           di<WriteOffBloc>().add(WriteOffAndPostComment(
+        //               time: (di<TimerButtonCubit>().state as TimerIsWorksState)
+        //                   .time
+        //                   .inSeconds,
+        //               comment: textEditingController.text,
+        //               task: task.id!));
+        //           di<TimerButtonCubit>()
+        //               .stopTimer(); // ивент разблокирует кнопки тасков, делая текущий таск незапущенным
+        //           Navigator.pop(context);
+        //         },
+        //         child: BlocBuilder(
+        //             bloc: di<WriteOffBloc>(),
+        //             builder: (context, state) {
+        //               if (state is WriteOffLoading) {
+        //                 return const CupertinoActivityIndicator();
+        //               } else {
+        //                 if (state is WriteOffSuccess) {
+        //                   Navigator.pop(context);
+        //                 }
+        //                 return Text(
+        //                   'Write off time',
+        //                   style: Theme.of(context).primaryTextTheme.titleMedium!.copyWith(fontFamily: 'San-Francisco', color: Colors.white),
+        //                 );
+        //               }
+        //             }))
+        //     : ElevatedButton(
+        //         onPressed: () {
+        //           di<WriteOffBloc>().add(WriteOffAndPostComment(
+        //               time: (di<TimerButtonCubit>().state as TimerIsWorksState)
+        //                   .time
+        //                   .inSeconds,
+        //               comment: textEditingController.text,
+        //               task: task.id!));
+        //           di<TimerButtonCubit>()
+        //               .stopTimer(); // ивент разблокирует кнопки тасков, делая текущий таск незапущенным
+        //         },
+        //         child: BlocBuilder(
+        //             bloc: di<WriteOffBloc>(),
+        //             builder: (context, state) {
+        //               if (state is WriteOffLoading) {
+        //                 return Container(
+        //                     width: 30,
+        //                     height: 30,
+        //                     padding: const EdgeInsets.all(5),
+        //                     child: CircularProgressIndicator(
+        //                       color: Theme.of(context).indicatorColor,
+        //                     ));
+        //               } else {
+        //                 return Text(
+        //                   'Write off time',
+        //                   style: Theme.of(context)
+        //                       .primaryTextTheme
+        //                       .titleMedium!
+        //                       .copyWith(color: Colors.white),
+        //                 );
+        //               }
+        //             })),
       ),
     );
   }

@@ -22,7 +22,7 @@ class ProjectWidget extends StatelessWidget {
           di<GetTasksBloc>().add(GetTasksOfProjectsEvent(project.id as String));
           Navigator.push(
               context,
-              Platform.isIOS
+              !Platform.isIOS
               ? MaterialWithModalsPageRoute(builder: (context) => TasksScreen(project: project))
               : MaterialPageRoute(builder: (context) => TasksScreen(project: project))
             ); 

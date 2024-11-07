@@ -13,6 +13,8 @@ class TaskClass {
   final TaskStatuses? status;
   @HiveField(3)
   String? projectID;
+  @HiveField(4)
+  String? projectName;
 
   TaskClass({this.id, this.title, this.status, this.projectID});
 }

@@ -16,9 +16,12 @@ class GetTasksRepositoryImpl implements GetTasksRepository {
     final employeeID = localSource.getID();
     try {
       final result = await remoteSource.getTasks(employeeID:  employeeID, projectID:  projectID);
+      final projects = await localSource.getProjects();
       for (var task in result) {
         task.projectID = projectID;
+        task.projectName = projects.firstWhere((project) => project.id == projectID).name; 
       }
+
 
       await localSource.saveTasks(result);
 

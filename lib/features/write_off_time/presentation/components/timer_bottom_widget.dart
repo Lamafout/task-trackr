@@ -38,12 +38,13 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
           return ClipRRect(
             child: InkWell(
                onTap: () {
-                Platform.isIOS
+                !Platform.isIOS
                 ? showCupertinoModalBottomSheet(
                   context: context, 
                   builder: (context) {
                     return WriteOffPage(task: state.task);
-                  }
+                  },
+                  expand: true
                 )
                 : showModalBottomSheet(
                   isScrollControlled: true,
@@ -78,7 +79,7 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
                               Opacity(
                                 opacity: 0.6,
                                 child: Text(
-                                  state.task.title!.toUpperCase(),
+                                  state.task.projectName!.toUpperCase(),
                                   style: Platform.isIOS
                                   ? Theme.of(context).primaryTextTheme.bodySmall!.copyWith(fontFamily: 'San-Francisco',) 
                                   : Theme.of(context).primaryTextTheme.bodySmall,

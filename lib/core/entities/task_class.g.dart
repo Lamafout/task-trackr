@@ -21,13 +21,13 @@ class TaskClassAdapter extends TypeAdapter<TaskClass> {
       title: fields[1] as String?,
       status: fields[2] as TaskStatuses?,
       projectID: fields[3] as String?,
-    );
+    )..projectName = fields[4] as String?;
   }
 
   @override
   void write(BinaryWriter writer, TaskClass obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -35,7 +35,9 @@ class TaskClassAdapter extends TypeAdapter<TaskClass> {
       ..writeByte(2)
       ..write(obj.status)
       ..writeByte(3)
-      ..write(obj.projectID);
+      ..write(obj.projectID)
+      ..writeByte(4)
+      ..write(obj.projectName);
   }
 
   @override
