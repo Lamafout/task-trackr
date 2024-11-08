@@ -66,10 +66,10 @@ class _WriteOffPageState extends State<WriteOffPage> {
             BlocBuilder(
               bloc: di<TimerButtonCubit>(),
               builder: (context, state) {
-                updateTime((state as TimerIsWorksState).time.inSeconds);
                 if (state is TimerButtonInitial) {
                   return Container();
                 } else {
+                  updateTime((state as TimerIsWorksState).time.inSeconds);
                   return Text(
                     '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}',
                     style: Platform.isIOS
