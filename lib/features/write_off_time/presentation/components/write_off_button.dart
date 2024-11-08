@@ -80,7 +80,9 @@ class WriteOffButton extends StatelessWidget {
               )
             )
             : MaterialButton(
-              color: task.status!.color,
+              color: value.isEmpty
+              ? Colors.white.withOpacity(0.05) 
+              : task.status!.color,
               shape: const CircleBorder(),
               splashColor: value.isEmpty
               ? Colors.transparent
@@ -95,7 +97,8 @@ class WriteOffButton extends StatelessWidget {
                     comment: value,
                     task: task.id!));
                 di<TimerButtonCubit>()
-                    .stopTimer(); // ивент разблокирует кнопки тасков, делая текущий таск незапущенным
+                    .stopTimer();
+                di<CachedTimerBloc>().add(ClearStateFromCacheEvent()); // ивент разблокирует кнопки тасков, делая текущий таск незапущенным
                 Navigator.pop(context);
               },
               child: BlocBuilder(
