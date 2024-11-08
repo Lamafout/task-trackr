@@ -10,3 +10,4 @@ class GotStateFromCache extends CachedTimerState {
 }
 
 class CacheIsEmpty extends CachedTimerState {}
+class FailureState extends CachedTimerState {}

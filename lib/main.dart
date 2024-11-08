@@ -10,9 +10,11 @@ import 'package:task_trackr/config/project_statuses.dart';
 import 'package:task_trackr/config/task_statuses.dart';
 import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/core/entities/project_class.dart';
+import 'package:task_trackr/core/entities/running_timer_state_class.dart';
 import 'package:task_trackr/core/entities/task_class.dart';
 import 'package:task_trackr/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:task_trackr/features/auth/presentation/components/auth_screen.dart';
+import 'package:task_trackr/features/cached_timer/presentation/bloc/cached_timer_bloc.dart';
 import 'package:task_trackr/features/get_projects/presentation/bloc/get_projects_bloc.dart';
 import 'package:task_trackr/features/get_projects/presentation/components/projects_screen.dart';
 
@@ -24,6 +26,7 @@ Future<void> main() async {
   Hive.registerAdapter(ProjectAdapter());
   Hive.registerAdapter(TaskStatusesAdapter());
   Hive.registerAdapter(ProjectStatusesAdapter());
+  Hive.registerAdapter(RunningTimerStateAdapter());
 
   await dotenv.load(fileName: 'lib/core/server_token.env');
   await setupDi();
@@ -36,6 +39,7 @@ class TrackerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     di<AuthBloc>().add(EnterIntoApplication()); // Запуск события аутентификации
+    di<CachedTimerBloc>().add(GetStateFromCacheEvent()); // Запуск события для поиска в кэше информации о текущем таске
 
     ColorScheme lightColorScheme = ColorScheme.fromSwatch(primarySwatch: Colors.indigo,);
     ColorScheme darkColorScheme = ColorScheme.fromSwatch(brightness: Brightness.dark , primarySwatch: Colors.indigo, backgroundColor: Colors.grey[700] ,cardColor: Colors.grey[850]);

@@ -9,7 +9,7 @@ class RunningTimerState {
   @HiveField(0)
   final TaskClass task;
   @HiveField(1)
-  final Duration time;
+  final int time;
 
   RunningTimerState({
     required this.task,
@@ -17,10 +17,10 @@ class RunningTimerState {
   });
 
   factory RunningTimerState.fromState(TimerIsWorksState state) {
-    return RunningTimerState(task: state.task, time: state.time);
+    return RunningTimerState(task: state.task, time: state.time.inSeconds);
   }
 
   TimerIsPausedState toState() {
-    return TimerIsPausedState(task: task, time: time);
+    return TimerIsPausedState(task: task, time: Duration(seconds:  time));
   }
 }

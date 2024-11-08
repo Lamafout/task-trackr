@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/core/entities/task_class.dart';
+import 'package:task_trackr/features/cached_timer/presentation/bloc/cached_timer_bloc.dart';
 import 'package:task_trackr/features/write_off_time/presentation/bloc/write_off_bloc.dart';
 import 'package:task_trackr/features/write_off_time/presentation/cubit/timer_button_cubit.dart';
 
@@ -44,7 +45,8 @@ class WriteOffButton extends StatelessWidget {
                     comment: value,
                     task: task.id!));
                 di<TimerButtonCubit>()
-                    .stopTimer(); // ивент разблокирует кнопки тасков, делая текущий таск незапущенным
+                    .stopTimer();
+                di<CachedTimerBloc>().add(ClearStateFromCacheEvent()); // ивент разблокирует кнопки тасков, делая текущий таск незапущенным
                 Navigator.pop(context);
               },
               child: BlocBuilder(
