@@ -47,7 +47,6 @@ class WriteOffButton extends StatelessWidget {
                 di<TimerButtonCubit>()
                     .stopTimer();
                 di<CachedTimerBloc>().add(ClearStateFromCacheEvent()); // ивент разблокирует кнопки тасков, делая текущий таск незапущенным
-                Navigator.pop(context);
               },
               child: BlocBuilder(
                 bloc: di<WriteOffBloc>(),
@@ -61,6 +60,9 @@ class WriteOffButton extends StatelessWidget {
                           color: Theme.of(context).indicatorColor,
                         ));
                   } else {
+                    if (state is WriteOffSuccess) {
+                      Navigator.pop(context);
+                    }
                     return Container(
                       decoration: BoxDecoration(
                         color: value.isEmpty
@@ -113,6 +115,9 @@ class WriteOffButton extends StatelessWidget {
                           color: Colors.black.withOpacity(0.8),
                         ));
                   } else {
+                    if (state is WriteOffSuccess) {
+                      Navigator.pop(context);
+                    }
                     return Padding(
                       padding: const EdgeInsets.all(15),
                       child: Icon(
