@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task_trackr/core/entities/project_class.dart';
+import 'package:task_trackr/core/entities/running_timer_state_class.dart';
 import 'package:task_trackr/core/entities/task_class.dart';
 import 'package:task_trackr/core/interceptors/header_interceptor.dart';
 import 'package:task_trackr/core/sources/local_source.dart';
@@ -9,6 +10,9 @@ import 'package:task_trackr/core/sources/remote_source.dart';
 import 'package:task_trackr/features/auth/data/auth_repository_impl.dart';
 import 'package:task_trackr/features/auth/domain/auth_use_case.dart';
 import 'package:task_trackr/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:task_trackr/features/cached_timer/data/cached_timer_repository_impl.dart';
+import 'package:task_trackr/features/cached_timer/domain/cached_timer_usecases.dart';
+import 'package:task_trackr/features/cached_timer/presentation/bloc/cached_timer_bloc.dart';
 import 'package:task_trackr/features/get_employees/data/get_employees_repository_impl.dart';
 import 'package:task_trackr/features/get_employees/domain/get_employees_use_case.dart';
 import 'package:task_trackr/features/get_employees/presentation/bloc/get_employees_bloc.dart';
@@ -38,6 +42,8 @@ Future<void> setupDi() async {
   di.registerSingleton<Box<TaskClass>>(taskBox);
   final projectBox = await Hive.openBox<Project>('projects');
   di.registerSingleton<Box<Project>>(projectBox);
+  final timerStateBox = await Hive.openBox<RunningTimerState>('timerState');
+  di.registerSingleton<Box<RunningTimerState>>(timerStateBox);
 
   // interceptors
   di.registerSingleton<HeaderInterceptor>(HeaderInterceptor());
@@ -77,4 +83,9 @@ Future<void> setupDi() async {
   di.registerLazySingleton<WriteOffUseCase>(() => WriteOffUseCase(di<WriteOffRepositoryImpl>()));
   di.registerSingleton<WriteOffBloc>(WriteOffBloc());
   di.registerSingleton<TimerButtonCubit>(TimerButtonCubit());
+
+  // cache timer state feature
+  di.registerLazySingleton<CachedTimerRepositoryImpl>(() => CachedTimerRepositoryImpl(localSource: di<LocalSource>()));
+  di.registerLazySingleton<CachedTimerUsecases>(() => CachedTimerUsecases(repository: di<CachedTimerRepositoryImpl>()));
+  di.registerSingleton<CachedTimerBloc>(CachedTimerBloc());
 }

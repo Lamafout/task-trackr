@@ -3,8 +3,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/core/entities/employee_class.dart';
 import 'package:task_trackr/core/entities/project_class.dart';
+import 'package:task_trackr/core/entities/running_timer_state_class.dart';
 import 'package:task_trackr/core/entities/task_class.dart';
 import 'package:task_trackr/core/exceptions/exceptions.dart';
+import 'package:task_trackr/features/write_off_time/presentation/cubit/timer_button_cubit.dart';
 
 class LocalSource {
   Future<void> setID(String userId) async {
@@ -50,5 +52,19 @@ class LocalSource {
     }
   }
 
-  //TODO сделать сохранения состояния таймера и количества секунд
+  Future<void> saveTimerState(TimerIsWorksState state) async {
+    final box = di<Box<RunningTimerState>>();
+    box.put('state', RunningTimerState.fromState(state));
+  }
+
+   Future<TimerIsWorksState?> getTimerState() async {
+     final box = di<Box<RunningTimerState>>();
+     final state = box.get('state');
+     return state?.toState();
+   }
+
+   Future<void> clearStates() async {
+     final box = di<Box<RunningTimerState>>();
+     box.clear();
+   }
 }
