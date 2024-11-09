@@ -8,7 +8,6 @@ part 'cached_timer_state.dart';
 
 class CachedTimerBloc extends Bloc<CachedTimerEvent, CachedTimerState> {
   CachedTimerBloc() : super(CachedTimerInitial()) {
-    print('GET FROM CACHE EVENT');
     on<GetStateFromCacheEvent>((event, emit) async {
       final useCases = di<CachedTimerUsecases>();
       final result = await useCases.loadTimerFromCache();
@@ -18,10 +17,8 @@ class CachedTimerBloc extends Bloc<CachedTimerEvent, CachedTimerState> {
         },
         (state) {
           if (state == null) {
-            print('CACHE IS EMPTY');
             emit(CacheIsEmpty());
           } else {
-            print('GOT STATE: ${state.task.title}');
             di<TimerButtonCubit>().setTimer(state as TimerIsPausedState);
             emit(GotStateFromCache(state));
           }
@@ -31,7 +28,6 @@ class CachedTimerBloc extends Bloc<CachedTimerEvent, CachedTimerState> {
     });
 
     on<LoadStateToCacheEvent>((event, emit) async {
-      print('LOAD TO CACHE EVENT');
       final useCases = di<CachedTimerUsecases>();
       final result = await useCases.cacheTimer(state: event.state);
       result.fold(
@@ -39,7 +35,6 @@ class CachedTimerBloc extends Bloc<CachedTimerEvent, CachedTimerState> {
           emit(FailureState());
         },
         (success) {
-          print('LOADED!');
           CachedTimerInitial();
         }
       );

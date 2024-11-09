@@ -56,10 +56,10 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
                },
               child: Container(
                 color: Platform.isIOS
-                ? Theme.of(context).cupertinoOverrideTheme!.primaryContrastingColor!.withOpacity(0.8) 
-                : Theme.of(context).cardColor.withOpacity(0.8),
+                ? Theme.of(context).cupertinoOverrideTheme!.primaryContrastingColor!.withOpacity(0.95) 
+                : Theme.of(context).cardColor.withOpacity(0.95),
                 child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 5,),
+                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10,),
                   child: Row(
                     children: [
                       Container(
@@ -100,7 +100,7 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
                         ),
                       ),
                       Container(
-                        margin: const EdgeInsets.only(right: 13),
+                        margin: const EdgeInsets.only(right: 13, left: 26),
                         child: Text(
                           '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}',
                           style: Platform.isIOS

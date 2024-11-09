@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/core/entities/task_class.dart';
+import 'package:task_trackr/features/write_off_time/presentation/components/write_off_page.dart';
 import 'package:task_trackr/features/write_off_time/presentation/cubit/timer_button_cubit.dart';
 
 class TaskMaterial extends StatelessWidget {
@@ -32,12 +34,36 @@ class TaskMaterial extends StatelessWidget {
           child: InkWell(
             splashColor: task.status!.color,
             onTap: isAnyTaskRunning
-            ? isRunning
-              ? () {di<TimerButtonCubit>().pauseTimer(); }
-              : isPaused
-                ? () {di<TimerButtonCubit>().startTimer(task); }
-                : () {}
-            : () {di<TimerButtonCubit>().startTimer(task); },
+          ? isRunning
+            ? () {
+                Platform.isIOS
+                ? showCupertinoModalBottomSheet(
+                  enableDrag: false,
+                   context: context,
+                   builder: (context) {
+                     return WriteOffPage(task: task);
+                   },
+                )
+                : showModalBottomSheet(
+                   isScrollControlled: true,
+                   enableDrag: false,
+                   context: context,
+                   builder: (context) {
+                     return WriteOffPage(task: task);
+                   },
+                );
+              }
+            : isPaused
+              ? () {di<TimerButtonCubit>().startTimer(task); }
+              : () {}
+          : () {di<TimerButtonCubit>().startTimer(task); },
+            // onTap: isAnyTaskRunning
+            // ? isRunning
+            //   ? () {di<TimerButtonCubit>().pauseTimer(); }
+            //   : isPaused
+            //     ? () {di<TimerButtonCubit>().startTimer(task); }
+            //     : () {}
+            // : () {di<TimerButtonCubit>().startTimer(task); },
             child: child
           ),
         );
