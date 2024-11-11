@@ -12,6 +12,7 @@ flutter_launcher_icons:
   image_path: "assets/icon/ic_launcher_round.png"
 
 dependencies:
+  blur: ^4.0.0
   cached_network_image: ^3.4.1
   dartz: ^0.10.1
   dio: ^5.7.0
