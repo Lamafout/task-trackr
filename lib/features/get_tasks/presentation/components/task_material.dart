@@ -38,7 +38,6 @@ class TaskMaterial extends StatelessWidget {
             ? () {
                 Platform.isIOS
                 ? showCupertinoModalBottomSheet(
-                  enableDrag: false,
                    context: context,
                    builder: (context) {
                      return WriteOffPage(task: task);
@@ -46,7 +45,6 @@ class TaskMaterial extends StatelessWidget {
                 )
                 : showModalBottomSheet(
                    isScrollControlled: true,
-                   enableDrag: false,
                    context: context,
                    builder: (context) {
                      return WriteOffPage(task: task);

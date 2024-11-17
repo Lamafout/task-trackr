@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:blur/blur.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -59,8 +58,8 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
                 color: Platform.isIOS
                 ? Theme.of(context).cupertinoOverrideTheme!.primaryContrastingColor!.withOpacity(0.95) 
                 : Theme.of(context).cardColor.withOpacity(0.95),
-                child: Blur(
-                  blur: 5,
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10,),
                   child: Row(
                     children: [
                       Container(

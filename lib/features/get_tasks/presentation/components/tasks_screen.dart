@@ -46,6 +46,9 @@ class TasksScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
+        physics: Platform.isIOS
+        ? const BouncingScrollPhysics()
+        : null,
         slivers: [
           SliverAppBar(
             floating: true,

@@ -44,6 +44,7 @@ class TimerButton extends StatelessWidget {
           onPressed: isAnyTaskRunning
           ? isRunning
             ? () {
+                di<TimerButtonCubit>().pauseTimer();
                 Platform.isIOS
                 ? showCupertinoModalBottomSheet(
                   enableDrag: false,
@@ -66,7 +67,7 @@ class TimerButton extends StatelessWidget {
               : () {}
           : () {di<TimerButtonCubit>().startTimer(task); },
           icon: Icon(
-            isRunning ? Icons.pause_rounded : Icons.play_arrow_rounded,
+            isRunning ? Icons.stop_rounded : Icons.play_arrow_rounded,
             color: useTaskColor
             ? isRunning || isPaused 
               ? task.status!.displayName == 'В работе'

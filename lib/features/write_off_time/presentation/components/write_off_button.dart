@@ -121,7 +121,7 @@ class WriteOffButton extends StatelessWidget {
                     return Padding(
                       padding: const EdgeInsets.all(15),
                       child: Icon(
-                        Icons.pause_rounded,
+                        Icons.stop_rounded,
                         size: 70,
                         color: Colors.black.withOpacity(0.8),
                       ),
