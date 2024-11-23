@@ -20,3 +20,4 @@ class FailureWhileGettingTasksState extends GetTasksState {
 
   FailureWhileGettingTasksState(this.errorMessage);
 }
+

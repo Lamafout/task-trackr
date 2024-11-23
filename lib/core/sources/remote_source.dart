@@ -79,7 +79,6 @@ class RemoteSource {
           status: TaskStatuses.values.map((status) => status.displayName).toList().contains(task['status']) ? TaskStatuses.fromString(task['status'] as String) : null,
         );
       }).where((task) => (task.status != null)).toList();
-      print(listOfTasks.where((task) => task.status!.displayName == 'В работе').map((task) => task.title));
       return listOfTasks;
     } else {
       throw Exception();

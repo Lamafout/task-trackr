@@ -22,7 +22,6 @@ class GetTasksRepositoryImpl implements GetTasksRepository {
         task.projectName = projects.firstWhere((project) => project.id == projectID).name; 
       }
 
-
       await localSource.saveTasks(result);
 
       return const Right(null);

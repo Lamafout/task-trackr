@@ -33,10 +33,10 @@ class LocalSource {
 
   Future<void> saveProjects(List<Project> projects) async {
     final box = di<Box<Project>>();
+    await box.clear();
     for (var project in projects) {
       box.put(project.id, project);
-    }
-  }
+    }  }
 
   Future<List<TaskClass>> getTasks(String projectID) async {
     final box = di.get<Box<TaskClass>>();
@@ -47,6 +47,7 @@ class LocalSource {
 
   Future<void> saveTasks(List<TaskClass> tasks) async {
     final box = di<Box<TaskClass>>();
+    await box.clear();
     for (var task in tasks) {
       box.put(task.id, task);
     }

@@ -36,8 +36,8 @@ class EmployeesScreenState extends State<EmployeesScreen> {
               title: Text(
                 'Choose your fighter',
                 style: Platform.isIOS
-                ? Theme.of(context).primaryTextTheme.headlineLarge!.copyWith(fontFamily: 'San-Francisco', fontWeight: FontWeight.w600)
-                : Theme.of(context).primaryTextTheme.headlineLarge,
+                ? Theme.of(context).primaryTextTheme.titleLarge!.copyWith(fontFamily: 'San-Francisco', fontWeight: FontWeight.w600)
+                : Theme.of(context).primaryTextTheme.titleLarge,
               ),
               centerTitle: true,
             ),
