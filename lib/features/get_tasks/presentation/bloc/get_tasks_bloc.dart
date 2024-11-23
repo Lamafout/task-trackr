@@ -20,8 +20,6 @@ class GetTasksBloc extends Bloc<GetTasksEvent, GetTasksState> {
         (list) {
           if (list.isNotEmpty) {
             emit(GotTasksState(list));
-          } else {
-            emit(HaveNotTasksInThisProjectState());
           }
         }
       );
