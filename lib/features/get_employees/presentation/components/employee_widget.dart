@@ -1,12 +1,11 @@
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_corner/smooth_corner.dart';
 import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/core/entities/employee_class.dart';
 import 'package:task_trackr/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:task_trackr/features/get_employees/presentation/components/employee_avatar.dart';
 import 'package:task_trackr/features/select_employee/presentation/bloc/set_employee_bloc.dart';
 
 class EmployeeWidget extends StatelessWidget {
@@ -41,25 +40,8 @@ class EmployeeWidget extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(90)),
-                    child: SizedBox(
-                      height: 30,
-                      width: 30,
-                      child: employee.photo != null
-                      ? CachedNetworkImage(
-                        fit: BoxFit.fitHeight,
-                        imageUrl: employee.photo!,
-                        placeholder: (context, url) => Container(padding: const EdgeInsets.all(25), child: Platform.isIOS ? CupertinoActivityIndicator(color: Theme.of(context).primaryColor,) : CircularProgressIndicator(strokeWidth: 4, color: Theme.of(context).primaryColor,)),
-                        errorWidget: (context, url, error) {
-                          return const Icon(Icons.person, size: 30);
-                        },
-                        filterQuality: FilterQuality.none,
-                        useOldImageOnUrlChange: true,
-                      )
-                      : const Icon(Icons.person, size: 30),
-                    ),
-                  ),
+                  EmpployeeAvatar(employee: employee),
+
                   Container(
                     margin: const EdgeInsets.only(left: 20),
                     width: MediaQuery.of(context).size.width * 0.5,

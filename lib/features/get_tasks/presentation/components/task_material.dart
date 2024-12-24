@@ -55,13 +55,6 @@ class TaskMaterial extends StatelessWidget {
               ? () {di<TimerButtonCubit>().startTimer(task); }
               : () {}
           : () {di<TimerButtonCubit>().startTimer(task); },
-            // onTap: isAnyTaskRunning
-            // ? isRunning
-            //   ? () {di<TimerButtonCubit>().pauseTimer(); }
-            //   : isPaused
-            //     ? () {di<TimerButtonCubit>().startTimer(task); }
-            //     : () {}
-            // : () {di<TimerButtonCubit>().startTimer(task); },
             child: child
           ),
         );
