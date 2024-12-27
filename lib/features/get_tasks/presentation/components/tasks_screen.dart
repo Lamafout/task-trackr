@@ -1,7 +1,10 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smooth_corner/smooth_corner.dart';
+import 'package:task_trackr/core/components/ios_like_scroll_physics.dart';
 import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/core/entities/project_class.dart';
 import 'package:task_trackr/core/entities/task_class.dart';
@@ -10,9 +13,20 @@ import 'package:task_trackr/features/get_tasks/presentation/components/task_widg
 import 'package:task_trackr/features/write_off_time/presentation/components/timer_bottom_widget.dart';
 import 'package:task_trackr/features/write_off_time/presentation/cubit/timer_button_cubit.dart';
 
-class TasksScreen extends StatelessWidget {
+class TasksScreen extends StatefulWidget {
   final Project project;
   const TasksScreen({super.key, required this.project});
+
+  @override
+  State<TasksScreen> createState() => _TasksScreenState();
+}
+
+class _TasksScreenState extends State<TasksScreen> {
+  @override
+  void initState() {
+    super.initState();
+    di<GetTasksBloc>().add(GetTasksOfProjectsEvent(widget.project.id!));
+  }
 
   List<Widget> _drawListOfTasks({required List<TaskClass> tasks, required BuildContext context}) { // нужно для того, чтобы поделить на блоки по статусам
     String currentStatus = '';
@@ -29,9 +43,7 @@ class TasksScreen extends StatelessWidget {
             padding: const EdgeInsets.only(left: 15.0),
             child: Text(
               task.status!.displayName,
-              style: Platform.isIOS
-              ? Theme.of(context).primaryTextTheme.headlineLarge!.copyWith(fontFamily: 'San-Francisco', fontWeight: FontWeight.w600, color: task.status!.color)
-              : Theme.of(context).primaryTextTheme.headlineLarge!.copyWith(color: task.status!.color),
+              style: Theme.of(context).primaryTextTheme.headlineLarge!.copyWith(fontWeight: FontWeight.w700, color: task.status!.color),
               maxLines: 2,
             ),
           ),
@@ -47,12 +59,12 @@ class TasksScreen extends StatelessWidget {
     return Scaffold(
       body: CustomScrollView(
         physics: Platform.isIOS
-        ? const BouncingScrollPhysics()
+        ? const AlwaysBouncingScrollPhysics()
         : null,
         slivers: [
           SliverAppBar(
-            floating: true,
-            snap: true,
+            pinned: true,
+            surfaceTintColor: Colors.transparent,
             leading: IconButton.outlined(
               style: const ButtonStyle(
                 backgroundColor: WidgetStatePropertyAll<Color>(Colors.transparent),
@@ -67,11 +79,50 @@ class TasksScreen extends StatelessWidget {
               )
             ),
             flexibleSpace: FlexibleSpaceBar(
-              title: Text(
-                project.name as String,
-                style: Platform.isIOS
-                ? Theme.of(context).primaryTextTheme.titleLarge!.copyWith(fontFamily: 'San-Francisco', fontWeight: FontWeight.bold)
-                : Theme.of(context).primaryTextTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold),
+
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SmoothClipRRect(
+                    smoothness: 0.6,
+                    borderRadius: const BorderRadius.all(Radius.circular(7)),
+                    child: widget.project.icon != null 
+                    ? SizedBox(
+                      height: 30,
+                      width: 30,
+                      child: CachedNetworkImage(
+                        imageUrl: widget.project.icon as String,  
+                        errorWidget: (context, url, error) {
+                          return Container(
+                            color: Theme.of(context).cardColor,
+                            child: Icon(
+                              Icons.folder,
+                              color: Theme.of(context).primaryTextTheme.displaySmall!.color, 
+                              size: 20,
+                            ),
+                          ); 
+                        },
+                      ),
+                    )
+                    : Container(
+                      height: 30,
+                      width: 30,
+                      color: Theme.of(context).cardColor,
+                      child: Icon(
+                          Icons.folder,
+                          color: Theme.of(context).primaryTextTheme.displaySmall!.color,
+                          size: 20,
+                        ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 10),
+                    child: Text(
+                      widget.project.name as String,
+                      style: Theme.of(context).primaryTextTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold,),
+                    ),
+                  ),
+                ],
               ),
               centerTitle: true,
             ),
@@ -106,9 +157,7 @@ class TasksScreen extends StatelessWidget {
                       child: Center(
                         child: Text(
                           'You have not any tasks in this project',
-                          style: Platform.isIOS 
-                          ? Theme.of(context).primaryTextTheme.labelLarge!.copyWith(fontFamily: 'San-Francisco', fontWeight: FontWeight.w600)
-                          : Theme.of(context).primaryTextTheme.labelLarge!.copyWith(fontWeight: FontWeight.w600),
+                          style: Theme.of(context).primaryTextTheme.labelLarge!.copyWith(fontWeight: FontWeight.w600),
                         ),
                       )
                     );

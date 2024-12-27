@@ -72,9 +72,7 @@ class _WriteOffPageState extends State<WriteOffPage> {
                   updateTime((state as TimerIsWorksState).time.inSeconds);
                   return Text(
                     '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}',
-                    style: Platform.isIOS
-                    ? Theme.of(context).primaryTextTheme.displayMedium!.copyWith(fontFamily: 'San-Francisco', fontSize: 75)
-                    : Theme.of(context).primaryTextTheme.displayLarge!.copyWith(fontSize: 75)                    
+                    style: Theme.of(context).primaryTextTheme.displayLarge!.copyWith(fontSize: 75)                    
                   );
                 }
               }
@@ -98,18 +96,14 @@ class _WriteOffPageState extends State<WriteOffPage> {
                           opacity: 0.6,
                           child: Text(
                             widget.task.projectName!.toUpperCase(),
-                            style: Platform.isIOS
-                            ? Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(fontFamily: 'San-Francisco', fontWeight: FontWeight.w600) 
-                            : Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w600),
+                            style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w600),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 3,
                           ),
                         ),
                         Text(
                           widget.task.title!,
-                          style: Platform.isIOS
-                          ? Theme.of(context).primaryTextTheme.titleLarge!.copyWith(fontFamily: 'San-Francisco', fontWeight: FontWeight.w600) 
-                          : Theme.of(context).primaryTextTheme.titleLarge!.copyWith(fontWeight: FontWeight.w600),
+                          style: Theme.of(context).primaryTextTheme.titleLarge!.copyWith(fontWeight: FontWeight.w600),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 3,
                         ),
@@ -131,7 +125,7 @@ class _WriteOffPageState extends State<WriteOffPage> {
                       controller: _textEditingController,
                       autofocus: true,
                       maxLines: null,
-                      style: Theme.of(context).primaryTextTheme.titleMedium!.copyWith(fontFamily: 'San-Francisco', fontWeight: FontWeight.w600),
+                      style: Theme.of(context).primaryTextTheme.titleMedium,
                       placeholder:  'write down what you were doing',
                       cursorColor: widget.task.status!.color,
                     ) 
@@ -146,7 +140,7 @@ class _WriteOffPageState extends State<WriteOffPage> {
                           color: Theme.of(context).primaryTextTheme.titleMedium!.color!.withOpacity(0.3)
                         )
                       ),
-                      style: Theme.of(context).primaryTextTheme.titleMedium!.copyWith(fontWeight: FontWeight.w600),
+                      style: Theme.of(context).primaryTextTheme.titleMedium,
                       
                       cursorColor: widget.task.status!.color,
                     ),

@@ -1,10 +1,12 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:task_trackr/core/di/di.dart';
+import 'package:task_trackr/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:task_trackr/features/get_employees/presentation/bloc/get_employees_bloc.dart';
 import 'package:task_trackr/features/get_employees/presentation/components/employee_list.dart';
+import 'package:task_trackr/features/get_projects/presentation/components/projects_screen.dart';
+import 'package:task_trackr/features/select_employee/presentation/bloc/set_employee_bloc.dart';
 
 class EmployeesScreen extends StatefulWidget {
   const EmployeesScreen({super.key});
@@ -14,31 +16,36 @@ class EmployeesScreen extends StatefulWidget {
 }
 
 class EmployeesScreenState extends State<EmployeesScreen> {
+  late final GetEmployeesBloc bloc;
+
+  @override
+  void initState() {
+    super.initState();
+    bloc = di<GetEmployeesBloc>();
+    bloc.add(GetListOfEmployees());
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomScrollView(
+    return BlocListener(
+      bloc: di<SetEmployeeBloc>(),
+      listener: (context, state) {
+        if (state is SettedState) {
+          di<AuthBloc>().add(EnterIntoApplication());
+          Navigator.pushReplacement(context, MaterialWithModalsPageRoute(builder: (context) => const ProjectsScreen()));
+        }
+      },
+      child: Scaffold(
+          body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            leading: IconButton.outlined(
-              style: const ButtonStyle(
-                backgroundColor: WidgetStatePropertyAll<Color>(Colors.transparent),
-                side: WidgetStatePropertyAll<BorderSide>(BorderSide.none)
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              }, 
-              icon: const Icon(
-                Icons.arrow_back,
-              )
-            ),
+            pinned: true,
+            surfaceTintColor: Colors
+                .transparent, //this disables material effect when user scrolls screen
+            leading: Container(),
             flexibleSpace: FlexibleSpaceBar(
-              title: Text(
-                'Choose your fighter',
-                style: Platform.isIOS
-                ? Theme.of(context).primaryTextTheme.titleLarge!.copyWith(fontFamily: 'San-Francisco', fontWeight: FontWeight.w600)
-                : Theme.of(context).primaryTextTheme.titleLarge,
-              ),
+              title: Text('Who are you?',
+                  style: Theme.of(context).primaryTextTheme.titleLarge),
               centerTitle: true,
             ),
           ),
@@ -51,7 +58,9 @@ class EmployeesScreenState extends State<EmployeesScreen> {
                     return SizedBox(
                       height: MediaQuery.of(context).size.height * 0.8,
                       child: Center(
-                        child: CircularProgressIndicator(color: Theme.of(context).primaryColor,),
+                        child: CircularProgressIndicator(
+                          color: Theme.of(context).primaryColor,
+                        ),
                       ),
                     );
                   case LoadedListOfEmployeesState():
@@ -59,17 +68,19 @@ class EmployeesScreenState extends State<EmployeesScreen> {
                   case FailureWhileLoadedListOfEmployeesState():
                     return Column(
                       children: [
-                        Center(child: Text(state.errorMessage),),
+                        Center(
+                          child: Text(state.errorMessage),
+                        ),
                       ],
                     );
-                  default: 
+                  default:
                     return Container();
                 }
               },
             ),
           )
         ],
-      )
+      )),
     );
   }
 }

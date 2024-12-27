@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 final ColorScheme darkColorScheme = ColorScheme.fromSwatch(brightness: Brightness.dark , primarySwatch: Colors.indigo, backgroundColor: Colors.grey[700] ,cardColor: Colors.grey[850]);
+
+final String? fontFamily = Platform.isIOS ? 'SF-Pro' : null;
 
 final appDarkTheme = ThemeData(
   colorScheme: darkColorScheme,
@@ -14,13 +18,13 @@ final appDarkTheme = ThemeData(
     }
   ),
 
+  fontFamily: fontFamily,
 
   primaryTextTheme: const TextTheme(
     displaySmall: TextStyle(
       color: Colors.white
     ),
     labelMedium: TextStyle(
-      fontWeight: FontWeight.bold,
       color: Colors.white,
     ),
     headlineLarge: TextStyle(
@@ -35,7 +39,8 @@ final appDarkTheme = ThemeData(
       color: Colors.white
     ),
     titleMedium: TextStyle(
-      color: Colors.white
+      color: Colors.white,
+      fontWeight: FontWeight.w600
     ),
     bodyMedium: TextStyle(
       color: Colors.white
@@ -83,9 +88,4 @@ final appDarkTheme = ThemeData(
   iconTheme: const IconThemeData(
     color: Colors.grey
   ),
-
-  // cupertino
-  cupertinoOverrideTheme: const NoDefaultCupertinoThemeData(
-    primaryContrastingColor: Color.fromARGB(255, 55, 68, 93)
-  )
 );

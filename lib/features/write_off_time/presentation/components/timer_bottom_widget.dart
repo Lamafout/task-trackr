@@ -80,9 +80,7 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
                                 opacity: 0.6,
                                 child: Text(
                                   state.task.projectName!.toUpperCase(),
-                                  style: Platform.isIOS
-                                  ? Theme.of(context).primaryTextTheme.bodySmall!.copyWith(fontFamily: 'San-Francisco',) 
-                                  : Theme.of(context).primaryTextTheme.bodySmall,
+                                  style: Theme.of(context).primaryTextTheme.bodySmall,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
@@ -90,9 +88,7 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
                               // const SizedBox(height: 5),
                               Text(
                                 state.task.title!,
-                                style: Platform.isIOS
-                                ? Theme.of(context).primaryTextTheme.titleMedium!.copyWith(fontFamily: 'San-Francisco') 
-                                : Theme.of(context).primaryTextTheme.titleMedium,
+                                style: Theme.of(context).primaryTextTheme.titleMedium,
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ],
@@ -103,9 +99,7 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
                         margin: const EdgeInsets.only(right: 13, left: 26),
                         child: Text(
                           '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}',
-                          style: Platform.isIOS
-                          ? Theme.of(context).primaryTextTheme.titleMedium!.copyWith(fontFamily: 'San-Francisco', fontSize: 18, fontWeight: FontWeight.w600)
-                          : Theme.of(context).primaryTextTheme.titleMedium!.copyWith(fontSize: 18, fontWeight: FontWeight.w600)                    
+                          style: Theme.of(context).primaryTextTheme.titleMedium!.copyWith(fontSize: 18, fontWeight: FontWeight.w600)                    
                         ),
                       ),
                     ],  

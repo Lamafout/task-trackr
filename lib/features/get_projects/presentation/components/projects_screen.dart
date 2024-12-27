@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:task_trackr/core/components/ios_like_scroll_physics.dart';
 import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/core/entities/project_class.dart';
 import 'package:task_trackr/features/get_projects/presentation/bloc/get_projects_bloc.dart';
@@ -9,8 +10,22 @@ import 'package:task_trackr/features/get_projects/presentation/components/projec
 import 'package:task_trackr/features/write_off_time/presentation/components/timer_bottom_widget.dart';
 import 'package:task_trackr/features/write_off_time/presentation/cubit/timer_button_cubit.dart';
 
-class ProjectsScreen extends StatelessWidget {
+class ProjectsScreen extends StatefulWidget {
   const ProjectsScreen({super.key});
+
+  @override
+  State<ProjectsScreen> createState() => _ProjectsScreenState();
+}
+
+class _ProjectsScreenState extends State<ProjectsScreen> {
+  late final GetProjectsBloc bloc;
+  @override
+  void initState() {
+    super.initState();
+    bloc = di<GetProjectsBloc>();
+    bloc.add(ShowListOfActiveProjectsEvent());
+  }
+
   List<Widget> _drawListOfProjects({required List<Project> projects, required BuildContext context}) { // нужно для того, чтобы поделить на блоки по статусам
     String currentStatus = '';
     final resultList = <Widget>[];
@@ -25,9 +40,7 @@ class ProjectsScreen extends StatelessWidget {
             padding: const EdgeInsets.only(left: 15.0),
             child: Text(
               project.status!.displayName,
-              style: Platform.isIOS
-              ? Theme.of(context).primaryTextTheme.headlineLarge!.copyWith(fontFamily: 'San-Francisco', fontWeight: FontWeight.w600)
-              : Theme.of(context).primaryTextTheme.headlineLarge,
+              style: Theme.of(context).primaryTextTheme.headlineLarge!.copyWith(fontWeight: FontWeight.w700),
             ),
           ),
         );
@@ -42,19 +55,17 @@ class ProjectsScreen extends StatelessWidget {
     return Scaffold(
       body: CustomScrollView(
         physics: Platform.isIOS?
-        const BouncingScrollPhysics()
+        const AlwaysBouncingScrollPhysics()
         : null,
         slivers: [
           SliverAppBar(
             automaticallyImplyLeading: false,
-            snap: true,
-            floating: true,
+            pinned: true,
+            surfaceTintColor: Colors.transparent,
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
                 'Projects',
-                style: Platform.isIOS
-                ? Theme.of(context).primaryTextTheme.titleLarge!.copyWith(fontFamily: 'San-Francisco', fontWeight: FontWeight.bold)
-                : Theme.of(context).primaryTextTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold),
+                style: Theme.of(context).primaryTextTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold),
               ),
               centerTitle: true,
             ),

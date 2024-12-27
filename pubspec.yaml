@@ -39,8 +39,19 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   fonts:
-    - family: San-Francisco
+    - family: SF-Pro
       fonts:
-      - asset: assets/fonts/SF-Pro.ttf
+      - asset: assets/fonts/SFProText-Regular.ttf
+        weight: 400
+      - asset: assets/fonts/SFProText-Light.ttf
+        weight: 300
+      - asset: assets/fonts/SFProText-Medium.ttf
+        weight: 500
+      - asset: assets/fonts/SFProText-Semibold.ttf
+        weight: 600
+      - asset: assets/fonts/SFProText-Bold.ttf
+        weight: 700
+      - asset: assets/fonts/SFProText-Heavy.ttf
+        weight: 800
   assets:
     - lib/core/server_token.env

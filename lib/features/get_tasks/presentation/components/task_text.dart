@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_trackr/core/di/di.dart';
@@ -27,13 +25,7 @@ class TaskText extends StatelessWidget {
         : null;
         return Text(
           task.title as String,
-          style: Platform.isIOS 
-          ? Theme.of(context).primaryTextTheme.labelLarge!.copyWith(
-            fontFamily: 'San-Francisco', 
-            fontWeight: FontWeight.w600,
-            color: color
-          )
-          : Theme.of(context).primaryTextTheme.labelLarge!.copyWith(color: color),
+          style: Theme.of(context).primaryTextTheme.titleMedium!.copyWith(color: color, fontWeight: FontWeight.w600),
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
         );

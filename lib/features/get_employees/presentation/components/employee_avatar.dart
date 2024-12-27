@@ -75,7 +75,7 @@ class EmptyAvatar extends StatelessWidget {
       child: Center(
         child: Text(
           _getInitials(),
-          style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.white)
+          style: Theme.of(context).primaryTextTheme.titleMedium
         ),
       ),
     );
