@@ -54,7 +54,7 @@ class RemoteSource {
           id: project['id'],
           icon: project['icon'] != '' ? project['icon'] : null,
           name: project['name'],
-          status: ProjectStatuses.values.map((status) => status.displayName).toList().contains(project['status']) ? ProjectStatuses.fromString(project['status'] as String) : null,
+          status: ProjectStatuses.isCorrectStatus(project['status']) ? ProjectStatuses.fromString(project['status'] as String) : null,
         );
       }).where((project) => (project.status != null)).toList();
       return listOfProjects;
