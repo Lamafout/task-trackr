@@ -4,19 +4,16 @@ import 'package:dio/dio.dart';
 import 'package:task_trackr/config/paths_to_pages.dart';
 import 'package:task_trackr/config/project_statuses.dart';
 import 'package:task_trackr/config/task_statuses.dart';
-import 'package:task_trackr/core/di/di.dart';
-import 'package:task_trackr/core/entities/employee_class.dart';
-import 'package:task_trackr/core/entities/project_class.dart';
-import 'package:task_trackr/core/entities/task_class.dart';
-import 'package:task_trackr/core/entities/time_request.dart';
+import 'package:task_trackr/core/models/employee_class.dart';
+import 'package:task_trackr/core/models/project_class.dart';
+import 'package:task_trackr/core/models/task_class.dart';
+import 'package:task_trackr/core/models/time_request.dart';
 import 'package:task_trackr/core/exceptions/exceptions.dart';
-import 'package:task_trackr/core/interceptors/header_interceptor.dart';
 
 class RemoteSource {
   final Dio dio;
-  RemoteSource() : dio = Dio() {
-    dio.interceptors.add(di<HeaderInterceptor>());
-  }
+  RemoteSource(this.dio);
+
   CancelToken? _cancelToken;
   void _cancelRequest() {
     if (_cancelToken != null && !_cancelToken!.isCancelled) {
@@ -26,21 +23,28 @@ class RemoteSource {
 
 
   Future<List<Employee>> getEmployees() async {
-    final response = await dio.get(getEmployeesPath);
+    print('TRYING TO GET EMPLOYEES');
+    try {
+      final response = await dio.get(getEmployeesPath);
+      print('${response.statusCode}');
 
-    if (response.statusCode == 200) {
-      final List<dynamic> data = jsonDecode(response.data);
-      final List<Employee> listOfEmployees = data.map((employee) {
-        return Employee(
-          id: employee['id'] as String?,
-          name: employee['username'] as String,
-          email: employee['email'] as String?,
-          photo: employee['icon'] != '' ? employee['icon'] as String? : null,
-        );
-      }).toList();
-      return listOfEmployees;
-    } else {
-      throw InternetException();
+      if (response.statusCode == 200) {
+        final List<dynamic> data = jsonDecode(response.data);
+        final List<Employee> listOfEmployees = data.map((employee) {
+          return Employee(
+            id: employee['id'] as String?,
+            name: employee['username'] as String,
+            email: employee['email'] as String?,
+            photo: employee['icon'] != '' ? employee['icon'] as String? : null,
+          );
+        }).toList();
+        return listOfEmployees;
+      } else {
+        throw InternetException();
+      }
+    } on Exception catch(e, st) {
+      print('$e\n$st');
+      rethrow;
     }
   }
 
@@ -49,6 +53,7 @@ class RemoteSource {
    
     if (response.statusCode == 200) {
       final List<dynamic> data = jsonDecode(response.data);
+      print(data);
       final List<Project> listOfProjects = data.map((project) {    
         return Project(
           id: project['id'],

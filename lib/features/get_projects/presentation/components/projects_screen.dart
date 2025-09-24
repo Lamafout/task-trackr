@@ -3,11 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_trackr/core/components/ios_like_scroll_physics.dart';
+import 'package:task_trackr/core/components/logger_header.dart';
 import 'package:task_trackr/core/di/di.dart';
-import 'package:task_trackr/core/entities/project_class.dart';
+import 'package:task_trackr/core/models/project_class.dart';
 import 'package:task_trackr/features/get_projects/presentation/bloc/get_projects_bloc.dart';
 import 'package:task_trackr/features/get_projects/presentation/components/project_widget.dart';
-import 'package:task_trackr/features/write_off_time/presentation/components/timer_bottom_widget.dart';
+import 'package:task_trackr/features/timer/presentation/components/timer_bottom_widget.dart';
 import 'package:task_trackr/features/write_off_time/presentation/cubit/timer_button_cubit.dart';
 
 class ProjectsScreen extends StatefulWidget {
@@ -63,9 +64,11 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
             pinned: true,
             surfaceTintColor: Colors.transparent,
             flexibleSpace: FlexibleSpaceBar(
-              title: Text(
-                'Projects',
-                style: Theme.of(context).primaryTextTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold),
+              title: LoggerHeader(
+                child: Text(
+                  'Projects',
+                  style: Theme.of(context).primaryTextTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold),
+                ),
               ),
               centerTitle: true,
             ),

@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_trackr/core/di/di.dart';
-import 'package:task_trackr/core/entities/project_class.dart';
+import 'package:task_trackr/core/models/project_class.dart';
 import 'package:task_trackr/features/get_projects/domain/get_projects_use_case.dart';
 
 part 'get_projects_event.dart';

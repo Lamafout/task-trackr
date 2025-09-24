@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:task_trackr/core/components/logger_header.dart';
 import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:task_trackr/features/get_employees/presentation/bloc/get_employees_bloc.dart';
@@ -44,8 +45,10 @@ class EmployeesScreenState extends State<EmployeesScreen> {
                 .transparent, //this disables material effect when user scrolls screen
             leading: Container(),
             flexibleSpace: FlexibleSpaceBar(
-              title: Text('Who are you?',
-                  style: Theme.of(context).primaryTextTheme.titleLarge),
+              title: LoggerHeader(
+                child: Text('Who are you?',
+                    style: Theme.of(context).primaryTextTheme.titleLarge),
+              ),
               centerTitle: true,
             ),
           ),

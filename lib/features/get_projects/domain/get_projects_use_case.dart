@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:task_trackr/core/entities/project_class.dart';
+import 'package:task_trackr/core/models/project_class.dart';
 import 'package:task_trackr/core/exceptions/failures.dart';
 import 'package:task_trackr/features/get_projects/domain/get_projects_repository.dart';
 

@@ -5,17 +5,18 @@ part 'project_statuses.g.dart';
 @HiveType(typeId: 3)
 enum ProjectStatuses {
   @HiveField(0)
-  active('Активные'),
+  active('Активные', 'Активный'),
   @HiveField(1)
-  finished('Завершённые'),
+  finished('Завершённые', 'Завершен'),
   @HiveField(2)
-  archive('В архиве');
+  archive('В архиве', 'Архив');
 
+  final String name;
   final String displayName;
-  const ProjectStatuses(this.displayName);
+  const ProjectStatuses(this.displayName, this.name);
 
   static ProjectStatuses fromString (String value) {
-    return ProjectStatuses.values.firstWhere((elem) => elem.displayName == value);
+    return ProjectStatuses.values.firstWhere((elem) => elem.name == value);
   }
 
   static bool isCorrectStatus(String status) {

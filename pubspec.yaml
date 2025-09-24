@@ -4,12 +4,8 @@ publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: '>=3.4.3 <4.0.0'
-
-flutter_launcher_icons:
-  android: "launcher_icon"
-  ios: true
-  image_path: "assets/icon/ic_launcher_round.png"
+  sdk: '>=3.7.2 <4.0.0'
+  #3.29.2
 
 dependencies:
   blur: ^4.0.0
@@ -17,17 +13,19 @@ dependencies:
   dartz: ^0.10.1
   dio: ^5.7.0
   dynamic_color: ^1.7.0
+  equatable: ^2.0.7
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.6
   flutter_dotenv: ^5.1.0
-  flutter_launcher_icons: ^0.14.1
+  flutter_launcher_icons: ^0.14.4
   get_it: ^8.0.0
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   modal_bottom_sheet: ^3.0.0
   shared_preferences: ^2.3.2
-  smooth_corner: ^1.1.0
+  talker_dio_logger: ^4.9.3
+  talker_flutter: ^4.6.3
 
 dev_dependencies:
   hive_generator: ^1.1.0
