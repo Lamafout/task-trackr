@@ -1,9 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:smooth_corner/smooth_corner.dart';
 import 'package:task_trackr/core/components/element_pressable_container.dart';
-import 'package:task_trackr/core/entities/project_class.dart';
+import 'package:task_trackr/core/models/project_class.dart';
 import 'package:task_trackr/features/get_tasks/presentation/components/tasks_screen.dart';
 
 class ProjectWidget extends StatelessWidget {
@@ -30,8 +29,7 @@ class ProjectWidget extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  SmoothClipRRect(
-                    smoothness: 0.6,
+                  ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(7)),
                     child: project.icon != null 
                     ? SizedBox(

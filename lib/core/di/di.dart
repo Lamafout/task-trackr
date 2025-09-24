@@ -1,9 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:task_trackr/core/entities/project_class.dart';
-import 'package:task_trackr/core/entities/running_timer_state_class.dart';
-import 'package:task_trackr/core/entities/task_class.dart';
+import 'package:task_trackr/core/models/project_class.dart';
+import 'package:task_trackr/core/models/running_timer_state_class.dart';
+import 'package:task_trackr/core/models/task_class.dart';
 import 'package:task_trackr/core/interceptors/header_interceptor.dart';
 import 'package:task_trackr/core/sources/local_source.dart';
 import 'package:task_trackr/core/sources/remote_source.dart';
@@ -27,12 +28,15 @@ import 'package:task_trackr/features/select_employee/domain/select_employee_use_
 import 'package:task_trackr/features/select_employee/presentation/bloc/set_employee_bloc.dart';
 import 'package:task_trackr/features/write_off_time/data/write_off_repository_impl.dart';
 import 'package:task_trackr/features/write_off_time/domain/write_off_use_case.dart';
-import 'package:task_trackr/features/write_off_time/presentation/bloc/write_off_bloc.dart';
+import 'package:task_trackr/features/write_off_time/presentation/bloc_old/write_off_bloc.dart';
 import 'package:task_trackr/features/write_off_time/presentation/cubit/timer_button_cubit.dart';
 
 final di = GetIt.instance;
 
 Future<void> setupDi() async {
+  final dio = Dio()..interceptors.add(HeaderInterceptor());
+  di.registerSingleton<Dio>(dio);
+
   // shared preferences
   final sharedPreferences = await SharedPreferences.getInstance();
   di.registerSingleton<SharedPreferences>(sharedPreferences);
@@ -50,7 +54,7 @@ Future<void> setupDi() async {
 
   // sources
   di.registerSingleton<LocalSource>(LocalSource());
-  di.registerSingleton<RemoteSource>(RemoteSource());
+  di.registerSingleton<RemoteSource>(RemoteSource(dio));
 
 
   // auth feature

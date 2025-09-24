@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:smooth_corner/smooth_corner.dart';
 import 'package:task_trackr/core/components/element_pressable_container.dart';
 import 'package:task_trackr/core/di/di.dart';
-import 'package:task_trackr/core/entities/employee_class.dart';
+import 'package:task_trackr/core/models/employee_class.dart';
 import 'package:task_trackr/features/get_employees/presentation/components/employee_avatar.dart';
 import 'package:task_trackr/features/select_employee/presentation/bloc/set_employee_bloc.dart';
 
@@ -18,11 +17,8 @@ class EmployeeWidget extends StatelessWidget {
         bloc.add(SubmitEmployee(employee));
       },
       child: Container(
-        decoration: ShapeDecoration(
-          shape: SmoothRectangleBorder(
-            smoothness: 0.6,
-            borderRadius: const BorderRadius.all(Radius.circular(30)),
-          ),
+        decoration: const BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(30)),
         ),
         width: MediaQuery.of(context).size.width,
         padding:

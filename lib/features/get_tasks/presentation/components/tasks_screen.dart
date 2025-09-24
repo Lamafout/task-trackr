@@ -3,14 +3,14 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smooth_corner/smooth_corner.dart';
 import 'package:task_trackr/core/components/ios_like_scroll_physics.dart';
+import 'package:task_trackr/core/components/logger_header.dart';
 import 'package:task_trackr/core/di/di.dart';
-import 'package:task_trackr/core/entities/project_class.dart';
-import 'package:task_trackr/core/entities/task_class.dart';
+import 'package:task_trackr/core/models/project_class.dart';
+import 'package:task_trackr/core/models/task_class.dart';
 import 'package:task_trackr/features/get_tasks/presentation/bloc/get_tasks_bloc.dart';
 import 'package:task_trackr/features/get_tasks/presentation/components/task_widget.dart';
-import 'package:task_trackr/features/write_off_time/presentation/components/timer_bottom_widget.dart';
+import 'package:task_trackr/features/timer/presentation/components/timer_bottom_widget.dart';
 import 'package:task_trackr/features/write_off_time/presentation/cubit/timer_button_cubit.dart';
 
 class TasksScreen extends StatefulWidget {
@@ -79,50 +79,50 @@ class _TasksScreenState extends State<TasksScreen> {
               )
             ),
             flexibleSpace: FlexibleSpaceBar(
-
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SmoothClipRRect(
-                    smoothness: 0.6,
-                    borderRadius: const BorderRadius.all(Radius.circular(7)),
-                    child: widget.project.icon != null 
-                    ? SizedBox(
-                      height: 30,
-                      width: 30,
-                      child: CachedNetworkImage(
-                        imageUrl: widget.project.icon as String,  
-                        errorWidget: (context, url, error) {
-                          return Container(
-                            color: Theme.of(context).cardColor,
-                            child: Icon(
-                              Icons.folder,
-                              color: Theme.of(context).primaryTextTheme.displaySmall!.color, 
-                              size: 20,
-                            ),
-                          ); 
-                        },
-                      ),
-                    )
-                    : Container(
-                      height: 30,
-                      width: 30,
-                      color: Theme.of(context).cardColor,
-                      child: Icon(
-                          Icons.folder,
-                          color: Theme.of(context).primaryTextTheme.displaySmall!.color,
-                          size: 20,
+              title: LoggerHeader(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(7)),
+                      child: widget.project.icon != null 
+                      ? SizedBox(
+                        height: 30,
+                        width: 30,
+                        child: CachedNetworkImage(
+                          imageUrl: widget.project.icon as String,  
+                          errorWidget: (context, url, error) {
+                            return Container(
+                              color: Theme.of(context).cardColor,
+                              child: Icon(
+                                Icons.folder,
+                                color: Theme.of(context).primaryTextTheme.displaySmall!.color, 
+                                size: 20,
+                              ),
+                            ); 
+                          },
                         ),
+                      )
+                      : Container(
+                        height: 30,
+                        width: 30,
+                        color: Theme.of(context).cardColor,
+                        child: Icon(
+                            Icons.folder,
+                            color: Theme.of(context).primaryTextTheme.displaySmall!.color,
+                            size: 20,
+                          ),
+                      ),
                     ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 10),
-                    child: Text(
-                      widget.project.name as String,
-                      style: Theme.of(context).primaryTextTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold,),
+                    Container(
+                      margin: const EdgeInsets.only(left: 10),
+                      child: Text(
+                        widget.project.name as String,
+                        style: Theme.of(context).primaryTextTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold,),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               centerTitle: true,
             ),

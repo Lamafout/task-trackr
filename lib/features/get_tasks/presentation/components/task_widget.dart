@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:smooth_corner/smooth_corner.dart';
-import 'package:task_trackr/core/entities/task_class.dart';
+import 'package:task_trackr/core/models/task_class.dart';
 import 'package:task_trackr/features/get_tasks/presentation/components/task_material.dart';
 import 'package:task_trackr/features/get_tasks/presentation/components/task_text.dart';
-import 'package:task_trackr/features/write_off_time/presentation/components/timer_button.dart';
+import 'package:task_trackr/features/timer/presentation/components/timer_button.dart';
 
 class TaskWidget extends StatelessWidget {
   final TaskClass task;
@@ -13,8 +12,7 @@ class TaskWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 5, top: 5),
-      child: SmoothClipRRect(
-        smoothness: 0.6,
+      child: ClipRRect(
         borderRadius: BorderRadius.circular(10),
         child: TaskMaterial(
           task: task,

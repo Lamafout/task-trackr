@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_trackr/core/di/di.dart';
-import 'package:task_trackr/core/entities/task_class.dart';
+import 'package:task_trackr/core/models/task_class.dart';
 import 'package:task_trackr/features/get_tasks/domain/get_tasks_usecase.dart';
 
 part 'get_tasks_event.dart';

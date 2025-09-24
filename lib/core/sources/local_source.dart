@@ -1,10 +1,10 @@
 import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task_trackr/core/di/di.dart';
-import 'package:task_trackr/core/entities/employee_class.dart';
-import 'package:task_trackr/core/entities/project_class.dart';
-import 'package:task_trackr/core/entities/running_timer_state_class.dart';
-import 'package:task_trackr/core/entities/task_class.dart';
+import 'package:task_trackr/core/models/employee_class.dart';
+import 'package:task_trackr/core/models/project_class.dart';
+import 'package:task_trackr/core/models/running_timer_state_class.dart';
+import 'package:task_trackr/core/models/task_class.dart';
 import 'package:task_trackr/core/exceptions/exceptions.dart';
 import 'package:task_trackr/features/write_off_time/presentation/cubit/timer_button_cubit.dart';
 

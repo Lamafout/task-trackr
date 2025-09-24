@@ -1,0 +1,2 @@
+/Users/lama/Education/Flutter/task_tracker/android/app/.cxx/RelWithDebInfo/3s1r185o/arm64-v8a/CMakeFiles/edit_cache.dir
+/Users/lama/Education/Flutter/task_tracker/android/app/.cxx/RelWithDebInfo/3s1r185o/arm64-v8a/CMakeFiles/rebuild_cache.dir

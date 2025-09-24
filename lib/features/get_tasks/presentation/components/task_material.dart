@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:task_trackr/core/di/di.dart';
-import 'package:task_trackr/core/entities/task_class.dart';
-import 'package:task_trackr/features/write_off_time/presentation/components/write_off_page.dart';
+import 'package:task_trackr/core/models/task_class.dart';
+import 'package:task_trackr/features/timer/presentation/components/write_off_page.dart';
 import 'package:task_trackr/features/write_off_time/presentation/cubit/timer_button_cubit.dart';
 
 class TaskMaterial extends StatelessWidget {
@@ -25,12 +25,8 @@ class TaskMaterial extends StatelessWidget {
           color: state is TimerIsWorksState
           ? state.task.id == task.id
             ? task.status!.color
-            : Platform.isIOS
-              ? Theme.of(context).cupertinoOverrideTheme!.primaryContrastingColor
-              : Theme.of(context).cardColor
-          : Platform.isIOS
-            ? Theme.of(context).cupertinoOverrideTheme!.primaryContrastingColor
-            : Theme.of(context).cardColor,
+            : Theme.of(context).cardColor
+          : Theme.of(context).cardColor,
           child: InkWell(
             splashColor: task.status!.color,
             onTap: isAnyTaskRunning
