@@ -1,17 +1,22 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:task_trackr/core/di/di.dart';
-import 'package:task_trackr/core/models/task_class.dart';
-import 'package:task_trackr/core/exceptions/failures.dart';
-import 'package:task_trackr/features/write_off_time/domain/write_off_use_case.dart';
+import 'package:task_trackr/features/timer/domain/index.dart';
+import 'package:task_trackr/index.dart';
 
 part 'timer_state.dart';
 
 class TimerBloc extends Cubit<TimerState> {
-  TimerBloc() : super(const TimerInitial());
+  TimerBloc(this._service) : super(const TimerInitial()) {
+    _service.getTimer().then((result) {
+      if (result is DataSuccess) {
+        emit(state.copyWith(initTime: result.result?.startTime, task: result.result?.task,));
+      }
+    });
+  }
+
+  final TimerSerivce _service;
   Timer? _timer;
 
   Future<void> writeOffTime() async {
@@ -24,28 +29,38 @@ class TimerBloc extends Cubit<TimerState> {
     }
 
     stopTimer();
-    await di<WriteOffUseCase>().tapOnTimerButton(
-      time: DateTime.parse(currentTime).difference(DateTime.parse(initTime)).inSeconds, 
-      comment: state.comment ?? '', 
-      taskID: taskId
+    await _service.writeOffTime(
+      taskId: state.task?.id ?? '', 
+      description: state.comment ?? '', 
+      duration: DateTime.parse(currentTime).difference(DateTime.parse(initTime)).inSeconds,
     ).then((result) {
       emit(state.copyWith(writeOffResult: result));
 
-      if (result.isLeft()) {
+      if (result is Failure) {
         startTimer();
       }
     });
   }
 
-  void startTimer() {
-    _timer =  Timer.periodic(const Duration(seconds: 1), timerTick);
+  Future<void> startTimer({TaskClass? newTask}) async {
+    final task = newTask ?? state.task;
+
+    if (task != null) {
+      await _service.startTimer(task: task, startTime: state.initTime ?? DateTime.now().toString()).then((result) {
+        if (result is DataSuccess) _timer =  Timer.periodic(const Duration(seconds: 1), _timerTick);
+      });
+    }
   }
 
-  void stopTimer() {
-    _timer?.cancel();
+  Future<void> stopTimer() async {
+    final result = await _service.clearTimer();
+
+    if (result is DataSuccess) {
+      _timer?.cancel();
+    }
   }
 
-  void timerTick(Timer timer) {
+  void _timerTick(Timer timer) {
     if (!state.isRunning || state.currentTime == null || state.initTime == null) {
       return;
     }

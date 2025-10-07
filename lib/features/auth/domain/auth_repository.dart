@@ -1,6 +1,5 @@
-import 'package:dartz/dartz.dart';
-import 'package:task_trackr/core/exceptions/failures.dart';
+import 'package:task_trackr/index.dart';
 
 abstract class AuthRepository {
-  Future<Either<Failure, String>> getUserID();
+  Future<DataState<String>> getUserID();
 }

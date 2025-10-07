@@ -23,7 +23,7 @@ Future<void> main() async {
   Hive.registerAdapter(ProjectAdapter());
   Hive.registerAdapter(TaskStatusesAdapter());
   Hive.registerAdapter(ProjectStatusesAdapter());
-  Hive.registerAdapter(RunningTimerStateAdapter());
+  Hive.registerAdapter(StartedTimerAdapter());
 
   await dotenv.load(fileName: 'lib/core/server_token.env');
   await setupDi();

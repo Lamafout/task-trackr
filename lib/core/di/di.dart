@@ -3,7 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task_trackr/core/models/project_class.dart';
-import 'package:task_trackr/core/models/running_timer_state_class.dart';
+import 'package:task_trackr/core/models/started_timer.dart';
 import 'package:task_trackr/core/models/task_class.dart';
 import 'package:task_trackr/core/interceptors/header_interceptor.dart';
 import 'package:task_trackr/core/sources/local_source.dart';
@@ -46,8 +46,8 @@ Future<void> setupDi() async {
   di.registerSingleton<Box<TaskClass>>(taskBox);
   final projectBox = await Hive.openBox<Project>('projects');
   di.registerSingleton<Box<Project>>(projectBox);
-  final timerStateBox = await Hive.openBox<RunningTimerState>('timerState');
-  di.registerSingleton<Box<RunningTimerState>>(timerStateBox);
+  final timerStateBox = await Hive.openBox<StartedTimer>('timerState');
+  di.registerSingleton<Box<StartedTimer>>(timerStateBox);
 
   // interceptors
   di.registerSingleton<HeaderInterceptor>(HeaderInterceptor());

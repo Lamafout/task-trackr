@@ -1,12 +1,8 @@
 import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:task_trackr/core/di/di.dart';
-import 'package:task_trackr/core/models/employee_class.dart';
-import 'package:task_trackr/core/models/project_class.dart';
-import 'package:task_trackr/core/models/running_timer_state_class.dart';
-import 'package:task_trackr/core/models/task_class.dart';
+import 'package:task_trackr/core/di/index.dart';
+import 'package:task_trackr/core/models/index.dart';
 import 'package:task_trackr/core/exceptions/exceptions.dart';
-import 'package:task_trackr/features/write_off_time/presentation/cubit/timer_button_cubit.dart';
 
 class LocalSource {
   Future<void> setID(String userId) async {
@@ -53,19 +49,19 @@ class LocalSource {
     }
   }
 
-  Future<void> saveTimerState(TimerIsWorksState state) async {
-    final box = di<Box<RunningTimerState>>();
-    box.put('state', RunningTimerState.fromState(state));
+  Future<void> saveTimer({required TaskClass task, required String startTime}) async {
+    final box = di<Box<StartedTimer>>();
+    box.put('timer', StartedTimer(task: task, startTime: startTime));
   }
 
-   Future<TimerIsWorksState?> getTimerState() async {
-     final box = di<Box<RunningTimerState>>();
-     final state = box.get('state');
-     return state?.toState();
+   Future<StartedTimer?> getTimer() async {
+     final box = di<Box<StartedTimer>>();
+     final timer = box.get('timer');
+     return timer;
    }
 
-   Future<void> clearStates() async {
-     final box = di<Box<RunningTimerState>>();
+   Future<void> clearTimer() async {
+     final box = di<Box<StartedTimer>>();
      box.clear();
    }
 }

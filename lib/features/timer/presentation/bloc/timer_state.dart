@@ -16,7 +16,9 @@ class TimerState extends Equatable {
     final TaskClass? task;
     final bool isPaused;
 
-    final Either<Failure, void>? writeOffResult;
+    final DataState<void>? writeOffResult;
+
+    bool get isWritedOffError => writeOffResult is Failure;
 
     bool get isStarted => initTime != null;
     bool get isRunning => isStarted && !isPaused;
@@ -39,7 +41,7 @@ class TimerState extends Equatable {
         String? comment,
         TaskClass? task,
         bool? isPaused,
-        Either<Failure, void>? writeOffResult,
+        DataState<void>? writeOffResult,
     }) {
         return TimerState(
             isPaused: isPaused ?? this.isPaused, 
