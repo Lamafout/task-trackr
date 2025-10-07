@@ -3,11 +3,8 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/core/models/task_class.dart';
-import 'package:task_trackr/features/cached_timer/presentation/bloc/cached_timer_bloc.dart';
-import 'package:task_trackr/features/write_off_time/presentation/bloc_old/write_off_bloc.dart';
-import 'package:task_trackr/features/write_off_time/presentation/cubit/timer_button_cubit.dart';
+import 'package:task_trackr/features/timer/index.dart';
 
 class WriteOffButton extends StatelessWidget {
   final TaskClass task;
@@ -20,10 +17,10 @@ class WriteOffButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener(
-      bloc: di<WriteOffBloc>(),
+    return BlocListener<TimerBloc, TimerState>(
+      bloc: context.read<TimerBloc>(),
       listener: (context, state) {
-        if (state is WriteOffSuccess) {
+        if (state.isWritedOffSuccess) {
           Navigator.pop(context);
         }
       },
@@ -38,20 +35,12 @@ class WriteOffButton extends StatelessWidget {
               onPressed: value.isEmpty
               ? () {}
               : () {
-                di<WriteOffBloc>().add(WriteOffAndPostComment(
-                    time: (di<TimerButtonCubit>().state as TimerIsWorksState)
-                        .time
-                        .inSeconds,
-                    comment: value,
-                    task: task.id!));
-                di<TimerButtonCubit>()
-                    .stopTimer();
-                di<CachedTimerBloc>().add(ClearStateFromCacheEvent()); // ивент разблокирует кнопки тасков, делая текущий таск незапущенным
+                context.read<TimerBloc>().writeOffTime(comment: notifier.value);
               },
-              child: BlocBuilder(
-                bloc: di<WriteOffBloc>(),
+              child: BlocBuilder<TimerBloc, TimerState>(
+                bloc: context.read<TimerBloc>(),
                 builder: (context, state) {
-                  if (state is WriteOffLoading) {
+                  if (state.isWritedOffLoading) {
                     return Container(
                         width: 30,
                         height: 30,
@@ -60,7 +49,7 @@ class WriteOffButton extends StatelessWidget {
                           color: Theme.of(context).indicatorColor,
                         ));
                   } else {
-                    if (state is WriteOffSuccess) {
+                    if (state.isWritedOffSuccess) {
                       Navigator.pop(context);
                     }
                     return Container(
@@ -92,21 +81,13 @@ class WriteOffButton extends StatelessWidget {
               onPressed: value.isEmpty
               ? () {}
               : () {
-                di<WriteOffBloc>().add(WriteOffAndPostComment(
-                    time: (di<TimerButtonCubit>().state as TimerIsWorksState)
-                        .time
-                        .inSeconds,
-                    comment: value,
-                    task: task.id!));
-                di<TimerButtonCubit>()
-                    .stopTimer();
-                di<CachedTimerBloc>().add(ClearStateFromCacheEvent()); // ивент разблокирует кнопки тасков, делая текущий таск незапущенным
+                context.read<TimerBloc>().writeOffTime(comment: notifier.value);
                 Navigator.pop(context);
               },
-              child: BlocBuilder(
-                bloc: di<WriteOffBloc>(),
+              child: BlocBuilder<TimerBloc, TimerState>(
+                bloc: context.read<TimerBloc>(),
                 builder: (context, state) {
-                  if (state is WriteOffLoading) {
+                  if (state.isWritedOffLoading) {
                     return Container(
                         width: 30,
                         height: 30,
@@ -115,7 +96,7 @@ class WriteOffButton extends StatelessWidget {
                           color: Colors.black.withOpacity(0.8),
                         ));
                   } else {
-                    if (state is WriteOffSuccess) {
+                    if (state.isWritedOffSuccess) {
                       Navigator.pop(context);
                     }
                     return Padding(

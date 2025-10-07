@@ -3,10 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/core/models/task_class.dart';
-import 'package:task_trackr/features/timer/presentation/components/write_off_page.dart';
-import 'package:task_trackr/features/write_off_time/presentation/cubit/timer_button_cubit.dart';
+import 'package:task_trackr/features/timer/index.dart';
 
 class TimerButton extends StatelessWidget {
   const TimerButton({
@@ -21,13 +19,12 @@ class TimerButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder(
-      bloc: di<TimerButtonCubit>(),
+    return BlocBuilder<TimerBloc, TimerState>(
+      bloc: context.read<TimerBloc>(),
       builder: (context, state) {
-        final bool isRunning = state is TimerIsRunningState && state.task.id == task.id;
-        final bool isPaused = state is TimerIsPausedState && state.task.id == task.id; 
-        final bool isAnyTaskRunning = state is TimerIsPausedState ||  state is TimerIsRunningState;
-        // TODO сделать айос кнопку
+        final bool isRunning = state.isRunning && state.task?.id == task.id;
+        final bool isPaused = state.isPaused && state.task?.id == task.id; 
+        final bool isAnyTaskRunning = state.isStarted;
         return IconButton.filled(
           style: ButtonStyle(
             backgroundColor: useTaskColor
@@ -44,28 +41,34 @@ class TimerButton extends StatelessWidget {
           onPressed: isAnyTaskRunning
           ? isRunning
             ? () {
-                di<TimerButtonCubit>().pauseTimer();
+                context.read<TimerBloc>().pauseTimer();
                 Platform.isIOS
                 ? showCupertinoModalBottomSheet(
                   enableDrag: false,
                    context: context,
-                   builder: (context) {
-                     return WriteOffPage(task: task);
-                   },
+                   builder: (_) {
+                    return BlocProvider.value(
+                      value: context.read<TimerBloc>(),
+                      child: WriteOffPage(task: task),
+                    );
+                  },
                 )
                 : showModalBottomSheet(
                    isScrollControlled: true,
                    enableDrag: false,
                    context: context,
-                   builder: (context) {
-                     return WriteOffPage(task: task);
-                   },
+                   builder: (_) {
+                    return BlocProvider.value(
+                      value: context.read<TimerBloc>(),
+                      child: WriteOffPage(task: task),
+                    );
+                  },
                 );
               }
             : isPaused
-              ? () {di<TimerButtonCubit>().startTimer(task); }
+              ? () {context.read<TimerBloc>().startTimer(newTask: task); }
               : () {}
-          : () {di<TimerButtonCubit>().startTimer(task); },
+          : () {context.read<TimerBloc>().startTimer(newTask: task); },
           icon: Icon(
             isRunning ? Icons.stop_rounded : Icons.play_arrow_rounded,
             color: useTaskColor

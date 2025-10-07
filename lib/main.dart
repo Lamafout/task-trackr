@@ -9,10 +9,11 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:talker_dio_logger/talker_dio_logger_interceptor.dart';
 import 'package:talker_flutter/talker_flutter.dart';
+import 'package:task_trackr/features/auth/data/index.dart';
 import 'package:task_trackr/features/get_employees/presentation/components/employees_screen.dart';
+import 'package:task_trackr/features/timer/index.dart';
 import 'index.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
-import 'features/cached_timer/presentation/bloc/cached_timer_bloc.dart';
 import 'features/get_projects/presentation/components/projects_screen.dart';
 
 Future<void> main() async {
@@ -31,10 +32,18 @@ Future<void> main() async {
   final Talker talker = TalkerFlutter.init();
   di<Dio>().interceptors.add(TalkerDioLogger(talker: talker));
 
-  runApp(RepositoryProvider<Talker>(
-    create: (context) => talker,
-    child: const TrackerApp(),
-  ));
+  runApp(
+    MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<Talker>(create: (context) => talker),
+        RepositoryProvider<TimerSerivce>(create: (context) => TimerSerivce(
+          authRepository: di<AuthRepositoryImpl>(), 
+          timerRepository: TimerRepositoryImpl(localSource: di<LocalSource>(), remoteSource: di<RemoteSource>()),
+        )),
+      ],
+      child: const TrackerApp(),
+    ),
+  );
 }
 
 class TrackerApp extends StatelessWidget {
@@ -42,10 +51,7 @@ class TrackerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    di<AuthBloc>().add(EnterIntoApplication()); // Запуск события аутентификации
-    di<CachedTimerBloc>().add(
-        GetStateFromCacheEvent()); // Запуск события для поиска в кэше информации о текущем таске
-
+    di<AuthBloc>().add(EnterIntoApplication());
     return MaterialApp(
       theme: appLightTheme,
       darkTheme: appDarkTheme,
@@ -56,20 +62,26 @@ class TrackerApp extends StatelessWidget {
           listener: (context, state) {
             if (state is AuthenticationIsSuccessState) {
               Navigator.pushReplacement(
-                  context,
-                  MaterialWithModalsPageRoute(
-                      builder: (context) => const ProjectsScreen()));
+                context,
+                MaterialWithModalsPageRoute(
+                  builder: (context) => const ProjectsScreen(),
+                ),
+              );
             } else if (state is AuthenticationIsFailureState) {
               Navigator.pushReplacement(
-                  context,
-                  MaterialWithModalsPageRoute(
-                      builder: (context) => const EmployeesScreen()));
+                context,
+                MaterialWithModalsPageRoute(
+                  builder: (context) => const EmployeesScreen(),
+                ),
+              );
             }
           },
           child: Center(
-              child: Platform.isIOS
-                  ? const CupertinoActivityIndicator()
-                  : const CircularProgressIndicator()),
+            child:
+                Platform.isIOS
+                    ? const CupertinoActivityIndicator()
+                    : const CircularProgressIndicator(),
+          ),
         ),
       ),
     );

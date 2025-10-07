@@ -10,18 +10,27 @@ import 'package:task_trackr/core/models/project_class.dart';
 import 'package:task_trackr/core/models/task_class.dart';
 import 'package:task_trackr/features/get_tasks/presentation/bloc/get_tasks_bloc.dart';
 import 'package:task_trackr/features/get_tasks/presentation/components/task_widget.dart';
-import 'package:task_trackr/features/timer/presentation/components/timer_bottom_widget.dart';
-import 'package:task_trackr/features/write_off_time/presentation/cubit/timer_button_cubit.dart';
+import 'package:task_trackr/features/timer/index.dart';
 
-class TasksScreen extends StatefulWidget {
+class TasksScreen extends StatelessWidget {
   final Project project;
   const TasksScreen({super.key, required this.project});
 
   @override
-  State<TasksScreen> createState() => _TasksScreenState();
+  Widget build(BuildContext context) {
+    return _Content(key: key, project: project);
+  }
 }
 
-class _TasksScreenState extends State<TasksScreen> {
+class _Content extends StatefulWidget {
+  final Project project;
+  const _Content({super.key, required this.project});
+
+  @override
+  State<_Content> createState() => __ContentState();
+}
+
+class __ContentState extends State<_Content> {
   @override
   void initState() {
     super.initState();
@@ -35,7 +44,7 @@ class _TasksScreenState extends State<TasksScreen> {
       if (task.status!.displayName == currentStatus) {
         resultList.add(Center(child: TaskWidget(task: task)));
       } else {
-        currentStatus = task.status!.displayName; // меняем текущий статус на новый
+        currentStatus = task.status!.displayName;
         resultList.add(
           Container(
             width: MediaQuery.of(context).size.width * 0.8,
@@ -137,14 +146,13 @@ class _TasksScreenState extends State<TasksScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ..._drawListOfTasks(tasks: state.tasks, context: context),
-                        // регулирование размера отступа для корректного отображения плеера
-                        BlocBuilder(
-                          bloc: di<TimerButtonCubit>(),
+                        BlocBuilder<TimerBloc, TimerState>(
+                          bloc: context.read<TimerBloc>(),
                           builder: (context, state) {
-                            if (state is TimerButtonInitial) {
-                               return const SizedBox(height: 0,);
-                            } else {
+                            if (state.isStarted) {
                               return const SizedBox(height: 75,);
+                            } else {
+                               return const SizedBox(height: 0,);
                             }
                           },
                         )

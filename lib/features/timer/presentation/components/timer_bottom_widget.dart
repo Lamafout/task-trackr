@@ -1,14 +1,10 @@
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:task_trackr/core/di/di.dart';
-import 'package:task_trackr/features/timer/presentation/components/timer_button.dart';
-import 'package:task_trackr/features/timer/presentation/components/write_off_page.dart';
-import 'package:task_trackr/features/write_off_time/presentation/cubit/timer_button_cubit.dart';
+import 'package:task_trackr/features/timer/index.dart';
 
 class TimerBottomWidget extends StatefulWidget {
   const TimerBottomWidget({super.key});
@@ -21,36 +17,43 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
   int seconds = 0;
   int minutes = 0;
   int hours = 0;
-  updateTime(int newTime) {
-    seconds = newTime % 60;
-    minutes = (newTime ~/ 60) % 60;
-    hours = (newTime ~/ 3600) % 60;
-  }
+  
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder(
-      bloc: di<TimerButtonCubit>(),
+    return BlocBuilder<TimerBloc, TimerState>(
+      bloc: context.read<TimerBloc>(),
       builder: (context, state) {
-        if (state is TimerButtonInitial) {
+        if (!state.isStarted) {
           return Container(height: 0,);
         } else {
-          updateTime((state as TimerIsWorksState).time.inSeconds);
+          if (state.currentTime != null && state.initTime != null) {
+            final newTime = DateTime.parse(state.currentTime ?? '').difference(DateTime.parse(state.initTime ?? '')).inSeconds;
+            seconds = newTime % 60;
+            minutes = (newTime ~/ 60) % 60;
+            hours = (newTime ~/ 3600) % 60;
+          }
           return ClipRRect(
             child: InkWell(
                onTap: () {
                 Platform.isIOS
                 ? showCupertinoModalBottomSheet(
                   context: context, 
-                  builder: (context) {
-                    return WriteOffPage(task: state.task);
+                  builder: (_) {
+                    return BlocProvider.value(
+                      value: context.read<TimerBloc>(),
+                      child: WriteOffPage(task: state.task!),
+                    );
                   },
                   expand: true
                 )
                 : showModalBottomSheet(
                   isScrollControlled: true,
                   context: context, 
-                  builder: (context) {
-                    return WriteOffPage(task: state.task);
+                  builder: (_) {
+                    return BlocProvider.value(
+                      value: context.read<TimerBloc>(),
+                      child: WriteOffPage(task: state.task!),
+                    );
                   },
                 );
                },
@@ -65,7 +68,7 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
                       Container(
                         margin: const EdgeInsets.only(right: 10),
                         child: TimerButton(
-                          task: state.task, 
+                          task: state.task!, 
                           useTaskColor: false,
                         ),
                       ),
@@ -79,7 +82,7 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
                               Opacity(
                                 opacity: 0.6,
                                 child: Text(
-                                  state.task.projectName!.toUpperCase(),
+                                  state.task!.projectName!.toUpperCase(),
                                   style: Theme.of(context).primaryTextTheme.bodySmall,
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -87,7 +90,7 @@ class _TimerBottomWidgetState extends State<TimerBottomWidget> {
                               // govnocode: on
                               // const SizedBox(height: 5),
                               Text(
-                                state.task.title!,
+                                state.task!.title!,
                                 style: Theme.of(context).primaryTextTheme.titleMedium,
                                 overflow: TextOverflow.ellipsis,
                               ),

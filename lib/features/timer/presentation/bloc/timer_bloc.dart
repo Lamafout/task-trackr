@@ -11,7 +11,8 @@ class TimerBloc extends Cubit<TimerState> {
   TimerBloc(this._service) : super(const TimerInitial()) {
     _service.getTimer().then((result) {
       if (result is DataSuccess) {
-        emit(state.copyWith(initTime: result.result?.startTime, task: result.result?.task,));
+        emit(state.copyWith(initTime: Nullable(result.result?.startTime), task: Nullable(result.result?.task),));
+        startTimer();
       }
     });
   }
@@ -19,7 +20,7 @@ class TimerBloc extends Cubit<TimerState> {
   final TimerSerivce _service;
   Timer? _timer;
 
-  Future<void> writeOffTime() async {
+  Future<void> writeOffTime({String? comment}) async {
     final taskId = state.task?.id;
     final currentTime = state.currentTime;
     final initTime = state.initTime;
@@ -28,15 +29,18 @@ class TimerBloc extends Cubit<TimerState> {
       return;
     }
 
-    stopTimer();
+    pauseTimer();
     await _service.writeOffTime(
       taskId: state.task?.id ?? '', 
-      description: state.comment ?? '', 
+      description: comment ?? state.comment ?? '', 
       duration: DateTime.parse(currentTime).difference(DateTime.parse(initTime)).inSeconds,
     ).then((result) {
-      emit(state.copyWith(writeOffResult: result));
+      emit(state.copyWith(writeOffResult: result,));
+      if (result is DataSuccess) {
+        stopTimer();
+      }
 
-      if (result is Failure) {
+      if (result is DataFailure) {
         startTimer();
       }
     });
@@ -46,8 +50,12 @@ class TimerBloc extends Cubit<TimerState> {
     final task = newTask ?? state.task;
 
     if (task != null) {
-      await _service.startTimer(task: task, startTime: state.initTime ?? DateTime.now().toString()).then((result) {
-        if (result is DataSuccess) _timer =  Timer.periodic(const Duration(seconds: 1), _timerTick);
+      final initTime = state.initTime ?? DateTime.now().toString();
+      await _service.startTimer(task: task, startTime: initTime).then((result) {
+        if (result is DataSuccess) {
+          emit(state.copyWith(initTime: Nullable(result.result?.startTime), task: Nullable(result.result?.task), isPaused: false, currentTime: DateTime.now().toString()));
+          _timer =  Timer.periodic(const Duration(seconds: 1), _timerTick);
+        }
       });
     }
   }
@@ -57,15 +65,29 @@ class TimerBloc extends Cubit<TimerState> {
 
     if (result is DataSuccess) {
       _timer?.cancel();
+      emit(state.copyWith(isPaused: false, initTime: const Nullable(null), task: const Nullable(null)));
+    }
+  }
+
+  Future<void> pauseTimer() async {
+    final result = await _service.pauseTimer(pausedMoment: DateTime.now().toString());
+
+    if (result is DataSuccess) {
+      _timer?.cancel();
+      emit(state.copyWith(isPaused: true,));
     }
   }
 
   void _timerTick(Timer timer) {
-    if (!state.isRunning || state.currentTime == null || state.initTime == null) {
+    print('tick');
+    if (!state.isRunning || state.initTime == null) {
+      print('${!state.isRunning}, ${state.initTime}');
       return;
     }
 
     final currentTime = DateTime.now();
+
+    print('emitting: $currentTime,  ${state.initTime}, ');
 
     emit(state.copyWith(currentTime: currentTime.toString()));
   }

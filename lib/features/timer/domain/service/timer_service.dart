@@ -30,11 +30,38 @@ class TimerSerivce {
     ));
   }
 
-  Future<DataState<void>> startTimer({
+  Future<DataState<StartedTimer>> startTimer({
     required TaskClass task,
     required String startTime,
   }) async {
-    return await _timerRepository.startTimer(task: task, startTime: startTime);
+    // 1. Checking if timer was paused
+    bool hasPaused = false;
+
+    final getResult = await _timerRepository.getTimer();
+
+    if (getResult is DataSuccess && getResult.result?.pausedTime != null) {
+      hasPaused = true;
+    }
+
+    // 2. Adding difference to initial start time to get corrected start time
+    String? newStartTime;
+    if (hasPaused) {
+      newStartTime = DateTime.parse(startTime).add(DateTime.now().difference(
+        DateTime.parse(getResult.result!.pausedTime!),
+      )).toString();
+    }
+
+    final setResult = await _timerRepository.setTimer(
+      task: task, 
+      startTime: newStartTime ?? startTime
+    );
+
+    if (setResult is DataFailure) {
+      return DataSuccess(result: StartedTimer(task: task, startTime: hasPaused ? newStartTime.toString() : startTime));
+    }
+
+    // 3. Getting actual state
+    return await _timerRepository.getTimer();
   }
 
   Future<DataState<StartedTimer>> getTimer() async {
@@ -43,5 +70,17 @@ class TimerSerivce {
 
   Future<DataState<void>> clearTimer() async {
     return await _timerRepository.clearTimer();
+  }
+
+  Future<DataState<void>> pauseTimer({required String pausedMoment}) async {
+    // 1. Getting current timer for change pause state
+    final getResult = await _timerRepository.getTimer();
+
+    if (getResult is DataFailure) {
+      return getResult;
+    }
+
+    // 2. Setting new properties of timer and return result
+    return await _timerRepository.setTimer(task: getResult.result!.task, startTime: getResult.result!.startTime, pausedTime: pausedMoment);
   }
 }

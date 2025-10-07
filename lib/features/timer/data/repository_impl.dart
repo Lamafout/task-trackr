@@ -31,9 +31,9 @@ class TimerRepositoryImpl implements TimerRepository {
   }
 
   @override
-  Future<DataState<void>> startTimer({required TaskClass task, required String startTime}) async {
+  Future<DataState<void>> setTimer({required TaskClass task, required String startTime, String? pausedTime}) async {
     try {
-      await localSource.saveTimer(task: task, startTime: startTime);
+      await localSource.saveTimer(task: task, startTime: startTime, pausedTime: pausedTime);
       return DataSuccess(result: null);
     } on Exception catch(e) {
       return DataFailure(error: Failure(e.toString()));
@@ -43,8 +43,8 @@ class TimerRepositoryImpl implements TimerRepository {
   @override
   Future<DataState<void>> writeOffTime(TimeRequest request) async {
     try {
-      final result = await remoteSource.writeOffTime(request);
-      return DataSuccess(result: result);
+      await remoteSource.writeOffTime(request);
+      return DataSuccess(result: null);
     } on Exception catch(e) {
       return DataFailure(error: Failure(e.toString()));
     }

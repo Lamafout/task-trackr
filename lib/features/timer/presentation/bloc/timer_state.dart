@@ -18,7 +18,9 @@ class TimerState extends Equatable {
 
     final DataState<void>? writeOffResult;
 
-    bool get isWritedOffError => writeOffResult is Failure;
+    bool get isWritedOffError => writeOffResult is DataFailure;
+    bool get isWritedOffSuccess => writeOffResult is DataSuccess;
+    bool get isWritedOffLoading => writeOffResult is DataLoading;
 
     bool get isStarted => initTime != null;
     bool get isRunning => isStarted && !isPaused;
@@ -33,23 +35,26 @@ class TimerState extends Equatable {
         isPaused,
         isStarted,
         isRunning,
+        isWritedOffError,
+        isWritedOffLoading,
+        isWritedOffSuccess,
     ];
 
     TimerState copyWith({
-        String? initTime,
+        Nullable<String>? initTime,
         String? currentTime,
-        String? comment,
-        TaskClass? task,
+        Nullable<String>? comment,
+        Nullable<TaskClass>? task,
         bool? isPaused,
         DataState<void>? writeOffResult,
     }) {
         return TimerState(
             isPaused: isPaused ?? this.isPaused, 
             writeOffResult: writeOffResult ?? this.writeOffResult,
-            comment: comment ?? this.comment,
+            comment: comment != null ? comment.value : this.comment,
             currentTime: currentTime ?? this.currentTime,
-            initTime: initTime ?? initTime,
-            task: task ?? this.task,
+            initTime: initTime != null ? initTime.value : this.initTime,
+            task: task != null ? task.value : this.task,
         );
     }
 }

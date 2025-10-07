@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:task_trackr/core/components/element_pressable_container.dart';
 import 'package:task_trackr/core/models/project_class.dart';
 import 'package:task_trackr/features/get_tasks/presentation/components/tasks_screen.dart';
+import 'package:task_trackr/features/timer/presentation/index.dart';
 
 class ProjectWidget extends StatelessWidget {
   final Project project;
@@ -15,14 +17,24 @@ class ProjectWidget extends StatelessWidget {
       onPressed: () {
         Navigator.push(
           context,
-          MaterialWithModalsPageRoute(builder: (context) => TasksScreen(project: project))
-        ); 
+          MaterialWithModalsPageRoute(
+            builder: (_) => BlocProvider.value(
+              value: context.read<TimerBloc>(),
+              child: TasksScreen(project: project),
+            ),
+        ),
+        );
       },
       child: Container(
         margin: const EdgeInsets.only(top: 5, bottom: 5),
         child: Container(
-          width: MediaQuery.of(context).size.width ,
-          padding: const EdgeInsets.only(top: 10, bottom: 10, left: 30, right: 30),
+          width: MediaQuery.of(context).size.width,
+          padding: const EdgeInsets.only(
+            top: 10,
+            bottom: 10,
+            left: 30,
+            right: 30,
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -31,42 +43,48 @@ class ProjectWidget extends StatelessWidget {
                 children: [
                   ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(7)),
-                    child: project.icon != null 
-                    ? SizedBox(
-                      height: 30,
-                      width: 30,
-                      child: CachedNetworkImage(
-                        imageUrl: project.icon as String,  
-                        errorWidget: (context, url, error) {
-                          return Container(
+                    child: project.icon != null
+                        ? SizedBox(
+                            height: 30,
+                            width: 30,
+                            child: CachedNetworkImage(
+                              imageUrl: project.icon as String,
+                              errorWidget: (context, url, error) {
+                                return Container(
+                                  color: Theme.of(context).cardColor,
+                                  child: Icon(
+                                    Icons.folder,
+                                    color: Theme.of(
+                                      context,
+                                    ).primaryTextTheme.displaySmall!.color,
+                                    size: 20,
+                                  ),
+                                );
+                              },
+                            ),
+                          )
+                        : Container(
+                            height: 30,
+                            width: 30,
                             color: Theme.of(context).cardColor,
                             child: Icon(
                               Icons.folder,
-                              color: Theme.of(context).primaryTextTheme.displaySmall!.color, 
+                              color: Theme.of(
+                                context,
+                              ).primaryTextTheme.displaySmall!.color,
                               size: 20,
                             ),
-                          ); 
-                        },
-                      ),
-                    )
-                    : Container(
-                      height: 30,
-                      width: 30,
-                      color: Theme.of(context).cardColor,
-                      child: Icon(
-                          Icons.folder,
-                          color: Theme.of(context).primaryTextTheme.displaySmall!.color,
-                          size: 20,
-                        ),
-                    ),
+                          ),
                   ),
-                            
+
                   Container(
                     margin: const EdgeInsets.only(left: 20),
                     width: MediaQuery.of(context).size.width * 0.5,
                     child: Text(
                       project.name as String,
-                      style: Theme.of(context).primaryTextTheme.titleMedium!.copyWith(fontSize: 18),
+                      style: Theme.of(
+                        context,
+                      ).primaryTextTheme.titleMedium!.copyWith(fontSize: 18),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -76,8 +94,8 @@ class ProjectWidget extends StatelessWidget {
                 Icons.chevron_right_rounded,
                 size: 30,
                 color: Colors.grey,
-              )
-            ]
+              ),
+            ],
           ),
         ),
       ),

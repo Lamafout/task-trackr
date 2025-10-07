@@ -3,10 +3,8 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/core/models/task_class.dart';
-import 'package:task_trackr/features/timer/presentation/components/write_off_button.dart';
-import 'package:task_trackr/features/write_off_time/presentation/cubit/timer_button_cubit.dart';
+import 'package:task_trackr/features/timer/index.dart';
 
 class WriteOffPage extends StatefulWidget {
   final TaskClass task;
@@ -63,13 +61,15 @@ class _WriteOffPageState extends State<WriteOffPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            BlocBuilder(
-              bloc: di<TimerButtonCubit>(),
+            BlocBuilder<TimerBloc, TimerState>(
+              bloc: context.read<TimerBloc>(),
               builder: (context, state) {
-                if (state is TimerButtonInitial) {
+                if (!state.isStarted) {
                   return Container();
                 } else {
-                  updateTime((state as TimerIsWorksState).time.inSeconds);
+                  if (state.currentTime != null && state.initTime != null) {
+                    updateTime(DateTime.parse(state.currentTime ?? '').difference(DateTime.parse(state.initTime ?? '')).inSeconds);
+                  }
                   return Text(
                     '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}',
                     style: Theme.of(context).primaryTextTheme.displayLarge!.copyWith(fontSize: 75)                    

@@ -8,17 +8,28 @@ import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/core/models/project_class.dart';
 import 'package:task_trackr/features/get_projects/presentation/bloc/get_projects_bloc.dart';
 import 'package:task_trackr/features/get_projects/presentation/components/project_widget.dart';
-import 'package:task_trackr/features/timer/presentation/components/timer_bottom_widget.dart';
-import 'package:task_trackr/features/write_off_time/presentation/cubit/timer_button_cubit.dart';
+import 'package:task_trackr/features/timer/index.dart';
 
-class ProjectsScreen extends StatefulWidget {
+class ProjectsScreen extends StatelessWidget {
   const ProjectsScreen({super.key});
 
   @override
-  State<ProjectsScreen> createState() => _ProjectsScreenState();
+  Widget build(BuildContext context) {
+    return BlocProvider<TimerBloc>(
+      create: (context) => TimerBloc(context.read()),
+      child: _Content(key: key,),
+    );
+  }
 }
 
-class _ProjectsScreenState extends State<ProjectsScreen> {
+class _Content extends StatefulWidget {
+  const _Content({super.key});
+
+  @override
+  State<_Content> createState() => __ContentState();
+}
+
+class __ContentState extends State<_Content> {
   late final GetProjectsBloc bloc;
   @override
   void initState() {
@@ -34,7 +45,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
       if (project.status!.displayName == currentStatus) {
         resultList.add(Center(child: ProjectWidget(project: project)));
       } else {
-        currentStatus = project.status!.displayName; // меняем текущий статус на новый
+        currentStatus = project.status!.displayName;
         resultList.add(
           Container(
             margin: const EdgeInsets.only(top: 30, bottom: 10),
@@ -85,13 +96,13 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ..._drawListOfProjects(projects: state.projects, context: context),
-                          BlocBuilder(
-                            bloc: di<TimerButtonCubit>(),
+                          BlocBuilder<TimerBloc, TimerState>(
+                            bloc: context.read<TimerBloc>(),
                             builder: (context, state) {
-                              if (state is TimerButtonInitial) {
-                                return const SizedBox(height: 0,);
-                              } else {
+                              if (state.isStarted) {
                                 return const SizedBox(height: 75,);
+                              } else {
+                                return const SizedBox(height: 0,);
                               }
                             },
                           )

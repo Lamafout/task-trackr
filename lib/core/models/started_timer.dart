@@ -9,9 +9,12 @@ class StartedTimer {
   final TaskClass task;
   @HiveField(1)
   final String startTime;
+  @HiveField(2)
+  final String? pausedTime;
 
   StartedTimer({
     required this.task,
     required this.startTime,
+    this.pausedTime,
   });
 }

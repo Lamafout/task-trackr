@@ -1,12 +1,10 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:task_trackr/core/di/di.dart';
 import 'package:task_trackr/core/models/task_class.dart';
-import 'package:task_trackr/features/timer/presentation/components/write_off_page.dart';
-import 'package:task_trackr/features/write_off_time/presentation/cubit/timer_button_cubit.dart';
+import 'package:task_trackr/features/timer/index.dart';
 
 class StopTimerButton extends StatelessWidget {
   final TaskClass task;
@@ -19,20 +17,26 @@ class StopTimerButton extends StatelessWidget {
     return IconButton(
       iconSize: 35,
       onPressed: () {
-        di<TimerButtonCubit>().pauseTimer();
+        context.read<TimerBloc>().stopTimer();
         Platform.isIOS
         ? showCupertinoModalBottomSheet(
           context: context, 
-          builder: (context) {
-            return WriteOffPage(task: task);
+          builder: (_) {
+            return BlocProvider.value(
+              value: context.read<TimerBloc>(),
+              child: WriteOffPage(task: task),
+            );
           }
         )
         : showModalBottomSheet(
           isScrollControlled: true,
           context: context, 
-          builder: (context) {
-            return WriteOffPage(task: task);
-          },
+          builder: (_) {
+            return BlocProvider.value(
+              value: context.read<TimerBloc>(),
+              child: WriteOffPage(task: task),
+            );
+          }
         );
       }, 
       icon: const Icon(

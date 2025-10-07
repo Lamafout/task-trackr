@@ -49,9 +49,9 @@ class LocalSource {
     }
   }
 
-  Future<void> saveTimer({required TaskClass task, required String startTime}) async {
+  Future<void> saveTimer({required TaskClass task, required String startTime, String? pausedTime}) async {
     final box = di<Box<StartedTimer>>();
-    box.put('timer', StartedTimer(task: task, startTime: startTime));
+    box.put('timer', StartedTimer(task: task, startTime: startTime, pausedTime: pausedTime));
   }
 
    Future<StartedTimer?> getTimer() async {

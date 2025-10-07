@@ -11,9 +11,6 @@ import 'package:task_trackr/core/sources/remote_source.dart';
 import 'package:task_trackr/features/auth/data/auth_repository_impl.dart';
 import 'package:task_trackr/features/auth/domain/auth_use_case.dart';
 import 'package:task_trackr/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:task_trackr/features/cached_timer/data/cached_timer_repository_impl.dart';
-import 'package:task_trackr/features/cached_timer/domain/cached_timer_usecases.dart';
-import 'package:task_trackr/features/cached_timer/presentation/bloc/cached_timer_bloc.dart';
 import 'package:task_trackr/features/get_employees/data/get_employees_repository_impl.dart';
 import 'package:task_trackr/features/get_employees/domain/get_employees_use_case.dart';
 import 'package:task_trackr/features/get_employees/presentation/bloc/get_employees_bloc.dart';
@@ -26,10 +23,6 @@ import 'package:task_trackr/features/get_tasks/presentation/bloc/get_tasks_bloc.
 import 'package:task_trackr/features/select_employee/data/select_employee_repository_impl.dart';
 import 'package:task_trackr/features/select_employee/domain/select_employee_use_case.dart';
 import 'package:task_trackr/features/select_employee/presentation/bloc/set_employee_bloc.dart';
-import 'package:task_trackr/features/write_off_time/data/write_off_repository_impl.dart';
-import 'package:task_trackr/features/write_off_time/domain/write_off_use_case.dart';
-import 'package:task_trackr/features/write_off_time/presentation/bloc_old/write_off_bloc.dart';
-import 'package:task_trackr/features/write_off_time/presentation/cubit/timer_button_cubit.dart';
 
 final di = GetIt.instance;
 
@@ -81,15 +74,4 @@ Future<void> setupDi() async {
   di.registerLazySingleton<GetTasksRepositoryImpl>(() => GetTasksRepositoryImpl(remoteSource:  di<RemoteSource>(), localSource: di<LocalSource>()));
   di.registerLazySingleton<GetTasksUseCase>(() => GetTasksUseCase(di<GetTasksRepositoryImpl>()));
   di.registerSingleton<GetTasksBloc>(GetTasksBloc());
-
-  // write off time feature
-  di.registerLazySingleton<WriteOffRepositoryImpl>(() => WriteOffRepositoryImpl(di<RemoteSource>(), di<LocalSource>()));
-  di.registerLazySingleton<WriteOffUseCase>(() => WriteOffUseCase(di<WriteOffRepositoryImpl>()));
-  di.registerSingleton<WriteOffBloc>(WriteOffBloc());
-  di.registerSingleton<TimerButtonCubit>(TimerButtonCubit());
-
-  // cache timer state feature
-  di.registerLazySingleton<CachedTimerRepositoryImpl>(() => CachedTimerRepositoryImpl(localSource: di<LocalSource>()));
-  di.registerLazySingleton<CachedTimerUsecases>(() => CachedTimerUsecases(repository: di<CachedTimerRepositoryImpl>()));
-  di.registerSingleton<CachedTimerBloc>(CachedTimerBloc());
 }
