@@ -1,14 +1,9 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:task_trackr/config/paths_to_pages.dart';
-import 'package:task_trackr/config/project_statuses.dart';
-import 'package:task_trackr/config/task_statuses.dart';
-import 'package:task_trackr/core/models/employee_class.dart';
-import 'package:task_trackr/core/models/project_class.dart';
-import 'package:task_trackr/core/models/task_class.dart';
-import 'package:task_trackr/core/models/time_request.dart';
-import 'package:task_trackr/core/exceptions/exceptions.dart';
+import 'package:task_trackr/config/index.dart';
+import 'package:task_trackr/core/models/index.dart';
+import 'package:task_trackr/core/exceptions/index.dart';
 
 class RemoteSource {
   final Dio dio;
