@@ -1,4 +1,4 @@
-class Employee {
+abstract class Employee {
   final String? name;
   final String? email;
   final String? id;
