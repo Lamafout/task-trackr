@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:task_trackr/core/models/employee_class.dart';
+import 'package:task_trackr/features/employees/domain/entities/employee_class.dart';
 import 'package:task_trackr/core/theme/colors.dart';
 
 class EmpployeeAvatar extends StatelessWidget {

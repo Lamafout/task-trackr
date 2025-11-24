@@ -1,12 +1,10 @@
-import 'package:task_trackr/index.dart';
-
 abstract class DataState<T> {
   DataState({
     this.error,
     this.result,
   });
 
-  final Failure? error;
+  final Object? error;
   final T? result;
 }
 

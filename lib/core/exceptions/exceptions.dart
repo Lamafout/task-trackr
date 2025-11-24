@@ -3,6 +3,14 @@ class NoIDException implements Exception {
   String toString() => 'No token into cache';
 }
 class InternetException implements Exception {
+  InternetException({
+    required this.message,
+    this.statusCode,
+  });
+
+  final String message;
+  final int? statusCode;
+
   @override
-  String toString() => 'Error with Internet connection or from server. Try again later.';
+  String toString() => message;
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:task_trackr/core/components/element_pressable_container.dart';
 import 'package:task_trackr/core/di/di.dart';
-import 'package:task_trackr/core/models/employee_class.dart';
+import 'package:task_trackr/features/employees/domain/entities/employee_class.dart';
 import 'package:task_trackr/features/get_employees/presentation/components/employee_avatar.dart';
 import 'package:task_trackr/features/select_employee/presentation/bloc/set_employee_bloc.dart';
 

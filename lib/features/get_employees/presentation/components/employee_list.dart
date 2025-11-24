@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:task_trackr/core/models/employee_class.dart';
+import 'package:task_trackr/features/employees/domain/entities/employee_class.dart';
 import 'package:task_trackr/features/get_employees/presentation/components/employee_widget.dart';
 
 class EmployeeList extends StatelessWidget {

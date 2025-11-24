@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:task_trackr/core/models/employee_class.dart';
+import 'package:task_trackr/features/employees/domain/entities/employee_class.dart';
 import 'package:task_trackr/core/exceptions/failures.dart';
 import 'package:task_trackr/features/select_employee/domain/select_employee_repository.dart';
 

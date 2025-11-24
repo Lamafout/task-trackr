@@ -23,3 +23,29 @@ enum ProjectStatuses {
     return ['Активный', 'Завершен', 'Архив'].contains(status);
   }
 }
+
+class NewsUseCase {
+  // сорсы имплментируют классы по типу drift_local_source и rest_remote_source. Они находятся в корне проекта и имеют в себе все нужные методы
+  final LocalSource _ls;
+  final RemoteSource _rs; 
+
+  GetNewsUseCase(this._rs, this._ls);
+
+  Stream<DataState<List<News>>> getNews() async* {
+    return DataHelper( // возвращает как раз-таки стрим
+      fetchLocal: _ls.queryNews, // возвращает просто-напросто список
+      
+      fetchRemote: _rs.queryNews, // возвращает просто-напросто список
+      
+      saveLocal: _ls.batchNews, // принимает в себя список
+      
+      strategy: CacheStrategy.cacheFirst, 
+    );
+  }
+
+  Future<DataState<void>> setNewsAsFavourite(int newsId) async {
+    // представим, что токенов на проекте нет
+    final user = await _ls.queryUser;
+    return _rs.setNewsAsFavourite(user.id);
+  }
+}
